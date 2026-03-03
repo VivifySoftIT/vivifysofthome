@@ -15,6 +15,105 @@ namespace Vivify
     {
 
         /// <summary>
+        /// upMainContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upMainContent;
+
+        /// <summary>
+        /// lnkDownloadTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDownloadTemplate;
+
+        /// <summary>
+        /// lnkDownloadUserGuide control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDownloadUserGuide;
+
+        /// <summary>
+        /// fileUploadExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fileUploadExcel;
+
+        /// <summary>
+        /// btnImportExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnImportExcel;
+
+        /// <summary>
+        /// pnlExcelPreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlExcelPreview;
+
+        /// <summary>
+        /// btnSaveAllExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveAllExcel;
+
+        /// <summary>
+        /// gvExcelPreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvExcelPreview;
+
+        /// <summary>
+        /// lblExcelTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExcelTotal;
+
+        /// <summary>
+        /// hdnEditRecordId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEditRecordId;
+
+        /// <summary>
+        /// hdnEditCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEditCategory;
+
+        /// <summary>
         /// ddlExpenseType control.
         /// </summary>
         /// <remarks>
@@ -249,15 +348,6 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.TextBox txtLocalMiscItem;
 
         /// <summary>
-        /// RequiredFieldValidator3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-
-        /// <summary>
         /// fileUploadLocalMiscellaneous control.
         /// </summary>
         /// <remarks>
@@ -276,15 +366,6 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.TextBox txtLocalMiscFromTime;
 
         /// <summary>
-        /// rfvLocalMiscFromTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLocalMiscFromTime;
-
-        /// <summary>
         /// txtLocalMiscToTime control.
         /// </summary>
         /// <remarks>
@@ -292,15 +373,6 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLocalMiscToTime;
-
-        /// <summary>
-        /// rfvLocalMiscToTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLocalMiscToTime;
 
         /// <summary>
         /// txtLocalMiscParticulars control.
@@ -420,6 +492,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadLocalBill;
 
         /// <summary>
+        /// lblLocalBillStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalBillStatus;
+
+        /// <summary>
         /// txtLocalOthersFromTime control.
         /// </summary>
         /// <remarks>
@@ -492,6 +573,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileServiceReport;
 
         /// <summary>
+        /// lblLocalServiceReportStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalServiceReportStatus;
+
+        /// <summary>
         /// txtLocalOthersSMONo control.
         /// </summary>
         /// <remarks>
@@ -553,6 +643,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload othersfileUploadApproval;
+
+        /// <summary>
+        /// lblLocalApprovalStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalApprovalStatus;
 
         /// <summary>
         /// rfvOthersApprovalUpload control.
@@ -825,6 +924,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadLocalCab;
 
         /// <summary>
+        /// lblLocalCabFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalCabFileStatus;
+
+        /// <summary>
         /// txtLocalCabFromTime control.
         /// </summary>
         /// <remarks>
@@ -1030,6 +1138,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload txtfileUploadLocalAuto;
+
+        /// <summary>
+        /// lblLocalAutoFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalAutoFileStatus;
 
         /// <summary>
         /// txtLocalAutoFromTime control.
@@ -1491,6 +1608,24 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadTourMiscellaneous;
 
         /// <summary>
+        /// lblLocalMiscFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocalMiscFileStatus;
+
+        /// <summary>
+        /// lblTourMiscFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTourMiscFileStatus;
+
+        /// <summary>
         /// txtTourMiscFromTime control.
         /// </summary>
         /// <remarks>
@@ -1671,6 +1806,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadTourOthers;
 
         /// <summary>
+        /// lblTourOthersFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTourOthersFileStatus;
+
+        /// <summary>
         /// txtFromTimeTourOthers control.
         /// </summary>
         /// <remarks>
@@ -1734,6 +1878,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadServiceReport;
 
         /// <summary>
+        /// lblServiceReportStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblServiceReportStatus;
+
+        /// <summary>
         /// txtTourOthersSmoNo control.
         /// </summary>
         /// <remarks>
@@ -1795,6 +1948,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileUploadTourApproval;
+
+        /// <summary>
+        /// lblTourApprovalStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTourApprovalStatus;
 
         /// <summary>
         /// pnlTourConvenience control.
@@ -1876,6 +2038,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileUploadFlight;
+
+        /// <summary>
+        /// lblFlightFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFlightFileStatus;
 
         /// <summary>
         /// txtFlightFromTime control.
@@ -2058,6 +2229,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadBus;
 
         /// <summary>
+        /// lblBusFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblBusFileStatus;
+
+        /// <summary>
         /// txtFromTimeBus control.
         /// </summary>
         /// <remarks>
@@ -2238,6 +2418,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadTrain;
 
         /// <summary>
+        /// lblTrainFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTrainFileStatus;
+
+        /// <summary>
         /// txtFromTimeTrain control.
         /// </summary>
         /// <remarks>
@@ -2416,6 +2605,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileUploadCab;
+
+        /// <summary>
+        /// lblCabFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCabFileStatus;
 
         /// <summary>
         /// txtFromTimeCab control.
@@ -2607,6 +2805,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.FileUpload fileUploadTourAuto;
 
         /// <summary>
+        /// lblTourAutoFileStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTourAutoFileStatus;
+
+        /// <summary>
         /// txtTourAutoFromTime control.
         /// </summary>
         /// <remarks>
@@ -2733,6 +2940,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTourAutoRefNo;
 
         /// <summary>
+        /// pnlConveyanceSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlConveyanceSection;
+
+        /// <summary>
         /// GridViewConveyance control.
         /// </summary>
         /// <remarks>
@@ -2749,6 +2965,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTotalLocalConveyance;
+
+        /// <summary>
+        /// pnlFoodSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlFoodSection;
 
         /// <summary>
         /// GridViewFood control.
@@ -2769,6 +2994,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.Label lblTotalLocalFood;
 
         /// <summary>
+        /// pnlOthersSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlOthersSection;
+
+        /// <summary>
         /// GridViewOthers control.
         /// </summary>
         /// <remarks>
@@ -2787,6 +3021,15 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.Label lblTotalOthers;
 
         /// <summary>
+        /// pnlMiscellaneousSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlMiscellaneousSection;
+
+        /// <summary>
         /// GridViewMiscellaneous control.
         /// </summary>
         /// <remarks>
@@ -2803,6 +3046,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTotalMiscellaneous;
+
+        /// <summary>
+        /// pnlLodgingSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlLodgingSection;
 
         /// <summary>
         /// GridViewLodging control.
@@ -2830,6 +3082,15 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTotalReimbursement;
+
+        /// <summary>
+        /// rptIndividualSummaries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptIndividualSummaries;
 
         /// <summary>
         /// btnSubmit control.
