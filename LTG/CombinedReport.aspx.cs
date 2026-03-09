@@ -12,6 +12,8 @@ using System.Globalization;
 using OfficeOpenXml.Style;
 using ClosedXML.Excel;
 using System.Web;
+using System.Web.Services;
+using System.Collections.Generic;
 
 
 namespace Vivify
@@ -59,8 +61,8 @@ namespace Vivify
                 ddlRegion.DataBind();
             }
 
-            // ✅ Now add "All" at the top
-            ddlRegion.Items.Insert(0, new ListItem("All", "All"));
+            // ✅ Now add "All Regions" at the top
+            ddlRegion.Items.Insert(0, new ListItem("All Regions", "All"));
 
             // ✅ Set "All" as the default selected value
             ddlRegion.SelectedValue = "All";
@@ -103,7 +105,7 @@ namespace Vivify
                 ddlBranch.DataValueField = "BranchName";
                 ddlBranch.DataBind();
             }
-            ddlBranch.Items.Insert(0, new ListItem("All", "All"));
+            ddlBranch.Items.Insert(0, new ListItem("All Branches", "All"));
         }
         // Fetch Region based on selected Branch
         protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
@@ -137,13 +139,61 @@ namespace Vivify
             }
         }
 
+        [WebMethod]
+        public static List<DropdownItem> GetBranches(string regionName)
+        {
+            List<DropdownItem> branches = new List<DropdownItem>();
+            branches.Add(new DropdownItem { value = "All", text = "All Branches" });
+
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+            string query = "SELECT DISTINCT BranchName FROM Branch";
+
+            if (!string.IsNullOrEmpty(regionName) && regionName != "All")
+            {
+                query += " WHERE RegionId IN (SELECT RegionId FROM Region WHERE Region = @Region)";
+            }
+
+            query += " ORDER BY BranchName";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (!string.IsNullOrEmpty(regionName) && regionName != "All")
+                    {
+                        cmd.Parameters.AddWithValue("@Region", regionName);
+                    }
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            branches.Add(new DropdownItem
+                            {
+                                value = reader["BranchName"].ToString(),
+                                text = reader["BranchName"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return branches;
+        }
+
+        public class DropdownItem
+        {
+            public string value { get; set; }
+            public string text { get; set; }
+        }
+
         protected void btnFilter_Click(object sender, EventArgs e)
         {
             DateTime fromDate, toDate;
             lblError.Visible = false;
 
-            if (!DateTime.TryParse(txtFromDate.Text, out fromDate) ||
-                !DateTime.TryParse(txtToDate.Text, out toDate))
+            if (!DateTime.TryParse(TextBox1.Text, out fromDate) ||
+                !DateTime.TryParse(TextBox2.Text, out toDate))
             {
                 lblError.Text = "Please enter valid dates.";
                 lblError.Visible = true;
@@ -1114,8 +1164,8 @@ FROM CombinedExpenses;
 
             lblError.Visible = false; // Clear previous error messages
 
-            bool fromDateValid = DateTime.TryParse(txtFromDate.Text, out fromDate);
-            bool toDateValid = DateTime.TryParse(txtToDate.Text, out toDate);
+            bool fromDateValid = DateTime.TryParse(TextBox1.Text, out fromDate);
+            bool toDateValid = DateTime.TryParse(TextBox2.Text, out toDate);
 
             if (!fromDateValid || !toDateValid)
             {

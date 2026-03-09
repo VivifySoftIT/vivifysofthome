@@ -236,8 +236,115 @@
             margin: 0;
         }
 
-       
+        /* Searchable Dropdown Styles */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        .dropdown-input {
+            width: 100%;
+            padding: 5px 12px;
+            border: 2px solid #3f418d;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+            cursor: pointer;
+            appearance: none;
+            box-sizing: border-box;
+            color: #495057;
+            position: relative;
+        }
+
+        .dropdown-input:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .dropdown-input::selection {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .dropdown-input::-moz-selection {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .dropdown-input::-webkit-selection {
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #6c757d;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10000;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            margin-top: 2px;
+        }
+
+        .dropdown-options.show {
+            display: block;
+        }
+
+        .dropdown-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #495057;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .dropdown-option:hover:not(.selected) {
+            background-color: #e6f2ff;
+            color: #212529;
+        }
+
+        .dropdown-option.selected {
+            background-color: #2b7de9;
+            color: white;
+            font-weight: 500;
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 10px 12px;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .hidden-dropdown {
+            display: none !important;
+        }
     </style>
         <aside id="sidebar" class="sidebar" style="box-shadow: 0 2px 10px rgba(63, 65, 141, 0.3);">
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -333,12 +440,22 @@
                            <h5 class="card-title">Attachment</h5>
  <section class="form-container">
     <asp:Label ID="lblBranchName" runat="server" Text="Branch Name:" CssClass="label"></asp:Label>
-<asp:DropDownList ID="ddlBranch" runat="server" CssClass="input" AutoPostBack="true" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
-</asp:DropDownList>
+    <div class="custom-dropdown" data-dropdown="branch">
+        <input type="text" class="dropdown-input" readonly placeholder="Select Branch" />
+        <span class="dropdown-arrow">▼</span>
+        <div class="dropdown-options"></div>
+    </div>
+    <asp:DropDownList ID="ddlBranch" runat="server" CssClass="input hidden-dropdown" AutoPostBack="true" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
+    </asp:DropDownList>
 
-<asp:Label ID="lblEmployeeName" runat="server" Text="Employee Name:" CssClass="label"></asp:Label>
-<asp:DropDownList ID="ddlEmployee" runat="server" CssClass="input">
-</asp:DropDownList>
+    <asp:Label ID="lblEmployeeName" runat="server" Text="Employee Name:" CssClass="label"></asp:Label>
+    <div class="custom-dropdown" data-dropdown="employee">
+        <input type="text" class="dropdown-input" readonly placeholder="Select Employee" />
+        <span class="dropdown-arrow">▼</span>
+        <div class="dropdown-options"></div>
+    </div>
+    <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="input hidden-dropdown">
+    </asp:DropDownList>
 
      <asp:Label ID="lblFromDate" runat="server" Text="From Date:" CssClass="label"></asp:Label>
      <asp:TextBox ID="txtFromDate" runat="server" TextMode="date" CssClass="input"></asp:TextBox>
@@ -385,4 +502,208 @@
     <%--<div class="footer">
         <p>&copy; 2023 Vivify Technocrats | <a href="Privacy.aspx">Privacy Policy</a></p>
     </div>--%>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize searchable dropdowns
+            initializeCustomDropdowns();
+        });
+
+        // Searchable Dropdown Functions
+        function initializeCustomDropdowns() {
+            syncDropdownData('branch', '<%= ddlBranch.ClientID %>');
+            syncDropdownData('employee', '<%= ddlEmployee.ClientID %>');
+            
+            if (!window.dropdownEventsInitialized) {
+                bindDropdownEvents();
+                window.dropdownEventsInitialized = true;
+            }
+        }
+
+        function syncDropdownData(dropdownType, aspDropdownId) {
+            var $aspDropdown = $('#' + aspDropdownId);
+            var $customDropdown = $('[data-dropdown="' + dropdownType + '"]');
+            var $dropdownOptions = $customDropdown.find('.dropdown-options');
+            var $input = $customDropdown.find('.dropdown-input');
+
+            var options = [];
+            $aspDropdown.find('option').each(function () {
+                options.push({
+                    value: $(this).val(),
+                    text: $(this).text()
+                });
+            });
+
+            $dropdownOptions.hide().empty();
+            var selectedValue = $aspDropdown.val();
+
+            options.forEach(function (option) {
+                var $option = $('<div class="dropdown-option"></div>')
+                    .text(option.text)
+                    .attr('data-value', option.value);
+                if (option.value === selectedValue) {
+                    $option.addClass('selected');
+                }
+                $dropdownOptions.append($option);
+            });
+
+            var selectedText = $aspDropdown.find('option:selected').text();
+            $input.val(selectedText).attr('data-value', selectedValue);
+            $customDropdown.data('all-options', options);
+        }
+
+        function bindDropdownEvents() {
+            $(document).off('click', '.dropdown-input').on('click', '.dropdown-input', function(e) {
+                e.stopPropagation();
+                
+                var $dropdown = $(this).closest('.custom-dropdown');
+                var $options = $dropdown.find('.dropdown-options');
+                
+                $('.dropdown-options').not($options).hide();
+                $('.dropdown-input').not($(this)).attr('readonly', true);
+                $('.dropdown-arrow').not($dropdown.find('.dropdown-arrow')).removeClass('open');
+                $('.custom-dropdown').not($dropdown).removeClass('open');
+                
+                if ($options.is(':visible')) {
+                    $options.hide();
+                    $(this).attr('readonly', true);
+                    $dropdown.find('.dropdown-arrow').removeClass('open');
+                    $dropdown.removeClass('open');
+                } else {
+                    showAllOptions($dropdown);
+                    $options.show();
+                    var $input = $(this);
+                    $input.removeAttr('readonly');
+                    
+                    // Use setTimeout to ensure cursor positioning happens after focus
+                    setTimeout(function() {
+                        $input.focus();
+                        var textLength = $input.val().length;
+                        $input[0].setSelectionRange(textLength, textLength);
+                    }, 0);
+                    
+                    $dropdown.find('.dropdown-arrow').addClass('open');
+                    $dropdown.addClass('open');
+                }
+            });
+
+            $(document).off('input', '.dropdown-input').on('input', '.dropdown-input', function() {
+                var $dropdown = $(this).closest('.custom-dropdown');
+                var searchTerm = $(this).val().toLowerCase();
+                
+                if (searchTerm === '') {
+                    showAllOptions($dropdown);
+                } else {
+                    filterOptions($dropdown, searchTerm);
+                }
+            });
+
+            $(document).off('click', '.dropdown-option').on('click', '.dropdown-option', function(e) {
+                e.stopPropagation();
+                
+                var $dropdown = $(this).closest('.custom-dropdown');
+                var $input = $dropdown.find('.dropdown-input');
+                var $options = $dropdown.find('.dropdown-options');
+                var dropdownType = $dropdown.data('dropdown');
+                
+                var value = $(this).attr('data-value');
+                var text = $(this).text();
+                
+                $options.find('.dropdown-option').removeClass('selected');
+                $(this).addClass('selected');
+                
+                $input.val(text).attr('data-value', value);
+                
+                var aspDropdownId = getAspDropdownId(dropdownType);
+                $('#' + aspDropdownId).val(value);
+                
+                // Trigger change event for branch dropdown to maintain AutoPostBack functionality
+                if (dropdownType === 'branch') {
+                    $('#' + aspDropdownId).change();
+                }
+                
+                $options.hide();
+                $dropdown.find('.dropdown-arrow').removeClass('open');
+                $dropdown.removeClass('open');
+                $input.attr('readonly', true);
+            });
+
+            $(document).on('click.dropdown', function(e) {
+                if (!$(e.target).closest('.custom-dropdown').length) {
+                    $('.custom-dropdown').each(function() {
+                        $(this).find('.dropdown-options').hide();
+                        $(this).find('.dropdown-arrow').removeClass('open');
+                        $(this).removeClass('open');
+                        $(this).find('.dropdown-input').attr('readonly', true);
+                    });
+                }
+            });
+        }
+
+        function showAllOptions($dropdown) {
+            var allOptions = $dropdown.data('all-options') || [];
+            var $options = $dropdown.find('.dropdown-options');
+            var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+            
+            $options.empty();
+            
+            allOptions.forEach(function(option) {
+                var $optionDiv = $('<div class="dropdown-option"></div>')
+                    .text(option.text)
+                    .attr('data-value', option.value);
+                    
+                if (option.value === selectedValue) {
+                    $optionDiv.addClass('selected');
+                }
+                
+                $options.append($optionDiv);
+            });
+        }
+
+        function filterOptions($dropdown, searchTerm) {
+            var allOptions = $dropdown.data('all-options') || [];
+            var $options = $dropdown.find('.dropdown-options');
+            var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+            var hasResults = false;
+            
+            $options.empty();
+            
+            allOptions.forEach(function(option) {
+                if (option.text.toLowerCase().includes(searchTerm)) {
+                    var $optionDiv = $('<div class="dropdown-option"></div>')
+                        .text(option.text)
+                        .attr('data-value', option.value);
+                        
+                    if (option.value === selectedValue) {
+                        $optionDiv.addClass('selected');
+                    }
+                    
+                    $options.append($optionDiv);
+                    hasResults = true;
+                }
+            });
+            
+            if (!hasResults) {
+                $options.append('<div class="no-results">No results found</div>');
+            }
+        }
+
+        function getAspDropdownId(dropdownType) {
+            switch(dropdownType) {
+                case 'branch':
+                    return '<%= ddlBranch.ClientID %>';
+                case 'employee':
+                    return '<%= ddlEmployee.ClientID %>';
+                default:
+                    return '';
+            }
+        }
+
+        // Re-initialize dropdowns after postback
+        var prm = Sys.WebForms.PageRequestManager.getInstance();
+        prm.add_endRequest(function() {
+            initializeCustomDropdowns();
+        });
+    </script>
 </asp:Content>

@@ -11,7 +11,7 @@
         font-weight: bold;
         color: #333;
         margin-bottom: 0.25rem;
-    }
+    }s
     .sidebar {
       background-color: #3f418d;
       padding: 10px;
@@ -84,6 +84,18 @@
         padding: 5px;
         border-radius: 4px;
         border: 2px solid darkblue;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .dropdown-input:focus {
+        border-color: #80bdff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+        background-color: white !important;
     }
 
     .custom-button {
@@ -224,6 +236,169 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
+
+    /* Searchable Dropdown Styles */
+    .custom-dropdown {
+        position: relative;
+        width: 100%;
+    }
+
+    .dropdown-input {
+        width: 100%;
+        padding: 5px 30px 5px 5px;
+        border: 2px solid darkblue;
+        border-radius: 4px;
+        font-size: 13px;
+        background-color: white !important;
+        cursor: pointer;
+    }
+
+    .dropdown-input:focus {
+        border-color: #80bdff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+        background-color: white !important;
+    }
+
+    /* Override browser autofill background */
+    .dropdown-input:-webkit-autofill,
+    .dropdown-input:-webkit-autofill:hover,
+    .dropdown-input:-webkit-autofill:focus,
+    .dropdown-input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-shadow: 0 0 0 30px white inset !important;
+        background-color: white !important;
+    }
+
+    /* Remove text selection background color */
+    .dropdown-input::selection {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    .dropdown-input::-moz-selection {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    .dropdown-arrow {
+        position: absolute !important;
+        right: 8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        font-size: 12px !important;
+        color: #666 !important;
+        pointer-events: none !important;
+    }
+
+    .dropdown-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        max-height: 250px;
+        overflow-y: auto;
+        z-index: 10000;
+        display: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-options.show {
+        display: block;
+    }
+
+    .dropdown-option {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 13px;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s ease;
+    }
+
+    .dropdown-option:hover {
+        background-color: #f8f9fa;
+    }
+
+    .dropdown-option.selected {
+        background-color: #1E73D8;
+        color: white;
+    }
+
+    .dropdown-option:last-child {
+        border-bottom: none;
+    }
+
+    .no-results {
+        padding: 12px;
+        text-align: center;
+        color: #999;
+        font-style: italic;
+    }
+
+    .hidden-dropdown {
+        display: none !important;
+    }
+
+    /* Filter Section Styles */
+    .filter-container {
+        background-color: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-row {
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-label {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .filter-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 2px solid darkblue;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .search-btn-container {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .search-btn-container .btn-primary {
+        padding: 10px 30px;
+        background-color: #3f418d;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .search-btn-container .btn-primary:hover {
+        background-color: #2d2f6b;
+    }
 </style>
                 <aside id="sidebar" class="sidebar" style="box-shadow: 0 2px 10px darkblue;">
 
@@ -319,7 +494,12 @@
                                     <div class="row g-1 needs-validation"> <!-- Changed g-3 to g-1 for tighter spacing -->
                                         <div class="col-12 ">
                                             <label for="ddlBranch" class="form-label">Branch</label>
-                                            <asp:DropDownList ID="ddlBranch" runat="server" CssClass="form-select"  EnableViewState="true">
+                                            <div class="custom-dropdown" data-dropdown="branch">
+                                                <input type="text" class="dropdown-input form-control" readonly placeholder="Select Branch" />
+                                                <span class="dropdown-arrow">▼</span>
+                                                <div class="dropdown-options"></div>
+                                            </div>
+                                            <asp:DropDownList ID="ddlBranch" runat="server" CssClass="form-select hidden-dropdown"  EnableViewState="true">
                                             </asp:DropDownList>
                                         </div>
 
@@ -348,7 +528,12 @@
                                         </div>
                                         <div class="col-12">
     <label for="ddlRole" class="form-label">Role</label>
-    <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-select">
+    <div class="custom-dropdown" data-dropdown="role">
+        <input type="text" class="dropdown-input form-control" readonly placeholder="Select Role" />
+        <span class="dropdown-arrow">▼</span>
+        <div class="dropdown-options"></div>
+    </div>
+    <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-select hidden-dropdown">
         <asp:ListItem Text="Select" Value="0"></asp:ListItem>
         <asp:ListItem Text="Employee" Value="Employee"></asp:ListItem>
         <asp:ListItem Text="Admin" Value="Admin"></asp:ListItem>
@@ -432,13 +617,58 @@
                 </section>
             </div>
             
+            <!-- Filter Section -->
+            <div class="filter-container">
+                <div class="form-row">
+                    <div class="filter-group">
+                        <label class="filter-label" for="ddlFilterRegion">Region</label>
+                        <div class="custom-dropdown" data-dropdown="filterregion">
+                            <input type="text" class="dropdown-input" placeholder="All Regions" readonly />
+                            <span class="dropdown-arrow">&#9660;</span>
+                            <div class="dropdown-options"></div>
+                        </div>
+                        <asp:DropDownList ID="ddlFilterRegion" runat="server" CssClass="hidden-dropdown" ClientIDMode="Static">
+                        </asp:DropDownList>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label" for="ddlFilterBranch">Branch</label>
+                        <div class="custom-dropdown" data-dropdown="filterbranch">
+                            <input type="text" class="dropdown-input" placeholder="All Branches" readonly />
+                            <span class="dropdown-arrow">&#9660;</span>
+                            <div class="dropdown-options"></div>
+                        </div>
+                        <asp:DropDownList ID="ddlFilterBranch" runat="server" CssClass="hidden-dropdown" ClientIDMode="Static">
+                        </asp:DropDownList>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label" for="ddlFilterEmployee">Employee</label>
+                        <div class="custom-dropdown" data-dropdown="filteremployee">
+                            <input type="text" class="dropdown-input" placeholder="All Employees" readonly />
+                            <span class="dropdown-arrow">&#9660;</span>
+                            <div class="dropdown-options"></div>
+                        </div>
+                        <asp:DropDownList ID="ddlFilterEmployee" runat="server" CssClass="hidden-dropdown" ClientIDMode="Static">
+                        </asp:DropDownList>
+                    </div>
+                    
+                    <div class="search-btn-container">
+                        <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="btn-primary" />
+                    </div>
+                </div>
+            </div>
+
           <section class="scrollable-container mt-4">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
     <div class="table-responsive">
         <div class="table-container">
   <asp:GridView ID="GridView1" runat="server"
     AutoGenerateColumns="false"
     CssClass="mydatagrid table table-bordered"
     OnRowDeleting="GridView1_RowDeleting"
+    OnRowDataBound="GridView1_RowDataBound"
     DataKeyNames="EmployeeId"
     Width="100%"
     CellSpacing="0"
@@ -498,12 +728,589 @@
 </asp:GridView>
         </div>
     </div>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnSearch" EventName="Click" />
+        </Triggers>
+    </asp:UpdatePanel>
 </section>
 
 
                     </div>
                
     </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        initializeCustomDropdowns();
+        setupCascadingDropdowns();
+        syncFormDropdownsAfterPostback();
+    });
+
+    function syncFormDropdownsAfterPostback() {
+        // Sync Branch dropdown
+        var branchValue = $('#<%= ddlBranch.ClientID %>').val();
+        var branchText = $('#<%= ddlBranch.ClientID %> option:selected').text();
+        if (branchValue && branchValue !== '0') {
+            var $branchDropdown = $('[data-dropdown="branch"]');
+            $branchDropdown.find('.dropdown-input').val(branchText).attr('data-value', branchValue);
+        }
+
+        // Sync Role dropdown
+        var roleValue = $('#<%= ddlRole.ClientID %>').val();
+        var roleText = $('#<%= ddlRole.ClientID %> option:selected').text();
+        if (roleValue && roleValue !== '0') {
+            var $roleDropdown = $('[data-dropdown="role"]');
+            $roleDropdown.find('.dropdown-input').val(roleText).attr('data-value', roleValue);
+        }
+    }
+
+    function initializeCustomDropdowns() {
+        syncDropdownData('branch', '<%= ddlBranch.ClientID %>');
+        syncDropdownData('role', '<%= ddlRole.ClientID %>');
+        syncDropdownData('filterregion', '<%= ddlFilterRegion.ClientID %>');
+        syncDropdownData('filterbranch', '<%= ddlFilterBranch.ClientID %>');
+        syncDropdownData('filteremployee', '<%= ddlFilterEmployee.ClientID %>');
+
+        if (!window.dropdownEventsInitialized) {
+            bindDropdownEvents();
+            window.dropdownEventsInitialized = true;
+        }
+    }
+
+    function setupCascadingDropdowns() {
+        // Handle region change to filter branches
+        $(document).on('dropdown:changed', '[data-dropdown="filterregion"]', function (e, selectedValue, selectedText) {
+            var regionName = selectedValue === "All" ? "All" : selectedText;
+
+            // Clear branch dropdown
+            var $branchDropdown = $('[data-dropdown="filterbranch"]');
+            var $branchInput = $branchDropdown.find('.dropdown-input');
+            var $branchOptions = $branchDropdown.find('.dropdown-options');
+            var $branchAspDropdown = $('#<%= ddlFilterBranch.ClientID %>');
+
+            $branchInput.val('All Branches').attr('data-value', 'All');
+            $branchAspDropdown.val('All');
+            $branchOptions.empty();
+
+            // Clear employee dropdown
+            var $employeeDropdown = $('[data-dropdown="filteremployee"]');
+            var $employeeInput = $employeeDropdown.find('.dropdown-input');
+            var $employeeOptions = $employeeDropdown.find('.dropdown-options');
+            var $employeeAspDropdown = $('#<%= ddlFilterEmployee.ClientID %>');
+
+            $employeeInput.val('All Employees').attr('data-value', 'All');
+            $employeeAspDropdown.val('All');
+            $employeeOptions.empty();
+
+            // If "All Regions" is selected, load all branches
+            if (regionName === "All") {
+                loadAllBranches();
+                loadAllEmployees();
+                return;
+            }
+
+            // Load branches for selected region via AJAX
+            $.ajax({
+                type: "POST",
+                url: '<%= ResolveUrl("~/Employeecreation.aspx/GetFilterBranches") %>',
+                data: JSON.stringify({ regionName: regionName }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var branches = response.d || response;
+
+                    // Update branch dropdown
+                    $branchOptions.empty();
+                    $branchAspDropdown.empty();
+
+                    branches.forEach(function (branch) {
+                        // Update custom dropdown
+                        var $option = $('<div class="dropdown-option"></div>')
+                            .text(branch.text)
+                            .attr('data-value', branch.value);
+                        $branchOptions.append($option);
+
+                        // Update hidden ASP dropdown
+                        $branchAspDropdown.append($('<option></option>')
+                            .attr('value', branch.value)
+                            .text(branch.text));
+                    });
+
+                    // Set default selection
+                    $branchAspDropdown.val('All');
+                    $branchDropdown.data('all-options', branches);
+
+                    // Trigger branch change to update employees
+                    $(document).trigger('dropdown:changed', [$branchDropdown, 'All', 'All Branches']);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading branches: ", error);
+                }
+            });
+        });
+
+        // Handle branch change to filter employees
+        $(document).on('dropdown:changed', '[data-dropdown="filterbranch"]', function (e, selectedValue, selectedText) {
+            var branchName = selectedValue === "All" ? "All" : selectedText;
+            var regionValue = $('[data-dropdown="filterregion"]').find('.dropdown-input').attr('data-value');
+            var regionName = regionValue === "All" ? "All" : $('[data-dropdown="filterregion"]').find('.dropdown-input').val();
+
+            // Clear employee dropdown
+            var $employeeDropdown = $('[data-dropdown="filteremployee"]');
+            var $employeeInput = $employeeDropdown.find('.dropdown-input');
+            var $employeeOptions = $employeeDropdown.find('.dropdown-options');
+            var $employeeAspDropdown = $('#<%= ddlFilterEmployee.ClientID %>');
+
+            $employeeInput.val('All Employees').attr('data-value', 'All');
+            $employeeAspDropdown.val('All');
+            $employeeOptions.empty();
+
+            // Load employees based on region and branch
+            $.ajax({
+                type: "POST",
+                url: '<%= ResolveUrl("~/Employeecreation.aspx/GetFilterEmployees") %>',
+                data: JSON.stringify({ 
+                    branchName: branchName, 
+                    regionName: regionName 
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var employees = response.d || response;
+                    
+                    // Update employee dropdown
+                    $employeeOptions.empty();
+                    $employeeAspDropdown.empty();
+                    
+                    employees.forEach(function(employee) {
+                        // Update custom dropdown
+                        var $option = $('<div class="dropdown-option"></div>')
+                            .text(employee.text)
+                            .attr('data-value', employee.value);
+                        $employeeOptions.append($option);
+                        
+                        // Update hidden ASP dropdown
+                        $employeeAspDropdown.append($('<option></option>')
+                            .attr('value', employee.value)
+                            .text(employee.text));
+                    });
+                    
+                    // Set default selection
+                    $employeeAspDropdown.val('All');
+                    $employeeDropdown.data('all-options', employees);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading employees: ", error);
+                }
+            });
+        });
+    }
+
+    function loadAllBranches() {
+        $.ajax({
+            type: "POST",
+            url: '<%= ResolveUrl("~/Employeecreation.aspx/GetFilterBranches") %>',
+            data: JSON.stringify({ regionName: "All" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var branches = response.d || response;
+                var $branchDropdown = $('[data-dropdown="filterbranch"]');
+                var $branchOptions = $branchDropdown.find('.dropdown-options');
+                var $branchAspDropdown = $('#<%= ddlFilterBranch.ClientID %>');
+                
+                $branchOptions.empty();
+                $branchAspDropdown.empty();
+                
+                branches.forEach(function(branch) {
+                    var $option = $('<div class="dropdown-option"></div>')
+                        .text(branch.text)
+                        .attr('data-value', branch.value);
+                    $branchOptions.append($option);
+                    
+                    $branchAspDropdown.append($('<option></option>')
+                        .attr('value', branch.value)
+                        .text(branch.text));
+                });
+                
+                $branchAspDropdown.val('All');
+                $branchDropdown.data('all-options', branches);
+            }
+        });
+    }
+
+    function loadAllEmployees() {
+        $.ajax({
+            type: "POST",
+            url: '<%= ResolveUrl("~/Employeecreation.aspx/GetFilterEmployees") %>',
+            data: JSON.stringify({ 
+                branchName: "All", 
+                regionName: "All" 
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var employees = response.d || response;
+                var $employeeDropdown = $('[data-dropdown="filteremployee"]');
+                var $employeeOptions = $employeeDropdown.find('.dropdown-options');
+                var $employeeAspDropdown = $('#<%= ddlFilterEmployee.ClientID %>');
+                
+                $employeeOptions.empty();
+                $employeeAspDropdown.empty();
+                
+                employees.forEach(function(employee) {
+                    var $option = $('<div class="dropdown-option"></div>')
+                        .text(employee.text)
+                        .attr('data-value', employee.value);
+                    $employeeOptions.append($option);
+                    
+                    $employeeAspDropdown.append($('<option></option>')
+                        .attr('value', employee.value)
+                        .text(employee.text));
+                });
+                
+                $employeeAspDropdown.val('All');
+                $employeeDropdown.data('all-options', employees);
+            }
+        });
+    }
+
+    function syncDropdownData(dropdownType, aspDropdownId) {
+        var $aspDropdown = $('#' + aspDropdownId);
+        var $customDropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $dropdownOptions = $customDropdown.find('.dropdown-options');
+        var $input = $customDropdown.find('.dropdown-input');
+
+        var options = [];
+        $aspDropdown.find('option').each(function () {
+            options.push({
+                value: $(this).val(),
+                text: $(this).text()
+            });
+        });
+
+        $dropdownOptions.hide().empty();
+        var selectedValue = $aspDropdown.val();
+
+        options.forEach(function (option) {
+            var $option = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+            if (option.value === selectedValue) {
+                $option.addClass('selected');
+            }
+            $dropdownOptions.append($option);
+        });
+
+        var selectedText = $aspDropdown.find('option:selected').text();
+        $input.val(selectedText).attr('data-value', selectedValue);
+        $customDropdown.data('all-options', options);
+    }
+
+    function bindDropdownEvents() {
+        $(document).off('click', '.dropdown-input').on('click', '.dropdown-input', function(e) {
+            e.stopPropagation();
+            
+            var $dropdown = $(this).closest('.custom-dropdown');
+            var $options = $dropdown.find('.dropdown-options');
+            
+            $('.dropdown-options').not($options).hide();
+            $('.dropdown-input').not($(this)).attr('readonly', true);
+            $('.dropdown-arrow').not($dropdown.find('.dropdown-arrow')).removeClass('open');
+            $('.custom-dropdown').not($dropdown).removeClass('open');
+            
+            if ($options.is(':visible')) {
+                $options.hide();
+                $(this).attr('readonly', true);
+                $dropdown.find('.dropdown-arrow').removeClass('open');
+                $dropdown.removeClass('open');
+            } else {
+                showAllOptions($dropdown);
+                $options.show();
+                var $input = $(this);
+                $input.removeAttr('readonly');
+                
+                // Use setTimeout to ensure cursor positioning happens after focus
+                setTimeout(function() {
+                    $input.focus();
+                    var textLength = $input.val().length;
+                    $input[0].setSelectionRange(textLength, textLength);
+                }, 0);
+                
+                $dropdown.find('.dropdown-arrow').addClass('open');
+                $dropdown.addClass('open');
+            }
+        });
+
+        $(document).off('input', '.dropdown-input').on('input', '.dropdown-input', function() {
+            var $dropdown = $(this).closest('.custom-dropdown');
+            var searchTerm = $(this).val().toLowerCase();
+            
+            if (searchTerm === '') {
+                showAllOptions($dropdown);
+            } else {
+                filterOptions($dropdown, searchTerm);
+            }
+        });
+
+        $(document).off('click', '.dropdown-option').on('click', '.dropdown-option', function(e) {
+            e.stopPropagation();
+            
+            var $dropdown = $(this).closest('.custom-dropdown');
+            var $input = $dropdown.find('.dropdown-input');
+            var $options = $dropdown.find('.dropdown-options');
+            var dropdownType = $dropdown.data('dropdown');
+            
+            var value = $(this).attr('data-value');
+            var text = $(this).text();
+            
+            $options.find('.dropdown-option').removeClass('selected');
+            $(this).addClass('selected');
+            
+            $input.val(text).attr('data-value', value);
+            
+            var aspDropdownId = getAspDropdownId(dropdownType);
+            $('#' + aspDropdownId).val(value);
+            
+            // Trigger custom event for cascading dropdowns
+            $(document).trigger('dropdown:changed', [$dropdown, value, text]);
+            
+            $options.hide();
+            $dropdown.find('.dropdown-arrow').removeClass('open');
+            $dropdown.removeClass('open');
+            $input.attr('readonly', true);
+        });
+
+        $(document).on('click.dropdown', function(e) {
+            if (!$(e.target).closest('.custom-dropdown').length) {
+                $('.custom-dropdown').each(function() {
+                    $(this).find('.dropdown-options').hide();
+                    $(this).find('.dropdown-arrow').removeClass('open');
+                    $(this).removeClass('open');
+                    $(this).find('.dropdown-input').attr('readonly', true);
+                });
+            }
+        });
+    }
+
+    function showAllOptions($dropdown) {
+        var allOptions = $dropdown.data('all-options') || [];
+        var $options = $dropdown.find('.dropdown-options');
+        var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+        
+        $options.empty();
+        
+        allOptions.forEach(function(option) {
+            var $optionDiv = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+                
+            if (option.value === selectedValue) {
+                $optionDiv.addClass('selected');
+            }
+            
+            $options.append($optionDiv);
+        });
+    }
+
+    function filterOptions($dropdown, searchTerm) {
+        var allOptions = $dropdown.data('all-options') || [];
+        var $options = $dropdown.find('.dropdown-options');
+        var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+        var hasResults = false;
+        
+        $options.empty();
+        
+        allOptions.forEach(function(option) {
+            if (option.text.toLowerCase().includes(searchTerm)) {
+                var $optionDiv = $('<div class="dropdown-option"></div>')
+                    .text(option.text)
+                    .attr('data-value', option.value);
+                    
+                if (option.value === selectedValue) {
+                    $optionDiv.addClass('selected');
+                }
+                
+                $options.append($optionDiv);
+                hasResults = true;
+            }
+        });
+        
+        if (!hasResults) {
+            $options.append('<div class="no-results">No results found</div>');
+        }
+    }
+
+    function getAspDropdownId(dropdownType) {
+        switch(dropdownType) {
+            case 'branch':
+                return '<%= ddlBranch.ClientID %>';
+            case 'role':
+                return '<%= ddlRole.ClientID %>';
+            case 'filterregion':
+                return '<%= ddlFilterRegion.ClientID %>';
+            case 'filterbranch':
+                return '<%= ddlFilterBranch.ClientID %>';
+            case 'filteremployee':
+                return '<%= ddlFilterEmployee.ClientID %>';
+            default:
+                return '';
+        }
+    }
+
+    // AJAX Cascading for Filter Dropdowns
+    $(document).ready(function() {
+        setupFilterCascading();
+    });
+
+    function setupFilterCascading() {
+        // When filter region dropdown option is clicked
+        $('[data-dropdown="filterregion"]').on('click', '.dropdown-option', function() {
+            var regionValue = $(this).attr('data-value');
+            
+            if (regionValue && regionValue !== 'All') {
+                // Freeze branch and employee dropdowns
+                freezeFilterDropdown('filterbranch');
+                freezeFilterDropdown('filteremployee');
+                
+                // Load branches for selected region
+                $.ajax({
+                    type: "POST",
+                    url: "Employeecreation.aspx/GetFilterBranches",
+                    data: JSON.stringify({ regionName: regionValue }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        updateFilterDropdown('filterbranch', response.d);
+                        resetFilterDropdown('filteremployee');
+                        unfreezeFilterDropdown('filterbranch');
+                        unfreezeFilterDropdown('filteremployee');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error loading branches:", error);
+                        unfreezeFilterDropdown('filterbranch');
+                        unfreezeFilterDropdown('filteremployee');
+                    }
+                });
+            } else {
+                // If "All" is selected, reset branch and employee
+                resetFilterDropdown('filterbranch');
+                resetFilterDropdown('filteremployee');
+            }
+        });
+
+        // When filter branch dropdown option is clicked
+        $('[data-dropdown="filterbranch"]').on('click', '.dropdown-option', function() {
+            var branchValue = $(this).attr('data-value');
+            var regionValue = $('#ddlFilterRegion').val();
+            
+            if (branchValue && branchValue !== 'All') {
+                // Freeze employee dropdown
+                freezeFilterDropdown('filteremployee');
+                
+                // Load employees for selected branch and region
+                $.ajax({
+                    type: "POST",
+                    url: "Employeecreation.aspx/GetFilterEmployees",
+                    data: JSON.stringify({ branchName: branchValue, regionName: regionValue }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        updateFilterDropdown('filteremployee', response.d);
+                        unfreezeFilterDropdown('filteremployee');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error loading employees:", error);
+                        unfreezeFilterDropdown('filteremployee');
+                    }
+                });
+            } else {
+                // If "All" is selected, reset employee
+                resetFilterDropdown('filteremployee');
+            }
+        });
+    }
+
+    function updateFilterDropdown(dropdownType, options) {
+        var $dropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $aspDropdown = $('#' + getAspDropdownId(dropdownType));
+        var $input = $dropdown.find('.dropdown-input');
+        var $optionsContainer = $dropdown.find('.dropdown-options');
+        
+        // Clear ASP dropdown
+        $aspDropdown.empty();
+        
+        // Clear custom dropdown options
+        $optionsContainer.empty();
+        
+        // Add options
+        options.forEach(function(option) {
+            // Add to ASP dropdown
+            $aspDropdown.append($('<option></option>').val(option.value).text(option.text));
+            
+            // Add to custom dropdown
+            var $optionDiv = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+            
+            if (option.value === 'All') {
+                $optionDiv.addClass('selected');
+                $input.val(option.text);
+            }
+            
+            $optionsContainer.append($optionDiv);
+        });
+        
+        // Set ASP dropdown to "All"
+        $aspDropdown.val('All');
+        
+        // Store options for search functionality
+        $dropdown.data('all-options', options);
+    }
+
+    function resetFilterDropdown(dropdownType) {
+        var $dropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $aspDropdown = $('#' + getAspDropdownId(dropdownType));
+        var $input = $dropdown.find('.dropdown-input');
+        var $optionsContainer = $dropdown.find('.dropdown-options');
+        
+        var defaultText = dropdownType === 'filterbranch' ? 'All Branches' : 'All Employees';
+        
+        // Clear and reset ASP dropdown
+        $aspDropdown.empty().append($('<option></option>').val('All').text(defaultText));
+        
+        // Clear and reset custom dropdown
+        $optionsContainer.empty().append(
+            $('<div class="dropdown-option selected"></div>')
+                .text(defaultText)
+                .attr('data-value', 'All')
+        );
+        
+        // Update input
+        $input.val(defaultText);
+        
+        // Store default option
+        $dropdown.data('all-options', [{ value: 'All', text: defaultText }]);
+    }
+
+    function freezeFilterDropdown(dropdownType) {
+        var $dropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $input = $dropdown.find('.dropdown-input');
+        
+        $input.addClass('frozen').prop('disabled', true);
+        $dropdown.addClass('loading');
+    }
+
+    function unfreezeFilterDropdown(dropdownType) {
+        var $dropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $input = $dropdown.find('.dropdown-input');
+        
+        $input.removeClass('frozen').prop('disabled', false);
+        $dropdown.removeClass('loading');
+    }
+</script>
     
 
 </asp:Content>

@@ -65,7 +65,7 @@ namespace Vivify
         public static List<DropdownItem> GetBranches(string regionName)
         {
             List<DropdownItem> branches = new List<DropdownItem>();
-            branches.Add(new DropdownItem { value = "All", text = "All" });
+            branches.Add(new DropdownItem { value = "All", text = "All Branches" });
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             string query = @"SELECT DISTINCT b.BranchName 
@@ -111,7 +111,8 @@ namespace Vivify
         public static List<DropdownItem> GetEmployees(string branchName, string regionName)
         {
             List<DropdownItem> employees = new List<DropdownItem>();
-            employees.Add(new DropdownItem { value = "All", text = "All" });
+            employees.Add(new DropdownItem { value = "All", text = "All Employees" });
+
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             string query = @"SELECT DISTINCT e.FirstName 
@@ -206,7 +207,8 @@ namespace Vivify
         private void LoadRegions()
         {
             ddlRegion.Items.Clear();
-            ddlRegion.Items.Insert(0, new ListItem("All", "All"));
+            ddlRegion.Items.Insert(0, new ListItem("All Regions", "All"));
+
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             string query = "SELECT DISTINCT Region FROM Region ORDER BY Region";
@@ -236,7 +238,8 @@ namespace Vivify
         private void LoadBranches(string regionName = null)
         {
             ddlBranch.Items.Clear();
-            ddlBranch.Items.Insert(0, new ListItem("All", "All"));
+            ddlBranch.Items.Insert(0, new ListItem("All Branches", "All"));
+
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
 
@@ -289,10 +292,13 @@ namespace Vivify
             LoadEmployeeNames(selectedBranch);
         }
 
+
+
         private void LoadEmployeeNames(string branchName = null)
         {
             ddlEmployee.Items.Clear();
-            ddlEmployee.Items.Insert(0, new ListItem("All", "All"));
+            ddlEmployee.Items.Insert(0, new ListItem("All Employees", "All"));
+
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             string query = @"SELECT DISTINCT FirstName FROM Employees 
@@ -405,11 +411,18 @@ ORDER BY
                 {
                     string selectedRegion = ddlRegion.SelectedValue;
 
-                    cmd.Parameters.AddWithValue("@BranchName", branchName);
-                    cmd.Parameters.AddWithValue("@EmployeeName", employeeName);
-                    cmd.Parameters.AddWithValue("@FromDate", fromDate);
-                    cmd.Parameters.AddWithValue("@ToDate", toDate);
-                    cmd.Parameters.AddWithValue("@Region", selectedRegion);
+                    cmd.Parameters.Add("@BranchName", SqlDbType.NVarChar).Value =
+     string.IsNullOrEmpty(branchName) ? "All" : branchName;
+
+                    cmd.Parameters.Add("@EmployeeName", SqlDbType.NVarChar).Value =
+                        string.IsNullOrEmpty(employeeName) ? "All" : employeeName;
+
+                    cmd.Parameters.Add("@Region", SqlDbType.NVarChar).Value =
+                        string.IsNullOrEmpty(selectedRegion) ? "All" : selectedRegion;
+
+                    cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                    cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;
+
 
                     // Debug: Show what filters are being applied
                     System.Diagnostics.Debug.WriteLine($"Filters - Region: {selectedRegion}, Branch: {branchName}, Employee: {employeeName}, From: {fromDate}, To: {toDate}");

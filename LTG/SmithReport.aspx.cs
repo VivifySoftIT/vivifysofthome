@@ -30,6 +30,32 @@ namespace Vivify
             }
         }
 
+        public string GetRegionDisplayText()
+        {
+            string selectedValue = ddlRegion.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue) || selectedValue == "All")
+            {
+                return "All Regions";
+            }
+            else
+            {
+                return ddlRegion.SelectedItem.Text;
+            }
+        }
+
+        public string GetBranchDisplayText()
+        {
+            string selectedValue = ddlBranch.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue) || selectedValue == "All")
+            {
+                return "All Branches";
+            }
+            else
+            {
+                return ddlBranch.SelectedItem.Text;
+            }
+        }
+
         private void LoadRegions()
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;

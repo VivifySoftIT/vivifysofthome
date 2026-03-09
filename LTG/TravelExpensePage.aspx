@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpensePage.aspx.cs" Inherits="Vivify.TravelExpensePage" EnableEventValidation="false"%>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpensePage.aspx.cs" Inherits="Vivify.TravelExpensePage" EnableEventValidation="false"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
     <style>
@@ -277,6 +277,203 @@
             flex: 1;
             margin-bottom: 0;
         }
+
+        /* Searchable Dropdown Styles */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-dropdown.open {
+            z-index: 10001;
+        }
+
+        .dropdown-input {
+            width: 100%;
+            padding: 6px 30px 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background-color: white;
+            height: 34px;
+            box-sizing: border-box;
+            cursor: text;
+            outline: none;
+        }
+
+        .dropdown-input:focus {
+            border-color: #3f418d;
+            box-shadow: 0 0 0 2px rgba(63, 65, 141, 0.2);
+        }
+
+        .dropdown-arrow {
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            transform: none !important;
+            font-size: 12px !important;
+            color: #666 !important;
+            pointer-events: none !important;
+            transition: none !important;
+            z-index: 1 !important;
+            backface-visibility: hidden !important;
+            will-change: auto !important;
+            width: 12px !important;
+            height: 12px !important;
+            text-align: center !important;
+            line-height: 12px !important;
+            animation: none !important;
+            opacity: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+
+        .dropdown-arrow.open {
+            transform: none !important;
+            transition: none !important;
+            top: 11px !important;
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 10000;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-options.show {
+            display: block;
+        }
+
+        .dropdown-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-option:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-option.selected {
+            background-color: #1E73D8;
+            color: white;
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 12px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Hide original dropdowns */
+        .hidden-dropdown {
+            display: none !important;
+        }
+
+        /* Loading state styles */
+        .custom-dropdown.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .custom-dropdown.loading .dropdown-input {
+            background-color: #d4e5f7 !important;
+            border-color: #1E73D8 !important;
+        }
+
+        .custom-dropdown.loading .dropdown-arrow {
+            animation: pulse 1.5s ease-in-out infinite;
+            color: #1E73D8 !important;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Enhanced freeze during postback to prevent all shaking */
+        .filter-container.postback-freeze {
+            pointer-events: none;
+            position: relative;
+        }
+
+        .filter-container.postback-freeze * {
+            transition: none !important;
+            animation: none !important;
+            transform: translateZ(0) !important;
+            backface-visibility: hidden !important;
+        }
+
+        .filter-container.postback-freeze .filter-control,
+        .filter-container.postback-freeze .dropdown-input {
+            background-color: white !important;
+            border-color: #ddd !important;
+            opacity: 1 !important;
+            position: relative !important;
+        }
+
+        .filter-container.postback-freeze .dropdown-arrow {
+            transform: none !important;
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            font-size: 12px !important;
+            color: #666 !important;
+            will-change: auto !important;
+            backface-visibility: hidden !important;
+        }
+
+        .custom-dropdown.frozen {
+            pointer-events: none;
+            opacity: 0.95;
+            position: relative;
+            transform: translateZ(0) !important;
+            backface-visibility: hidden !important;
+        }
+
+        .custom-dropdown.frozen .dropdown-input {
+            transition: none !important;
+            transform: translateZ(0) !important;
+            backface-visibility: hidden !important;
+            position: relative !important;
+            width: 100% !important;
+            height: 34px !important;
+        }
+
+        .custom-dropdown.frozen .dropdown-arrow {
+            transition: none !important;
+            transform: none !important;
+            backface-visibility: hidden !important;
+            animation: none !important;
+            opacity: 1 !important;
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            font-size: 12px !important;
+            color: #666 !important;
+            will-change: auto !important;
+        }
         .sidebar {
       background-color: #3f418d;
       padding: 10px;
@@ -416,21 +613,36 @@
 
                                 <div class="filter-group">
                                     <label class="filter-label" for="ddlRegion">Region</label>
+                                    <div class="custom-dropdown" data-dropdown="region">
+                                        <input type="text" class="dropdown-input" placeholder="Search region..." readonly />
+                                        <span class="dropdown-arrow">&#9660;</span>
+                                        <div class="dropdown-options"></div>
+                                    </div>
                                     <asp:DropDownList ID="ddlRegion" runat="server" OnSelectedIndexChanged="ddlRegion_SelectedIndexChanged" 
-                                        AutoPostBack="true" CssClass="filter-control">
+                                        AutoPostBack="true" CssClass="hidden-dropdown">
                                     </asp:DropDownList>
                                 </div>
 
                                 <div class="filter-group">
                                     <label class="filter-label" for="ddlBranch">Branch Name</label>
+                                    <div class="custom-dropdown" data-dropdown="branch">
+                                        <input type="text" class="dropdown-input" placeholder="Search branch..." readonly />
+                                        <span class="dropdown-arrow">&#9660;</span>
+                                        <div class="dropdown-options"></div>
+                                    </div>
                                     <asp:DropDownList ID="ddlBranch" runat="server" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" 
-                                        AutoPostBack="true" CssClass="filter-control">
+                                        AutoPostBack="true" CssClass="hidden-dropdown">
                                     </asp:DropDownList>
                                 </div>
 
                                 <div class="filter-group">
                                     <label class="filter-label" for="ddlEmployee">Employee Name</label>
-                                    <asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" CssClass="filter-control">
+                                    <div class="custom-dropdown" data-dropdown="employee">
+                                        <input type="text" class="dropdown-input" placeholder="Search employee..." readonly />
+                                        <span class="dropdown-arrow">&#9660;</span>
+                                        <div class="dropdown-options"></div>
+                                    </div>
+                                    <asp:DropDownList ID="ddlEmployee" runat="server" AutoPostBack="True" CssClass="hidden-dropdown">
                                     </asp:DropDownList>
                                 </div>
                                 
@@ -530,4 +742,355 @@
         </section>
     </main>
 </div>
-</asp:Content>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Initialize custom dropdowns
+        initializeCustomDropdowns();
+
+        // Lock all dropdown arrows in position
+        lockDropdownArrows();
+    });
+
+    function lockDropdownArrows() {
+        // Force all dropdown arrows to be absolutely positioned and locked with perfect centering
+        $('.dropdown-arrow').each(function () {
+            var $arrow = $(this);
+
+            // Lock position with perfect centering using fixed pixel positioning
+            $arrow.css({
+                'position': 'absolute',
+                'right': '8px',
+                'top': '11px',
+                'transform': 'none',
+                'transition': 'none',
+                'animation': 'none',
+                'will-change': 'auto',
+                'backface-visibility': 'hidden',
+                'line-height': '12px',
+                'display': 'block'
+            });
+
+            // Prevent any future changes
+            $arrow.addClass('arrow-locked');
+        });
+
+        // Re-lock arrows every 100ms to prevent any changes
+        setInterval(function () {
+            $('.dropdown-arrow:not(.arrow-locked)').each(function () {
+                $(this).css({
+                    'position': 'absolute',
+                    'right': '8px',
+                    'top': '11px',
+                    'transform': 'none',
+                    'transition': 'none',
+                    'animation': 'none',
+                    'line-height': '12px',
+                    'display': 'block'
+                }).addClass('arrow-locked');
+            });
+
+            // Also re-lock existing arrows to prevent any drift
+            $('.arrow-locked').css({
+                'top': '11px',
+                'transform': 'none',
+                'transition': 'none',
+                'animation': 'none'
+            });
+        }, 50);
+    }
+
+    function initializeCustomDropdowns() {
+        // Sync custom dropdowns with ASP.NET dropdowns
+        syncDropdownData('region', '<%= ddlRegion.ClientID %>');
+        syncDropdownData('branch', '<%= ddlBranch.ClientID %>');
+        syncDropdownData('employee', '<%= ddlEmployee.ClientID %>');
+        
+        // Bind events only once
+        if (!window.dropdownEventsInitialized) {
+            bindDropdownEvents();
+            window.dropdownEventsInitialized = true;
+        }
+    }
+
+    function syncDropdownData(dropdownType, aspDropdownId) {
+        var $aspDropdown = $('#' + aspDropdownId);
+        var $customDropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $dropdownOptions = $customDropdown.find('.dropdown-options');
+        var $input = $customDropdown.find('.dropdown-input');
+
+        // Build options from ASP.NET dropdown
+        var options = [];
+        $aspDropdown.find('option').each(function () {
+            options.push({
+                value: $(this).val(),
+                text: $(this).text()
+            });
+        });
+
+        // Update custom dropdown options
+        $dropdownOptions.hide().empty();
+        var selectedValue = $aspDropdown.val();
+
+        options.forEach(function (option) {
+            var $option = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+            if (option.value === selectedValue) {
+                $option.addClass('selected');
+            }
+            $dropdownOptions.append($option);
+        });
+
+        // Update input display
+        var selectedText = $aspDropdown.find('option:selected').text();
+        $input.val(selectedText).attr('data-value', selectedValue);
+        $customDropdown.data('all-options', options);
+    }
+
+    function bindDropdownEvents() {
+        // Click on input to open dropdown
+        $(document).off('click', '.dropdown-input').on('click', '.dropdown-input', function(e) {
+            e.stopPropagation();
+            
+            var $dropdown = $(this).closest('.custom-dropdown');
+            var $options = $dropdown.find('.dropdown-options');
+            var $arrow = $dropdown.find('.dropdown-arrow');
+            
+            // Close other dropdowns
+            $('.dropdown-options').not($options).hide();
+            $('.dropdown-arrow').not($arrow).removeClass('open');
+            $('.dropdown-input').not($(this)).attr('readonly', true);
+            $('.custom-dropdown').not($dropdown).removeClass('open');
+            
+            // Toggle current dropdown
+            if ($options.is(':visible')) {
+                $options.hide();
+                $arrow.removeClass('open');
+                $dropdown.removeClass('open');
+                $(this).attr('readonly', true);
+            } else {
+                $options.show();
+                $arrow.addClass('open');
+                $dropdown.addClass('open');
+                $(this).removeAttr('readonly').focus();
+                showAllOptions($dropdown);
+            }
+        });
+
+        // Search as user types
+        $(document).off('input', '.dropdown-input').on('input', '.dropdown-input', function() {
+            var $dropdown = $(this).closest('.custom-dropdown');
+            var searchTerm = $(this).val().toLowerCase();
+            
+            if (searchTerm === '') {
+                showAllOptions($dropdown);
+            } else {
+                filterOptions($dropdown, searchTerm);
+            }
+        });
+
+        // Select option
+        $(document).off('click', '.dropdown-option').on('click', '.dropdown-option', function(e) {
+            e.stopPropagation();
+            var $option = $(this);
+            var $dropdown = $option.closest('.custom-dropdown');
+            var dropdownType = $dropdown.attr('data-dropdown');
+            var value = $option.attr('data-value');
+            var text = $option.text();
+            
+            // Update custom dropdown
+            var $input = $dropdown.find('.dropdown-input');
+            $input.val(text).attr('data-value', value);
+            $dropdown.find('.dropdown-option').removeClass('selected');
+            $option.addClass('selected');
+            
+            // Update ASP.NET dropdown
+            var aspDropdownId = getAspDropdownId(dropdownType);
+            $('#' + aspDropdownId).val(value);
+            
+            // Close dropdown
+            $dropdown.find('.dropdown-options').hide();
+            $dropdown.find('.dropdown-arrow').removeClass('open');
+            $dropdown.removeClass('open');
+            $input.attr('readonly', true);
+            
+            // Handle cascading without postback
+            if (dropdownType === 'region') {
+                loadBranchesAjax(value);
+            } else if (dropdownType === 'branch') {
+                var selectedRegion = $('[data-dropdown="region"] .dropdown-input').attr('data-value') || 'All';
+                loadEmployeesAjax(value, selectedRegion);
+            }
+        });
+
+        // Close dropdown when clicking outside
+        $(document).off('click.dropdown').on('click.dropdown', function(e) {
+            if (!$(e.target).closest('.custom-dropdown').length) {
+                $('.custom-dropdown').each(function() {
+                    $(this).find('.dropdown-options').hide();
+                    $(this).find('.dropdown-arrow').removeClass('open');
+                    $(this).removeClass('open');
+                    $(this).find('.dropdown-input').attr('readonly', true);
+                });
+            }
+        });
+    }
+
+    function loadBranchesAjax(regionValue) {
+        // Add loading state to branch dropdown
+        $('[data-dropdown="branch"]').addClass('loading');
+        
+        // Freeze all dropdowns to prevent shaking
+        $('.custom-dropdown').addClass('frozen');
+        $('.filter-container').addClass('postback-freeze');
+        
+        $.ajax({
+            type: "POST",
+            url: "TravelExpensePage.aspx/GetBranches",
+            data: JSON.stringify({ regionName: regionValue }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                // Update branch dropdown - will show "All Branches" as first option
+                updateDropdownOptions('branch', response.d);
+                
+                // Reset employee dropdown to "All Employees"
+                loadEmployeesAjax('', regionValue);
+            },
+            error: function() {
+                console.error('Error loading branches');
+                $('.custom-dropdown').removeClass('frozen loading');
+                $('.filter-container').removeClass('postback-freeze');
+            }
+        });
+    }
+
+    function loadEmployeesAjax(branchValue, regionValue) {
+        // Add loading state to employee dropdown
+        $('[data-dropdown="employee"]').addClass('loading');
+        
+        // Freeze all dropdowns to prevent shaking
+        $('.custom-dropdown').addClass('frozen');
+        $('.filter-container').addClass('postback-freeze');
+        
+        $.ajax({
+            type: "POST",
+            url: "TravelExpensePage.aspx/GetEmployees",
+            data: JSON.stringify({ branchName: branchValue, regionName: regionValue }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                // Update employee dropdown - will show "All Employees" as first option
+                updateDropdownOptions('employee', response.d);
+                
+                // Remove freeze and loading
+                $('.custom-dropdown').removeClass('frozen loading');
+                $('.filter-container').removeClass('postback-freeze');
+            },
+            error: function() {
+                console.error('Error loading employees');
+                $('.custom-dropdown').removeClass('frozen loading');
+                $('.filter-container').removeClass('postback-freeze');
+            }
+        });
+    }
+
+    function updateDropdownOptions(dropdownType, options) {
+        var $customDropdown = $('[data-dropdown="' + dropdownType + '"]');
+        var $aspDropdown = $('#' + getAspDropdownId(dropdownType));
+        var $dropdownOptions = $customDropdown.find('.dropdown-options');
+        var $input = $customDropdown.find('.dropdown-input');
+
+        // Clear existing options
+        $aspDropdown.empty();
+        $dropdownOptions.empty();
+
+        // Add new options
+        options.forEach(function(option) {
+            // Add to ASP.NET dropdown
+            $aspDropdown.append(new Option(option.text, option.value));
+            
+            // Add to custom dropdown
+            var $option = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+            $dropdownOptions.append($option);
+        });
+
+        // Set default selection to first option (All Branches / All Employees)
+        var firstOption = options[0];
+        $aspDropdown.val(firstOption.value);
+        $input.val(firstOption.text).attr('data-value', firstOption.value);
+        $dropdownOptions.find('[data-value="' + firstOption.value + '"]').addClass('selected');
+        
+        // Store options for search functionality
+        $customDropdown.data('all-options', options);
+    }
+
+    function showAllOptions($dropdown) {
+        var allOptions = $dropdown.data('all-options') || [];
+        var $options = $dropdown.find('.dropdown-options');
+        var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+        
+        $options.empty();
+        
+        allOptions.forEach(function(option) {
+            var $optionDiv = $('<div class="dropdown-option"></div>')
+                .text(option.text)
+                .attr('data-value', option.value);
+                
+            if (option.value === selectedValue) {
+                $optionDiv.addClass('selected');
+            }
+            
+            $options.append($optionDiv);
+        });
+    }
+
+    function filterOptions($dropdown, searchTerm) {
+        var allOptions = $dropdown.data('all-options') || [];
+        var $options = $dropdown.find('.dropdown-options');
+        var selectedValue = $dropdown.find('.dropdown-input').attr('data-value');
+        var hasResults = false;
+        
+        $options.empty();
+        
+        allOptions.forEach(function(option) {
+            if (option.text.toLowerCase().includes(searchTerm)) {
+                var $optionDiv = $('<div class="dropdown-option"></div>')
+                    .text(option.text)
+                    .attr('data-value', option.value);
+                    
+                if (option.value === selectedValue) {
+                    $optionDiv.addClass('selected');
+                }
+                
+                $options.append($optionDiv);
+                hasResults = true;
+            }
+        });
+        
+        if (!hasResults) {
+            $options.append('<div class="no-results">No results found</div>');
+        }
+    }
+
+    function getAspDropdownId(dropdownType) {
+        switch(dropdownType) {
+            case 'region':
+                return '<%= ddlRegion.ClientID %>';
+            case 'branch':
+                return '<%= ddlBranch.ClientID %>';
+            case 'employee':
+                return '<%= ddlEmployee.ClientID %>';
+            default:
+                return '';
+        }
+    }
+</script>
+
+</asp:Content>                  

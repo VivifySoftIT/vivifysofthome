@@ -187,6 +187,78 @@
                 min-width: calc(50% - 10px);
             }
         }
+
+        /* Custom Dropdown Styles */
+        .custom-dropdown-wrapper {
+            position: relative;
+            width: 100%;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .custom-dropdown-wrapper .filter-control {
+            padding-right: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23666" d="M6 9L1 4h10z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px 12px;
+            cursor: pointer;
+        }
+
+        .custom-dropdown-wrapper .filter-control:focus {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23666" d="M6 9L1 4h10z"/></svg>');
+        }
+
+        .dropdown-list {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 99999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 150px;
+            display: none;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-x: hidden;
+            top: calc(100% - 1px);
+            left: 0;
+            margin-top: 0;
+        }
+
+        .dropdown-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            transition: background-color 0.2s ease;
+            user-select: none;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-x: hidden;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item.selected {
+            background-color: #1E73D8;
+            color: white;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 10px 12px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
     </style>
                 <aside id="sidebar" class="sidebar" style="box-shadow: 0 2px 10px rgba(63, 65, 141, 0.3);">
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -294,17 +366,25 @@
 
         <div class="filter-group">
     <label class="filter-label" for="ddlRegion">Region</label>
+    <div class="custom-dropdown-wrapper">
+        <input type="text" id="regionSearchInput" class="filter-control" placeholder="All Regions" value="<%= GetRegionDisplayText() %>" />
+        <div id="regionDropdownList" class="dropdown-list"></div>
+    </div>
     <asp:DropDownList ID="ddlRegion" runat="server" 
         OnSelectedIndexChanged="ddlRegion_SelectedIndexChanged" 
-        AutoPostBack="true" CssClass="filter-control">
+        AutoPostBack="true" CssClass="filter-control" style="display:none !important; visibility:hidden !important; height:0 !important; padding:0 !important; border:none !important;">
     </asp:DropDownList>
 </div>
 
         <div class="filter-group">
             <label class="filter-label" for="ddlBranch">Branch Name</label>
+            <div class="custom-dropdown-wrapper">
+                <input type="text" id="branchSearchInput" class="filter-control" placeholder="All Branches" value="<%= GetBranchDisplayText() %>" />
+                <div id="branchDropdownList" class="dropdown-list"></div>
+            </div>
             <asp:DropDownList ID="ddlBranch" runat="server" 
                 OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" 
-                AutoPostBack="true" CssClass="filter-control">
+                AutoPostBack="true" CssClass="filter-control" style="display:none !important; visibility:hidden !important; height:0 !important; padding:0 !important; border:none !important;">
             </asp:DropDownList>
         </div>
 
@@ -386,4 +466,125 @@
             <asp:Button ID="btnGenerate" runat="server" Text="Generate Excel" OnClick="btnGenerate_Click" CssClass="btn-primary" style="margin-top: 20px;" />
         </main>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            initializeRegionDropdown();
+            initializeBranchDropdown();
+        });
+
+        function initializeRegionDropdown() {
+            initializeSearchableDropdown('regionSearchInput', 'regionDropdownList', '<%= ddlRegion.ClientID %>');
+        }
+
+        function initializeBranchDropdown() {
+            initializeSearchableDropdown('branchSearchInput', 'branchDropdownList', '<%= ddlBranch.ClientID %>');
+        }
+
+        function initializeSearchableDropdown(inputId, dropdownListId, hiddenDropdownId) {
+            var $searchInput = $('#' + inputId);
+            var $dropdownList = $('#' + dropdownListId);
+            var $hiddenDropdown = $('#' + hiddenDropdownId);
+            var allOptions = [];
+
+            // Get all options from hidden dropdown
+            $hiddenDropdown.find('option').each(function () {
+                allOptions.push({
+                    text: $(this).text(),
+                    value: $(this).val()
+                });
+            });
+
+            // Show dropdown when input is focused
+            $searchInput.on('focus', function () {
+                // Close all other dropdowns
+                $('.dropdown-list').not($dropdownList).hide();
+                
+                showDropdownOptions('');
+                positionDropdown();
+                $dropdownList.show();
+            });
+
+            // Filter dropdown as user types
+            $searchInput.on('input', function () {
+                var searchTerm = $(this).val().toLowerCase().trim();
+                showDropdownOptions(searchTerm);
+                positionDropdown();
+                $dropdownList.show();
+            });
+
+            // Reposition dropdown on scroll
+            $(window).on('scroll', function () {
+                if ($dropdownList.is(':visible')) {
+                    positionDropdown();
+                }
+            });
+
+            // Also reposition on resize
+            $(window).on('resize', function () {
+                if ($dropdownList.is(':visible')) {
+                    positionDropdown();
+                }
+            });
+
+            // Hide dropdown when clicking outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.custom-dropdown-wrapper').length && !$(e.target).closest('.dropdown-item').length) {
+                    $dropdownList.hide();
+                }
+            });
+
+            function positionDropdown() {
+                var width = $searchInput.outerWidth();
+                
+                $dropdownList.css({
+                    width: width
+                });
+            }
+
+            function showDropdownOptions(searchTerm) {
+                $dropdownList.empty();
+                var currentValue = $hiddenDropdown.val();
+
+                var filteredOptions = allOptions.filter(function (opt) {
+                    if (searchTerm === '') {
+                        return true; // Show all if search is empty
+                    }
+                    return opt.text.toLowerCase().includes(searchTerm);
+                });
+
+                if (filteredOptions.length > 0) {
+                    filteredOptions.forEach(function (opt) {
+                        var $item = $('<div class="dropdown-item"></div>')
+                            .text(opt.text)
+                            .attr('data-value', opt.value);
+                        
+                        // Highlight selected item
+                        if (opt.value === currentValue) {
+                            $item.addClass('selected');
+                        }
+                        
+                        // Bind click event
+                        $item.on('click', function (e) {
+                            e.stopPropagation();
+                            $searchInput.val(opt.text);
+                            $hiddenDropdown.val(opt.value);
+                            $dropdownList.hide();
+                            // Mark this item as selected
+                            $dropdownList.find('.dropdown-item').removeClass('selected');
+                            $item.addClass('selected');
+                            
+                            // Trigger change event for AutoPostBack
+                            $hiddenDropdown.trigger('change');
+                        });
+                        
+                        $dropdownList.append($item);
+                    });
+                } else {
+                    $dropdownList.append('<div class="no-results">No results found</div>');
+                }
+            }
+        }
+    </script>
 </asp:Content>

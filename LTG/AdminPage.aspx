@@ -332,18 +332,32 @@
         }
 
         .dropdown-arrow {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 12px;
-            color: #666;
-            pointer-events: none;
-            transition: transform 0.3s ease;
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            transform: none !important;
+            font-size: 12px !important;
+            color: #666 !important;
+            pointer-events: none !important;
+            transition: none !important;
+            z-index: 1 !important;
+            backface-visibility: hidden !important;
+            will-change: auto !important;
+            width: 12px !important;
+            height: 12px !important;
+            text-align: center !important;
+            line-height: 12px !important;
+            animation: none !important;
+            opacity: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
         }
 
         .dropdown-arrow.open {
-            transform: translateY(-50%) rotate(180deg);
+            transform: none !important;
+            transition: none !important;
+            top: 11px !important;
         }
 
         .dropdown-options {
@@ -379,7 +393,7 @@
         }
 
         .dropdown-option.selected {
-            background-color: #3f418d;
+            background-color: #1E73D8;
             color: white;
         }
 
@@ -399,15 +413,25 @@
             display: none !important;
         }
 
-        /* Anti-shake stabilization */
-        .filter-group {
-            min-height: 60px;
-            position: relative;
+        /* Loading state styles */
+        .custom-dropdown.loading {
+            opacity: 0.7;
+            pointer-events: none;
         }
 
-        .custom-dropdown {
-            position: relative;
-            z-index: 1;
+        .custom-dropdown.loading .dropdown-input {
+            background-color: #d4e5f7 !important;
+            border-color: #1E73D8 !important;
+        }
+
+        .custom-dropdown.loading .dropdown-arrow {
+            animation: pulse 1.5s ease-in-out infinite;
+            color: #1E73D8 !important;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Enhanced freeze during postback to prevent all shaking */
@@ -431,6 +455,20 @@
             position: relative !important;
         }
 
+        .filter-container.postback-freeze .dropdown-arrow {
+            transform: none !important;
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            font-size: 12px !important;
+            color: #666 !important;
+            will-change: auto !important;
+            backface-visibility: hidden !important;
+        }
+
         .custom-dropdown.frozen {
             pointer-events: none;
             opacity: 0.95;
@@ -450,77 +488,36 @@
 
         .custom-dropdown.frozen .dropdown-arrow {
             transition: none !important;
-            transform: translateY(-50%) translateZ(0) !important;
+            transform: none !important;
             backface-visibility: hidden !important;
-        }
-
-        /* Stabilize all form elements during postback */
-        .form-element-stable {
-            position: relative !important;
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-            transition: none !important;
-            will-change: auto !important;
-        }
-
-        /* Lock filter groups during postback */
-        .filter-group.locked {
-            position: relative !important;
-            overflow: hidden !important;
-        }
-
-        .filter-group.locked * {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-        }
-
-        .dropdown-arrow.loading {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: translateY(-50%) rotate(0deg); }
-            100% { transform: translateY(-50%) rotate(360deg); }
-        }
-
-        /* Additional anti-shake classes for maximum stability */
-        .position-locked {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-            will-change: auto !important;
-            transition: none !important;
-        }
-
-        .input-locked {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-            will-change: auto !important;
-            transition: none !important;
-            position: relative !important;
-        }
-
-        .dropdown-locked {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-            will-change: auto !important;
-            transition: none !important;
-        }
-
-        .container-locked {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
-            will-change: auto !important;
-        }
-
-        /* Prevent any movement during postback */
-        .filter-container.postback-freeze .filter-group {
-            transform: translateZ(0) !important;
-            backface-visibility: hidden !important;
+            animation: none !important;
+            opacity: 1 !important;
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            font-size: 12px !important;
+            color: #666 !important;
             will-change: auto !important;
         }
 
         .filter-container.postback-freeze .custom-dropdown {
             transform: translateZ(0) !important;
+            backface-visibility: hidden !important;
+            will-change: auto !important;
+        }
+
+        /* FINAL ARROW LOCK - Prevent any shaking */
+        .dropdown-arrow,
+        .custom-dropdown .dropdown-arrow,
+        .custom-dropdown.open .dropdown-arrow,
+        .custom-dropdown.frozen .dropdown-arrow,
+        .custom-dropdown.loading .dropdown-arrow,
+        .filter-container .dropdown-arrow,
+        .filter-container.postback-freeze .dropdown-arrow {
+            position: absolute !important;
+            right: 8px !important;
+            top: 11px !important;
+            transform: none !important;
             backface-visibility: hidden !important;
             will-change: auto !important;
         }
@@ -900,11 +897,14 @@
     }
 
     function loadBranchesAjax(regionValue) {
-        // Show loading indicator
+        // Add loading state to branch dropdown only
         var $branchDropdown = $('[data-dropdown="branch"]');
-        var $branchArrow = $branchDropdown.find('.dropdown-arrow');
-        $branchArrow.html('⟳').css('animation', 'spin 1s linear infinite');
-
+        $branchDropdown.addClass('loading');
+        
+        // Freeze all OTHER dropdowns (not the loading one) to prevent shaking
+        $('.custom-dropdown').not($branchDropdown).addClass('frozen');
+        $('.filter-container').addClass('postback-freeze');
+        
         $.ajax({
             type: "POST",
             url: "AdminPage.aspx/GetBranches",
@@ -915,25 +915,32 @@
                 // Update branch dropdown
                 updateDropdownOptions('branch', response.d);
                 
-                // Reset employee dropdown to "All"
-                updateDropdownOptions('employee', [{ value: 'All', text: 'All' }]);
+                // Reset employee dropdown to "All Employees"
+                updateDropdownOptions('employee', [{ value: 'All', text: 'All Employees' }]);
                 
-                // Remove loading indicator
-                $branchArrow.html('&#9660;').css('animation', '');
+                // Remove freeze and loading
+                setTimeout(function() {
+                    $('.custom-dropdown').removeClass('frozen loading');
+                    $('.filter-container').removeClass('postback-freeze');
+                }, 50);
             },
             error: function() {
                 console.error('Error loading branches');
-                $branchArrow.html('&#9660;').css('animation', '');
+                $('.custom-dropdown').removeClass('frozen loading');
+                $('.filter-container').removeClass('postback-freeze');
             }
         });
     }
 
     function loadEmployeesAjax(branchValue, regionValue) {
-        // Show loading indicator
+        // Add loading state to employee dropdown only
         var $employeeDropdown = $('[data-dropdown="employee"]');
-        var $employeeArrow = $employeeDropdown.find('.dropdown-arrow');
-        $employeeArrow.html('⟳').css('animation', 'spin 1s linear infinite');
-
+        $employeeDropdown.addClass('loading');
+        
+        // Freeze all OTHER dropdowns (not the loading one) to prevent shaking
+        $('.custom-dropdown').not($employeeDropdown).addClass('frozen');
+        $('.filter-container').addClass('postback-freeze');
+        
         $.ajax({
             type: "POST",
             url: "AdminPage.aspx/GetEmployees",
@@ -944,12 +951,16 @@
                 // Update employee dropdown
                 updateDropdownOptions('employee', response.d);
                 
-                // Remove loading indicator
-                $employeeArrow.html('&#9660;').css('animation', '');
+                // Remove freeze and loading
+                setTimeout(function() {
+                    $('.custom-dropdown').removeClass('frozen loading');
+                    $('.filter-container').removeClass('postback-freeze');
+                }, 50);
             },
             error: function() {
                 console.error('Error loading employees');
-                $employeeArrow.html('&#9660;').css('animation', '');
+                $('.custom-dropdown').removeClass('frozen loading');
+                $('.filter-container').removeClass('postback-freeze');
             }
         });
     }
@@ -976,9 +987,16 @@
             $dropdownOptions.append($option);
         });
 
-        // Set default selection to "All"
+        // Set default selection to "All" with proper text
         $aspDropdown.val('All');
-        $input.val('All').attr('data-value', 'All');
+        var allOptionText = 'All';
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === 'All') {
+                allOptionText = options[i].text;
+                break;
+            }
+        }
+        $input.val(allOptionText).attr('data-value', 'All');
         $dropdownOptions.find('[data-value="All"]').addClass('selected');
         
         // Store options for search functionality

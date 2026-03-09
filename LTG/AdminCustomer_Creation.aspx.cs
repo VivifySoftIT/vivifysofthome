@@ -19,6 +19,19 @@ namespace Vivify
             }
         }
 
+        public string GetBranchDisplayText()
+        {
+            string selectedValue = ddlBranch.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue) || selectedValue == "0")
+            {
+                return "Select Branch";
+            }
+            else
+            {
+                return ddlBranch.SelectedItem.Text;
+            }
+        }
+
         private void bindBranch()
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;

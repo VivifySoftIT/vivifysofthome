@@ -5,16 +5,26 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services;
 
 namespace Vivify
 {
     public partial class TravelExpensePage : System.Web.UI.Page
     {
-        // On Page Load, bind the GridView and the Branch dropdown list
+        // Helper class for dropdown items
+        public class DropdownItem
+        {
+            public string value { get; set; }
+            public string text { get; set; }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                // Hide label and grid initially
+                Label1.Visible = false;
+                GridView1.Visible = false;
+
                 LoadRegions();
                 LoadBranches();
                 LoadEmployeeNames();
@@ -29,11 +39,16 @@ namespace Vivify
                     txtToDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 }
 
+                // Set default dropdown values
+                ddlRegion.SelectedValue = "";
+                ddlBranch.SelectedValue = "";
+                ddlEmployee.SelectedValue = "All";
+
                 // Check if Session contains filter values
                 if (Session["FromDate"] != null && Session["ToDate"] != null)
                 {
-                    string selectedRegion = Session["Region"]?.ToString() ?? "All";
-                    string selectedBranch = Session["Branch"]?.ToString() ?? "All";
+                    string selectedRegion = Session["Region"]?.ToString() ?? "";
+                    string selectedBranch = Session["Branch"]?.ToString() ?? "";
                     string selectedEmployee = Session["Employee"]?.ToString() ?? "All";
                     DateTime fromDate = (DateTime)Session["FromDate"];
                     DateTime toDate = (DateTime)Session["ToDate"];
@@ -48,16 +63,13 @@ namespace Vivify
                 }
                 else
                 {
-                    // Initial load with default filters
-                    DateTime fromDate = DateTime.Now.AddMonths(-1);
-                    DateTime toDate = DateTime.Now;
-                    // Initial load
-                    BindGridView("All", "All", "All", DateTime.Now.AddMonths(-1), DateTime.Now);
+                    // Initial load - hide the label and grid until user clicks search
+                    Label1.Visible = false;
+                    GridView1.Visible = false;
                 }
             }
         }
 
-        // Add this method to fix the compilation error
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -65,7 +77,6 @@ namespace Vivify
                 Button btnVerify = (Button)e.Row.FindControl("btnVerify");
                 if (btnVerify != null)
                 {
-                    // Get status from data
                     DataRowView rowView = (DataRowView)e.Row.DataItem;
                     int maxStatus = Convert.ToInt32(rowView["MaxStatus"]);
 
@@ -75,7 +86,7 @@ namespace Vivify
                         btnVerify.Enabled = true;
                         btnVerify.CssClass = "btn btn-primary custom-button center-button verified-btn";
                     }
-                    else // Status = 1 or others (assume pending)
+                    else
                     {
                         btnVerify.Text = "Click to Verify";
                         btnVerify.Enabled = true;
@@ -84,15 +95,14 @@ namespace Vivify
                 }
             }
         }
-        // Load all regions when the page loads
+
         private void LoadRegions()
         {
             ddlRegion.Items.Clear();
-            ddlRegion.Items.Insert(0, new ListItem("Select a region", ""));
-            ddlRegion.Items.Insert(1, new ListItem("All", "All"));
+            ddlRegion.Items.Insert(0, new ListItem("All Regions", "All"));
 
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
-            string query = "SELECT DISTINCT Region FROM Region ORDER BY Region";
+            string query = "SELECT RegionId, Region FROM Region ORDER BY Region";
 
             DataTable regionTable = new DataTable();
             using (SqlConnection con = new SqlConnection(constr))
@@ -109,46 +119,86 @@ namespace Vivify
 
             if (regionTable.Rows.Count > 0)
             {
-                ddlRegion.DataSource = regionTable;
-                ddlRegion.DataTextField = "Region";
-                ddlRegion.DataValueField = "Region";
-                ddlRegion.DataBind();
+                foreach (DataRow row in regionTable.Rows)
+                {
+                    ddlRegion.Items.Add(new ListItem(row["Region"].ToString(), row["RegionId"].ToString()));
+                }
             }
         }
 
-        // Load branches based on the selected region
         protected void ddlRegion_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadBranches(ddlRegion.SelectedValue);
-            ApplyFilters();
+            LoadEmployeeNames(); // Reset employees when region changes
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
-        private void LoadBranches(string regionName = null)
+        // AJAX WebMethod for getting branches based on region
+        [WebMethod]
+        public static List<DropdownItem> GetBranches(string regionName)
         {
-            ddlBranch.Items.Clear();
-            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+            List<DropdownItem> branches = new List<DropdownItem>();
+            branches.Add(new DropdownItem { value = "", text = "All Branches" });
 
-            string query = @"SELECT DISTINCT b.BranchName 
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+            string query = @"SELECT DISTINCT b.BranchId, b.BranchName 
                            FROM Branch b
                            INNER JOIN Region r ON b.RegionId = r.RegionId
                            WHERE 1=1";
 
-            if (!string.IsNullOrEmpty(regionName) && regionName != "All")
+            if (!string.IsNullOrEmpty(regionName) && regionName != "")
             {
-                query += " AND r.Region = @Region";
+                query += " AND r.RegionId = @RegionId";
             }
 
             query += " ORDER BY b.BranchName";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (!string.IsNullOrEmpty(regionName) && regionName != "")
+                    {
+                        cmd.Parameters.AddWithValue("@RegionId", regionName);
+                    }
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            branches.Add(new DropdownItem
+                            {
+                                value = reader["BranchId"].ToString(),
+                                text = reader["BranchName"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return branches;
+        }
+
+        private void LoadBranches(string regionId = null)
+        {
+            ddlBranch.Items.Clear();
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+
+            string query = @"SELECT BranchId, BranchName 
+                           FROM Branch 
+                           WHERE (@RegionId IS NULL OR @RegionId = '' OR RegionId = @RegionId)
+                           ORDER BY BranchName";
 
             DataTable branchTable = new DataTable();
             using (SqlConnection con = new SqlConnection(constr))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    if (!string.IsNullOrEmpty(regionName) && regionName != "All")
-                    {
-                        cmd.Parameters.AddWithValue("@Region", regionName);
-                    }
+                    if (string.IsNullOrEmpty(regionId))
+                        cmd.Parameters.AddWithValue("@RegionId", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@RegionId", regionId);
+
                     con.Open();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
@@ -157,40 +207,101 @@ namespace Vivify
                 }
             }
 
-            if (branchTable.Rows.Count > 0)
-            {
-                ddlBranch.DataSource = branchTable;
-                ddlBranch.DataTextField = "BranchName";
-                ddlBranch.DataValueField = "BranchName";
-                ddlBranch.DataBind();
-            }
+            ddlBranch.DataSource = branchTable;
+            ddlBranch.DataTextField = "BranchName";
+            ddlBranch.DataValueField = "BranchId";
+            ddlBranch.DataBind();
 
-            // Always insert "All" at top after binding
-            ddlBranch.Items.Insert(0, new ListItem("All", "All"));
+            ddlBranch.Items.Insert(0, new ListItem("All Branches", "All"));
         }
 
         protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedBranch = ddlBranch.SelectedValue;
             LoadEmployeeNames(selectedBranch);
-            ApplyFilters();
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
-        private void LoadEmployeeNames(string branchName = null)
+        // AJAX WebMethod for getting employees based on branch and region
+        [WebMethod]
+        public static List<DropdownItem> GetEmployees(string branchName, string regionName)
+        {
+            List<DropdownItem> employees = new List<DropdownItem>();
+            employees.Add(new DropdownItem { value = "All", text = "All Employees" });
+
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+            string query = @"SELECT DISTINCT e.FirstName + ' ' + e.LastName AS FullName 
+                           FROM Employees e
+                           INNER JOIN Branch b ON e.BranchId = b.BranchId
+                           INNER JOIN Region r ON b.RegionId = r.RegionId
+                           WHERE e.FirstName IS NOT NULL 
+                           AND LEN(e.FirstName) > 0";
+
+            if (!string.IsNullOrEmpty(branchName) && branchName != "")
+            {
+                query += " AND b.BranchId = @BranchId";
+            }
+
+            if (!string.IsNullOrEmpty(regionName) && regionName != "")
+            {
+                query += " AND r.RegionId = @RegionId";
+            }
+
+            query += " ORDER BY FullName";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    if (!string.IsNullOrEmpty(branchName) && branchName != "")
+                    {
+                        cmd.Parameters.AddWithValue("@BranchId", branchName);
+                    }
+                    if (!string.IsNullOrEmpty(regionName) && regionName != "")
+                    {
+                        cmd.Parameters.AddWithValue("@RegionId", regionName);
+                    }
+
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string fullName = reader["FullName"].ToString().Trim();
+                            if (!string.IsNullOrEmpty(fullName))
+                            {
+                                employees.Add(new DropdownItem
+                                {
+                                    value = fullName,
+                                    text = fullName
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            return employees;
+        }
+
+        private void LoadEmployeeNames(string branchId = null)
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
-            string query = @"SELECT DISTINCT FirstName + ' ' + LastName AS FullName 
-                   FROM Employees 
-                   WHERE (@BranchName = 'All' OR BranchName = @BranchName) 
-                   AND FirstName IS NOT NULL 
-                   ORDER BY FullName";  // Changed from FirstName to FullName
+            string query = @"SELECT DISTINCT FirstName + ' ' + LastName AS FullName, EmployeeId 
+                           FROM Employees 
+                           WHERE (@BranchId IS NULL OR @BranchId = '' OR BranchId = @BranchId) 
+                           AND FirstName IS NOT NULL 
+                           ORDER BY FullName";
 
             DataTable employeeTable = new DataTable();
             using (SqlConnection con = new SqlConnection(constr))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@BranchName", string.IsNullOrEmpty(branchName) ? "All" : branchName);
+                    if (string.IsNullOrEmpty(branchId))
+                        cmd.Parameters.AddWithValue("@BranchId", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@BranchId", branchId);
 
                     con.Open();
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -205,20 +316,18 @@ namespace Vivify
             ddlEmployee.DataValueField = "FullName";
             ddlEmployee.DataBind();
 
-            // Insert "All" at the beginning
-            ddlEmployee.Items.Insert(0, new ListItem("All", "All"));
+            ddlEmployee.Items.Insert(0, new ListItem("All Employees", "All"));
         }
 
         protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ApplyFilters();
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
         private void ApplyFilters()
         {
-            DateTime fromDate, toDate;
-            if (DateTime.TryParse(txtFromDate.Text, out fromDate) &&
-                DateTime.TryParse(txtToDate.Text, out toDate))
+            if (DateTime.TryParse(txtFromDate.Text, out DateTime fromDate) &&
+                DateTime.TryParse(txtToDate.Text, out DateTime toDate))
             {
                 string region = ddlRegion.SelectedValue;
                 string branch = ddlBranch.SelectedValue;
@@ -228,7 +337,7 @@ namespace Vivify
             }
         }
 
-        private void BindGridView(string regionName, string branchName, string employeeName, DateTime fromDate, DateTime toDate)
+        private void BindGridView(string regionId, string branchId, string employeeName, DateTime fromDate, DateTime toDate)
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
@@ -247,8 +356,8 @@ INNER JOIN Branch b ON te.BranchId = b.BranchId
 INNER JOIN Region r ON b.RegionId = r.RegionId
 WHERE 
     te.Status IN (1, 3)
-    AND (@Region = 'All' OR r.Region = @Region)
-    AND (@BranchName = 'All' OR b.BranchName = @BranchName)
+    AND (@RegionId IS NULL OR r.RegionId = @RegionId)
+    AND (@BranchId IS NULL OR b.BranchId = @BranchId)
     AND (@EmployeeName = 'All' OR (e.FirstName + ' ' + e.LastName) = @EmployeeName)
     AND (te.Date BETWEEN @FromDate AND @ToDate)
 GROUP BY 
@@ -260,9 +369,52 @@ ORDER BY
 
                 using (SqlCommand cmd = new SqlCommand(qry, con))
                 {
-                    cmd.Parameters.AddWithValue("@Region", regionName);
-                    cmd.Parameters.AddWithValue("@BranchName", branchName);
-                    cmd.Parameters.AddWithValue("@EmployeeName", employeeName);
+                    // Handle region parameter - convert empty string to NULL
+                    if (string.IsNullOrEmpty(regionId))
+                    {
+                        cmd.Parameters.AddWithValue("@RegionId", DBNull.Value);
+                    }
+                    else
+                    {
+                        // Try to parse as integer, if fails use NULL
+                        if (int.TryParse(regionId, out int regionIdInt))
+                        {
+                            cmd.Parameters.AddWithValue("@RegionId", regionIdInt);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@RegionId", DBNull.Value);
+                        }
+                    }
+
+                    // Handle branch parameter - convert empty string to NULL
+                    if (string.IsNullOrEmpty(branchId))
+                    {
+                        cmd.Parameters.AddWithValue("@BranchId", DBNull.Value);
+                    }
+                    else
+                    {
+                        // Try to parse as integer, if fails use NULL
+                        if (int.TryParse(branchId, out int branchIdInt))
+                        {
+                            cmd.Parameters.AddWithValue("@BranchId", branchIdInt);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@BranchId", DBNull.Value);
+                        }
+                    }
+
+                    // Handle employee parameter
+                    if (string.IsNullOrEmpty(employeeName) || employeeName == "All")
+                    {
+                        cmd.Parameters.AddWithValue("@EmployeeName", "All");
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@EmployeeName", employeeName);
+                    }
+
                     cmd.Parameters.AddWithValue("@FromDate", fromDate);
                     cmd.Parameters.AddWithValue("@ToDate", toDate);
 
@@ -278,51 +430,11 @@ ORDER BY
             }
 
             GridView1.Visible = GridView1.Rows.Count > 0;
-            lblError.Visible = !GridView1.Visible;
-            if (!GridView1.Visible)
-                lblError.Text = "No records found for the selected criteria.";
+            Label1.Visible = GridView1.Rows.Count == 0;
+            if (GridView1.Rows.Count == 0)
+                Label1.Text = "No records found for the selected criteria.";
         }
-        private DataTable ApplyClientSideGrouping(DataTable sourceTable)
-        {
-            if (sourceTable.Rows.Count == 0)
-                return sourceTable;
 
-            DataTable groupedTable = sourceTable.Clone();
-
-            // Use Dictionary to track unique employee-date combinations
-            var uniqueCombinations = new Dictionary<string, DataRow>();
-
-            foreach (DataRow row in sourceTable.Rows)
-            {
-                string employeeName = row["EmployeeName"].ToString();
-                string travelDate = row["TravelDate"].ToString();
-                string key = $"{employeeName}|{travelDate}";
-
-                if (!uniqueCombinations.ContainsKey(key))
-                {
-                    uniqueCombinations[key] = row;
-                }
-                else
-                {
-                    // If duplicate found, keep the one with lower ID (or modify as needed)
-                    int currentId = Convert.ToInt32(row["Id"]);
-                    int existingId = Convert.ToInt32(uniqueCombinations[key]["Id"]);
-
-                    if (currentId < existingId)
-                    {
-                        uniqueCombinations[key] = row;
-                    }
-                }
-            }
-
-            // Add unique rows to the result table
-            foreach (var row in uniqueCombinations.Values)
-            {
-                groupedTable.ImportRow(row);
-            }
-
-            return groupedTable;
-        }
         protected void btnFilter_Click(object sender, EventArgs e)
         {
             if (DateTime.TryParse(txtFromDate.Text, out DateTime fromDate) &&
@@ -344,8 +456,8 @@ ORDER BY
             }
             else
             {
-                lblError.Text = "Please enter valid dates.";
-                lblError.Visible = true;
+                Label1.Text = "Please enter valid dates.";
+                Label1.Visible = true;
             }
         }
 
@@ -358,24 +470,23 @@ ORDER BY
                 string employeeName = commandArgs[1];
                 string travelDate = commandArgs[2];
 
-                // Store in session
                 Session["TravelExpenseId"] = travelExpenseId;
                 Session["EmployeeName"] = employeeName;
                 Session["TravelDate"] = travelDate;
 
-                // Redirect to verification page
                 Response.Redirect("AdminTravelVerify.aspx");
             }
-        }
-        // Other methods that you might not need for travel expenses
-        private void FetchFromDate(int serviceId)
-        {
-            // Not needed for travel expenses
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            // Handle submission logic if needed
+            // This method is kept for compatibility
+            Response.Redirect("AdminTravelVerify.aspx");
+        }
+
+        private void FetchFromDate(int serviceIds)
+        {
+            // Not needed for travel expenses
         }
 
         private void FetchExpenseTotals(int serviceId)

@@ -35,52 +35,55 @@
             box-shadow: 0 2px 10px darkblue;
             margin: 20px auto;
             width: 90%;
-        }.sidebar {
-      background-color: #3f418d;
-      padding: 10px;
-      width: 250px;
-      min-width: 250px;
-      max-width: 250px;
-      box-shadow: 0 2px 10px rgba(63, 65, 141, 0.3);
-      position: fixed;
-      height: 100vh;
-      overflow-y: auto;
-      z-index: 1000;
-  }
+        }
 
-  .sidebar-nav .nav-link {
-      display: flex;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 4px;
-      color: #222b65;
-      background-color: white;
-      font-size: 11px;
-      margin-bottom: 4px;
-      transition: all 0.3s ease;
-  }
+        .sidebar {
+            background-color: #3f418d;
+            padding: 10px;
+            width: 250px;
+            min-width: 250px;
+            max-width: 250px;
+            box-shadow: 0 2px 10px rgba(63, 65, 141, 0.3);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
 
-  .sidebar-nav .nav-link i {
-      font-size: 12px;
-      margin-right: 5px;
-  }
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: #222b65;
+            background-color: white;
+            font-size: 11px;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav .nav-link i {
+            font-size: 12px;
+            margin-right: 5px;
+        }
 
         /* Button Styles */
-         .custom-button {
-             background-color: #3f418d;
-             color: white;
-             margin-left: 30px; 
-             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-             border: none;
-             padding: 10px 20px;
-             cursor: pointer;
-             text-align: center;
-             font-size: 16px;
-             border-radius: 5px;
-         }
-         .custom-button:hover {
-             background-color:#3f418d;
-         }
+        .custom-button {
+            background-color: #3f418d;
+            color: white;
+            margin-left: 30px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .custom-button:hover {
+            background-color:#3f418d;
+        }
 
         /* Main container styling */
         .main {
@@ -96,9 +99,11 @@
         .custom-grid {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        .card{
-             height:400px;
+
+        .card {
+            height:400px;
         }
+
         /* Card styling */
         .card-header {
             text-align: center;
@@ -107,12 +112,12 @@
             padding: 15px;
             font-size: 20px;
             border-radius: 5px 5px 0 0;
-           
         }
 
         .form-label {
             font-weight: bold;
             color: #333;
+            margin-right: 10px;
         }
 
         /* Grid View header */
@@ -126,7 +131,8 @@
             display: flex;             
             justify-content: center;   
             align-items: center;       
-            margin: 20px auto;         
+            margin: 20px auto;
+            gap: 10px;
         }
 
         .custom-dropdown {
@@ -142,6 +148,103 @@
         .mydatagrid td {
             text-align: center;  
             vertical-align: middle; 
+        }
+
+        /* Searchable Dropdown Styles */
+        .custom-dropdown-wrapper {
+            position: relative;
+            width: 180px;
+            z-index: 100;
+            overflow: visible;
+        }
+
+        .custom-dropdown-wrapper input.dropdown-input {
+            width: 100%;
+            padding: 6px 30px 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background-color: white;
+            height: 34px;
+            box-sizing: border-box;
+            cursor: pointer;
+            color: #495057;
+        }
+
+        .custom-dropdown-wrapper input.dropdown-input:focus {
+            outline: none;
+            border-color: #3f418d;
+            box-shadow: 0 0 0 2px rgba(63, 65, 141, 0.2);
+            cursor: text;
+        }
+
+        .custom-dropdown-wrapper input.dropdown-input::selection {
+            background: transparent;
+        }
+
+        .custom-dropdown-wrapper .dropdown-arrow {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 99999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-x: hidden;
+            top: calc(100% - 1px);
+            left: 0;
+            margin-top: 0;
+            width: 100%;
+        }
+
+        .dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            transition: background-color 0.2s ease;
+            user-select: none;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-x: hidden;
+            color: #495057;
+            line-height: 1.4;
+        }
+
+        .dropdown-item:hover:not(.selected) {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item.selected {
+            background-color: #1E73D8;
+            color: white;
+            font-weight: 500;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-results {
+            padding: 12px 15px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
         }
     </style>
 
@@ -235,7 +338,12 @@
         
         <div class="centered-dropdown">
             <label class="form-label" for="ddlBranch">Select a Branch:</label>
-            <asp:DropDownList ID="ddlBranch" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" CssClass="custom-dropdown">
+            <div class="custom-dropdown-wrapper">
+                <input type="text" id="branchSearchInput" class="dropdown-input" placeholder="Select a Branch" />
+                <span class="dropdown-arrow">▼</span>
+                <div id="branchDropdownList" class="dropdown-list"></div>
+            </div>
+            <asp:DropDownList ID="ddlBranch" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" CssClass="custom-dropdown" style="display:none !important; visibility:hidden !important; height:0 !important; padding:0 !important; border:none !important;">
             </asp:DropDownList>
         </div>
 
@@ -271,5 +379,98 @@
             </div>
         </section>
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            initializeBranchDropdown();
+        });
+
+        function initializeBranchDropdown() {
+            var $searchInput = $('#branchSearchInput');
+            var $dropdownList = $('#branchDropdownList');
+            var $hiddenDropdown = $('#<%= ddlBranch.ClientID %>');
+            var allOptions = [];
+
+            // Get all options from hidden dropdown
+            $hiddenDropdown.find('option').each(function () {
+                allOptions.push({
+                    text: $(this).text(),
+                    value: $(this).val()
+                });
+            });
+
+            // Set initial value
+            var selectedText = $hiddenDropdown.find('option:selected').text();
+            $searchInput.val(selectedText);
+
+            // Show dropdown when input is focused
+            $searchInput.on('focus', function () {
+                showDropdownOptions('');
+                $dropdownList.show();
+                
+                // Position cursor at end of text
+                var input = this;
+                setTimeout(function() {
+                    var len = input.value.length;
+                    input.setSelectionRange(len, len);
+                }, 0);
+            });
+
+            // Filter dropdown as user types
+            $searchInput.on('input', function () {
+                var searchTerm = $(this).val().toLowerCase().trim();
+                showDropdownOptions(searchTerm);
+                $dropdownList.show();
+            });
+
+            // Hide dropdown when clicking outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.custom-dropdown-wrapper').length) {
+                    $dropdownList.hide();
+                }
+            });
+
+            function showDropdownOptions(searchTerm) {
+                $dropdownList.empty();
+                var currentValue = $hiddenDropdown.val();
+
+                var filteredOptions = allOptions.filter(function (opt) {
+                    if (searchTerm === '') {
+                        return true;
+                    }
+                    return opt.text.toLowerCase().includes(searchTerm);
+                });
+
+                if (filteredOptions.length > 0) {
+                    filteredOptions.forEach(function (opt) {
+                        var $item = $('<div class="dropdown-item"></div>')
+                            .text(opt.text)
+                            .attr('data-value', opt.value);
+                        
+                        if (opt.value === currentValue) {
+                            $item.addClass('selected');
+                        }
+                        
+                        $item.on('click', function (e) {
+                            e.stopPropagation();
+                            $searchInput.val(opt.text);
+                            $hiddenDropdown.val(opt.value);
+                            $dropdownList.hide();
+                            $dropdownList.find('.dropdown-item').removeClass('selected');
+                            $item.addClass('selected');
+                            
+                            // Trigger AutoPostBack
+                            $hiddenDropdown.change();
+                        });
+                        
+                        $dropdownList.append($item);
+                    });
+                } else {
+                    $dropdownList.append('<div class="no-results">No results found</div>');
+                }
+            }
+        }
+    </script>
 
 </asp:Content>

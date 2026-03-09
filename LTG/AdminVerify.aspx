@@ -499,13 +499,13 @@
                                             AutoPostBack="true"
                                             OnCheckedChanged="chkClaimable_CheckedChanged"
                                             Checked='<%# Eval("IsClaimable") != DBNull.Value && Convert.ToBoolean(Eval("IsClaimable")) %>'
-                                            Visible='<%# !string.IsNullOrEmpty(Eval("Amount")?.ToString()) %>' />
+                                            Visible='<%# Eval("Amount") != null && !string.IsNullOrEmpty(Eval("Amount").ToString()) %>' />
 
                                         <asp:TextBox ID="txtConveyanceAmount" runat="server"
                                             Text='<%# Eval("Amount") %>'
                                             ReadOnly="true"
                                             CssClass="form-control mx-2"
-                                            Visible='<%# !string.IsNullOrEmpty(Eval("Amount")?.ToString()) %>' />
+                                            Visible='<%# Eval("Amount") != null && !string.IsNullOrEmpty(Eval("Amount").ToString()) %>' />
 
                                         <asp:Button ID="btnEditConveyance" runat="server"
                                             Text="Edit"
@@ -513,7 +513,7 @@
                                             CommandArgument='<%# Container.DataItemIndex %>'
                                             CssClass="btn btn-secondary"
                                             OnClick="btnEditRow_Click"
-                                            Visible='<%# !string.IsNullOrEmpty(Eval("Amount")?.ToString()) %>' />
+                                            Visible='<%# Eval("Amount") != null && !string.IsNullOrEmpty(Eval("Amount").ToString()) %>' />
                                     </div>
                                 </ItemTemplate>
                             </asp:TemplateField>

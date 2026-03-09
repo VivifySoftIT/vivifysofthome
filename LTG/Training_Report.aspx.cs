@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -6,12 +7,20 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Linq;
+using System.Web.Services;
 
 namespace Vivify
 {
     public partial class Training_Report : System.Web.UI.Page
     {
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+
+        // Helper class for dropdown items
+        public class DropdownItem
+        {
+            public string value { get; set; }
+            public string text { get; set; }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,7 +43,33 @@ namespace Vivify
                 ddlBranch.DataValueField = "BranchId";
                 ddlBranch.DataBind();
             }
-            ddlBranch.Items.Insert(0, new ListItem("Select Branch", "0"));
+            ddlBranch.Items.Insert(0, new ListItem("All Branches", "0"));
+        }
+
+        public string GetBranchDisplayText()
+        {
+            string selectedValue = ddlBranch.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue) || selectedValue == "0")
+            {
+                return "All Branches";
+            }
+            else
+            {
+                return ddlBranch.SelectedItem.Text;
+            }
+        }
+
+        public string GetEmployeeDisplayText()
+        {
+            string selectedValue = ddlEmployeeName.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue) || selectedValue == "0")
+            {
+                return "All Employees";
+            }
+            else
+            {
+                return ddlEmployeeName.SelectedItem.Text;
+            }
         }
 
         private void PopulateEmployees(string branchId = "0")
@@ -74,6 +109,43 @@ namespace Vivify
             {
                 PopulateEmployees(); // Load all employees if no branch is selected
             }
+        }
+
+        // AJAX WebMethod for getting employees based on branch
+        [WebMethod]
+        public static List<DropdownItem> GetEmployees(string branchId)
+        {
+            List<DropdownItem> employees = new List<DropdownItem>();
+            employees.Add(new DropdownItem { value = "0", text = "All Employees" });
+
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+            string query = @"SELECT EmployeeId, FirstName 
+                           FROM Employees 
+                           WHERE (@BranchId = '0' OR BranchId = @BranchId)
+                           ORDER BY FirstName";
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@BranchId", branchId);
+
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            employees.Add(new DropdownItem
+                            {
+                                value = reader["EmployeeId"].ToString(),
+                                text = reader["FirstName"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return employees;
         }
 
         protected void btnFilter_Click(object sender, EventArgs e)

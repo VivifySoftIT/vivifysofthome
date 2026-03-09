@@ -24,15 +24,6 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
-        /// lblFromDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFromDate;
-
-        /// <summary>
         /// txtFromDate control.
         /// </summary>
         /// <remarks>
@@ -40,15 +31,6 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFromDate;
-
-        /// <summary>
-        /// lblToDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblToDate;
 
         /// <summary>
         /// txtToDate control.
@@ -60,15 +42,6 @@ namespace Vivify
         protected global::System.Web.UI.WebControls.TextBox txtToDate;
 
         /// <summary>
-        /// BranchName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label BranchName;
-
-        /// <summary>
         /// ddlBranch control.
         /// </summary>
         /// <remarks>
@@ -76,15 +49,6 @@ namespace Vivify
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBranch;
-
-        /// <summary>
-        /// lblEmployeeName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmployeeName;
 
         /// <summary>
         /// ddlEmployeeName control.

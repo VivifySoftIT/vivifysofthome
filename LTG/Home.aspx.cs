@@ -14,7 +14,7 @@ namespace Vivify
             {
                 if (Request.QueryString["success"] == "true")
                 {
-                    ShowAlert("Your message has been sent successfully!");
+                    ShowMessage("Your message has been sent successfully!", "success");
                 }
             }
         }
@@ -32,30 +32,26 @@ namespace Vivify
                 if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(userEmail) ||
                     string.IsNullOrWhiteSpace(subject) || string.IsNullOrWhiteSpace(messageBody))
                 {
-                    ShowAlert("Please fill all required fields!");
+                    ShowMessage("Please fill all required fields!", "error");
                     return;
                 }
 
                 if (SendEmail(name, userEmail, phone, subject, messageBody))
                 {
-                 
                     Response.Redirect("Home.aspx?success=true", false);
                     Context.ApplicationInstance.CompleteRequest();
                 }
                 else
                 {
-                    ShowAlert("Oops! Something went wrong.");
+                    ShowMessage("Oops! Something went wrong.", "error");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                ShowAlert("Oops! Something went wrong.");
+                ShowMessage("Oops! Something went wrong.", "error");
             }
         }
-
-
-
 
         private bool SendEmail(string name, string userEmail, string phone, string subject, string messageBody)
         {
@@ -65,7 +61,6 @@ namespace Vivify
                 {
                     From = new MailAddress(ConfigurationManager.AppSettings["SMTPFrom"], name),
                     Subject = $"Message from VivifySoft:",
-
                     IsBodyHtml = true,
                     Body = $@"
                 <p><b>Name:</b> {name}</p>
@@ -76,10 +71,7 @@ namespace Vivify
             "
                 };
 
-                // ✅ Add the recipient (your company email)
                 mail.To.Add(ConfigurationManager.AppSettings["SMTPFrom"]);
-
-                // ✅ Set the user's email in Reply-To so you can reply directly
                 mail.ReplyToList.Add(new MailAddress(userEmail));
 
                 using (SmtpClient smtp = new SmtpClient(
@@ -101,17 +93,34 @@ namespace Vivify
             }
             catch (Exception ex)
             {
-                ShowAlert("Error: " + ex.Message);
+                ShowMessage("Error: " + ex.Message, "error");
                 return false;
             }
         }
 
-
-        private void ShowAlert(string message)
+        // Shows inline message in <div id="msgBox"> — NO browser alert popup
+        private void ShowMessage(string message, string type)
         {
-            string script = $"if (!localStorage.getItem('emailSent')) {{ alert('{message}'); }}";
-            ScriptManager.RegisterStartupScript(this, GetType(), "Alert", script, true);
-        }
+            string color = type == "success" ? "#2e7d32" : "#c62828";
+            string bg = type == "success" ? "#e8f5e9" : "#ffebee";
+            string border = type == "success" ? "#a5d6a7" : "#ef9a9a";
 
+            string script = $@"
+                var box = document.getElementById('msgBox');
+                if (box) {{
+                    box.innerText = '{message}';
+                    box.style.display = 'block';
+                    box.style.color = '{color}';
+                    box.style.backgroundColor = '{bg}';
+                    box.style.border = '1px solid {border}';
+                    box.style.padding = '10px 16px';
+                    box.style.borderRadius = '6px';
+                    box.style.marginTop = '10px';
+                    box.style.fontFamily = 'sans-serif';
+                    box.style.fontSize = '14px';
+                }}
+            ";
+            ScriptManager.RegisterStartupScript(this, GetType(), "ShowMsg", script, true);
+        }
     }
 }

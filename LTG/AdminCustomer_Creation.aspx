@@ -169,6 +169,65 @@
              font-size: 0.9rem; /* Slightly smaller text on mobile */
          }
      }
+
+     /* Custom Dropdown Styles */
+     .custom-dropdown-wrapper {
+         position: relative;
+         width: 100%;
+         z-index: 100;
+         overflow: visible;
+     }
+
+     .dropdown-list {
+         position: absolute;
+         background: white;
+         border: 1px solid #ddd;
+         border-radius: 4px;
+         max-height: 200px;
+         overflow-y: auto;
+         z-index: 99999;
+         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+         display: none;
+         word-wrap: break-word;
+         white-space: normal;
+         overflow-x: hidden;
+         top: calc(100% - 1px);
+         left: 0;
+         margin-top: 0;
+         width: 100%;
+     }
+
+     .dropdown-item {
+         padding: 10px 12px;
+         cursor: pointer;
+         border-bottom: 1px solid #f0f0f0;
+         font-size: 13px;
+         transition: background-color 0.2s ease;
+         user-select: none;
+         word-wrap: break-word;
+         white-space: normal;
+         overflow-x: hidden;
+     }
+
+     .dropdown-item:hover {
+         background-color: #f8f9fa;
+     }
+
+     .dropdown-item.selected {
+         background-color: #1E73D8;
+         color: white;
+     }
+
+     .dropdown-item:last-child {
+         border-bottom: none;
+     }
+
+     .no-results {
+         padding: 10px 12px;
+         text-align: center;
+         color: #999;
+         font-style: italic;
+     }
  </style>
       
 
@@ -267,9 +326,12 @@
                             
                                 <div class="col-12  mb-0">
                                     <label for="ddlBranch" class="form-label">Branch</label>
-                                 
-                                    <asp:DropDownList ID="ddlBranch" runat="server" class="form-select">
-                                          <asp:ListItem Text="Select Branch" Value="" Selected="True"></asp:ListItem>
+                                    <div class="custom-dropdown-wrapper">
+                                        <input type="text" id="branchSearchInput" class="form-select" placeholder="Select Branch" value="<%= GetBranchDisplayText() %>" />
+                                        <div id="branchDropdownList" class="dropdown-list"></div>
+                                    </div>
+                                    <asp:DropDownList ID="ddlBranch" runat="server" class="form-select" style="display:none !important; visibility:hidden !important; height:0 !important; padding:0 !important; border:none !important;">
+                                        <asp:ListItem Text="Select Branch" Value="0"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
 
@@ -311,4 +373,97 @@
     </div>
         </section>
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            initializeBranchDropdown();
+        });
+
+        function initializeBranchDropdown() {
+            var $searchInput = $('#branchSearchInput');
+            var $dropdownList = $('#branchDropdownList');
+            var $hiddenDropdown = $('#<%= ddlBranch.ClientID %>');
+            var allOptions = [];
+
+            // Get all options from hidden dropdown
+            $hiddenDropdown.find('option').each(function () {
+                allOptions.push({
+                    text: $(this).text(),
+                    value: $(this).val()
+                });
+            });
+
+            // Show dropdown when input is focused
+            $searchInput.on('focus', function () {
+                // Close all other dropdowns
+                $('.dropdown-list').not($dropdownList).hide();
+                
+                showDropdownOptions('');
+                $dropdownList.show();
+            });
+
+            // Filter dropdown as user types
+            $searchInput.on('input', function () {
+                var searchTerm = $(this).val().toLowerCase().trim();
+                showDropdownOptions(searchTerm);
+                $dropdownList.show();
+            });
+
+            // Hide dropdown when clicking outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.custom-dropdown-wrapper').length && !$(e.target).closest('.dropdown-item').length) {
+                    $dropdownList.hide();
+                }
+            });
+
+            function positionDropdown() {
+                var width = $searchInput.outerWidth();
+                
+                $dropdownList.css({
+                    width: '100%'
+                });
+            }
+
+            function showDropdownOptions(searchTerm) {
+                $dropdownList.empty();
+                var currentValue = $hiddenDropdown.val();
+
+                var filteredOptions = allOptions.filter(function (opt) {
+                    if (searchTerm === '') {
+                        return true; // Show all if search is empty
+                    }
+                    return opt.text.toLowerCase().includes(searchTerm);
+                });
+
+                if (filteredOptions.length > 0) {
+                    filteredOptions.forEach(function (opt) {
+                        var $item = $('<div class="dropdown-item"></div>')
+                            .text(opt.text)
+                            .attr('data-value', opt.value);
+                        
+                        // Highlight selected item
+                        if (opt.value === currentValue) {
+                            $item.addClass('selected');
+                        }
+                        
+                        // Bind click event
+                        $item.on('click', function (e) {
+                            e.stopPropagation();
+                            $searchInput.val(opt.text);
+                            $hiddenDropdown.val(opt.value);
+                            $dropdownList.hide();
+                            // Mark this item as selected
+                            $dropdownList.find('.dropdown-item').removeClass('selected');
+                            $item.addClass('selected');
+                        });
+                        
+                        $dropdownList.append($item);
+                    });
+                } else {
+                    $dropdownList.append('<div class="no-results">No results found</div>');
+                }
+            }
+        }
+    </script>
 </asp:Content>

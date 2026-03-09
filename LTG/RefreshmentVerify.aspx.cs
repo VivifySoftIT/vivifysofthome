@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Web.Services;
+using System.Collections.Generic;
 
 namespace Vivify
 {
@@ -15,39 +17,65 @@ namespace Vivify
         {
             if (!IsPostBack)
             {
+                LoadRegions();
                 LoadBranches();
                 LoadEmployeeNames();
                 GridView1.Visible = false;
             }
         }
 
-        private void LoadBranches()
+        private void LoadRegions()
         {
             using (SqlConnection con = new SqlConnection(constr))
             {
-                string query = "SELECT DISTINCT BranchName FROM Branch ORDER BY BranchName";
+                string query = "SELECT DISTINCT Region FROM Region ORDER BY Region";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                ddlRegion.DataSource = dt;
+                ddlRegion.DataTextField = "Region";
+                ddlRegion.DataValueField = "Region";
+                ddlRegion.DataBind();
+                ddlRegion.Items.Insert(0, new ListItem("All Regions", "All"));
+            }
+        }
+
+        private void LoadBranches(string regionName = "All")
+        {
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = @"SELECT DISTINCT b.BranchName 
+                                 FROM Branch b
+                                 INNER JOIN Region r ON b.RegionId = r.RegionId
+                                 WHERE (@Region = 'All' OR r.Region = @Region)
+                                 ORDER BY b.BranchName";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Region", regionName);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 ddlBranch.DataSource = dt;
                 ddlBranch.DataTextField = "BranchName";
                 ddlBranch.DataValueField = "BranchName";
                 ddlBranch.DataBind();
-                ddlBranch.Items.Insert(0, new ListItem("All", "All"));
+                ddlBranch.Items.Insert(0, new ListItem("All Branches", "All"));
             }
         }
 
-        private void LoadEmployeeNames(string branchName = "All")
+        private void LoadEmployeeNames(string branchName = "All", string regionName = "All")
         {
             using (SqlConnection con = new SqlConnection(constr))
             {
                 string query = @"SELECT DISTINCT e.FirstName, e.EmployeeId 
                                  FROM Employees e 
                                  INNER JOIN Branch b ON e.BranchId = b.BranchId 
+                                 INNER JOIN Region r ON b.RegionId = r.RegionId
                                  WHERE (@Branch = 'All' OR b.BranchName = @Branch)
+                                 AND (@Region = 'All' OR r.Region = @Region)
                                  ORDER BY e.FirstName";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@Branch", branchName);
+                cmd.Parameters.AddWithValue("@Region", regionName);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -55,13 +83,79 @@ namespace Vivify
                 ddlEmployee.DataTextField = "FirstName";
                 ddlEmployee.DataValueField = "EmployeeId";
                 ddlEmployee.DataBind();
-                ddlEmployee.Items.Insert(0, new ListItem("All", "All"));
+                ddlEmployee.Items.Insert(0, new ListItem("All Employees ", "All"));
             }
         }
 
-        protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
+        [WebMethod]
+        public static List<DropdownItem> GetBranches(string regionName)
         {
-            LoadEmployeeNames(ddlBranch.SelectedValue);
+            List<DropdownItem> branches = new List<DropdownItem>();
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = @"SELECT DISTINCT b.BranchName 
+                                 FROM Branch b
+                                 INNER JOIN Region r ON b.RegionId = r.RegionId
+                                 WHERE (@Region = 'All' OR r.Region = @Region)
+                                 ORDER BY b.BranchName";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Region", regionName);
+                
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                branches.Add(new DropdownItem { value = "All", text = "All Branches" });
+                
+                while (reader.Read())
+                {
+                    branches.Add(new DropdownItem
+                    {
+                        value = reader["BranchName"].ToString(),
+                        text = reader["BranchName"].ToString()
+                    });
+                }
+            }
+
+            return branches;
+        }
+
+        [WebMethod]
+        public static List<DropdownItem> GetEmployees(string branchName, string regionName)
+        {
+            List<DropdownItem> employees = new List<DropdownItem>();
+            string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = @"SELECT DISTINCT e.FirstName, e.EmployeeId 
+                                 FROM Employees e 
+                                 INNER JOIN Branch b ON e.BranchId = b.BranchId 
+                                 INNER JOIN Region r ON b.RegionId = r.RegionId
+                                 WHERE (@Branch = 'All' OR b.BranchName = @Branch)
+                                 AND (@Region = 'All' OR r.Region = @Region)
+                                 ORDER BY e.FirstName";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Branch", branchName);
+                cmd.Parameters.AddWithValue("@Region", regionName);
+                
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                employees.Add(new DropdownItem { value = "All", text = "All Employees" });
+                
+                while (reader.Read())
+                {
+                    employees.Add(new DropdownItem
+                    {
+                        value = reader["EmployeeId"].ToString(),
+                        text = reader["FirstName"].ToString()
+                    });
+                }
+            }
+
+            return employees;
         }
 
         protected void btnFilter_Click(object sender, EventArgs e)
@@ -143,5 +237,11 @@ namespace Vivify
                 btn.CssClass = isVerified ? "btn btn-success" : "btn btn-primary";
             }
         }
+    }
+
+    public class DropdownItem
+    {
+        public string value { get; set; }
+        public string text { get; set; }
     }
 }

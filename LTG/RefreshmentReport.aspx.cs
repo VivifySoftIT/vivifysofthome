@@ -22,6 +22,45 @@ namespace Vivify
             }
         }
 
+        public string GetRegionDisplayText()
+        {
+            string selectedValue = ddlRegion.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue))
+            {
+                return "All Regions";
+            }
+            else
+            {
+                return ddlRegion.SelectedItem.Text;
+            }
+        }
+
+        public string GetBranchDisplayText()
+        {
+            string selectedValue = ddlBranch.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue))
+            {
+                return "All Branches";
+            }
+            else
+            {
+                return ddlBranch.SelectedItem.Text;
+            }
+        }
+
+        public string GetEmployeeDisplayText()
+        {
+            string selectedValue = ddlEmployee.SelectedValue;
+            if (string.IsNullOrEmpty(selectedValue))
+            {
+                return "All Employees";
+            }
+            else
+            {
+                return ddlEmployee.SelectedItem.Text;
+            }
+        }
+
         private void LoadRegions()
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
@@ -50,11 +89,12 @@ namespace Vivify
 
         private void LoadBranches(string regionId = null)
         {
+            ddlBranch.Items.Clear();
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             string query = @"
         SELECT BranchId, BranchName 
         FROM Branch 
-        WHERE (@RegionId IS NULL OR RegionId = @RegionId) 
+        WHERE (@RegionId IS NULL OR @RegionId = '' OR RegionId = @RegionId) 
         ORDER BY BranchName";
 
             using (SqlConnection con = new SqlConnection(constr))
@@ -81,20 +121,20 @@ namespace Vivify
 
         protected void ddlRegion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedRegionId = ddlRegion.SelectedValue;
-            LoadBranches(selectedRegionId);  // Load branches for the selected region
-            LoadEmployeeNames();  // Refresh employees based on new branch filter
+            string selectedRegion = ddlRegion.SelectedValue;
+            LoadBranches(selectedRegion);
         }
 
         protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(ddlBranch.SelectedValue, out int branchId))
+            string selectedBranch = ddlBranch.SelectedValue;
+            if (!string.IsNullOrEmpty(selectedBranch) && int.TryParse(selectedBranch, out int branchId))
             {
                 LoadEmployeeNames(branchId);
             }
             else
             {
-                LoadEmployeeNames(null); // "All Branches" selected
+                LoadEmployeeNames(null);
             }
         }
 
@@ -147,7 +187,7 @@ namespace Vivify
                     DataTable dt = GetRefreshmentData(selectedRegionId, selectedBranchId, selectedEmployeeName, fromDate, toDate);
                     gvReport.DataSource = dt;
                     gvReport.DataBind();
-                
+
                     lblError.Visible = true;
                 }
                 else
