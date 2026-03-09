@@ -50,11 +50,13 @@ namespace Vivify
 
         private void LoadBranches(string regionId = null)
         {
+            ddlBranch.Items.Clear();
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
-            string query = @"SELECT DISTINCT BranchName 
-                     FROM Branch 
-                     WHERE (@RegionId IS NULL OR RegionId = @RegionId) 
-                     ORDER BY BranchName";
+            string query = @"
+        SELECT BranchId, BranchName 
+        FROM Branch 
+        WHERE (@RegionId IS NULL OR @RegionId = '' OR RegionId = @RegionId) 
+        ORDER BY BranchName";
 
             using (SqlConnection con = new SqlConnection(constr))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -71,7 +73,7 @@ namespace Vivify
 
                 ddlBranch.DataSource = dt;
                 ddlBranch.DataTextField = "BranchName";
-                ddlBranch.DataValueField = "BranchName";
+                ddlBranch.DataValueField = "BranchId";
                 ddlBranch.DataBind();
             }
 
@@ -88,26 +90,35 @@ namespace Vivify
         protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedBranch = ddlBranch.SelectedValue;
-            LoadEmployeeNames(selectedBranch);  // Load employees for the selected branch
+            int branchId;
+            if (!string.IsNullOrEmpty(selectedBranch) && int.TryParse(selectedBranch, out branchId))
+            {
+                LoadEmployeeNames(branchId);
+            }
+            else
+            {
+                LoadEmployeeNames(null);
+            }
         }
 
-        private void LoadEmployeeNames(string branchName = null)
+        private void LoadEmployeeNames(int? branchId = null)
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
-            string query = @"SELECT DISTINCT FirstName 
-                     FROM Employees 
-                     WHERE (@BranchName IS NULL OR BranchName = @BranchName)
-                       AND FirstName IS NOT NULL 
-                       AND LTRIM(RTRIM(FirstName)) != ''
-                     ORDER BY FirstName";
+            string query = @"
+        SELECT DISTINCT FirstName 
+        FROM Employees 
+        WHERE (@BranchId IS NULL OR BranchId = @BranchId)
+          AND FirstName IS NOT NULL 
+          AND LTRIM(RTRIM(FirstName)) != ''
+        ORDER BY FirstName";
 
             using (SqlConnection con = new SqlConnection(constr))
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
-                if (string.IsNullOrEmpty(branchName))
-                    cmd.Parameters.AddWithValue("@BranchName", DBNull.Value);
+                if (branchId.HasValue)
+                    cmd.Parameters.AddWithValue("@BranchId", branchId.Value);
                 else
-                    cmd.Parameters.AddWithValue("@BranchName", branchName);
+                    cmd.Parameters.AddWithValue("@BranchId", DBNull.Value);
 
                 con.Open();
                 DataTable dt = new DataTable();
@@ -125,21 +136,18 @@ namespace Vivify
         protected void btnFilter_Click(object sender, EventArgs e)
         {
             string selectedRegionId = ddlRegion.SelectedValue;
-            string selectedBranch = ddlBranch.SelectedValue;
+            string selectedBranchId = ddlBranch.SelectedValue;
             string selectedEmployeeName = ddlEmployee.SelectedValue;
             DateTime fromDate, toDate;
 
-            bool fromDateValid = DateTime.TryParse(txtFromDate.Text, out fromDate);
-            bool toDateValid = DateTime.TryParse(txtToDate.Text, out toDate);
-
-            // Clear previous error message
             lblError.Visible = false;
 
-            if (fromDateValid && toDateValid)
+            if (DateTime.TryParse(txtFromDate.Text, out fromDate) &&
+                DateTime.TryParse(txtToDate.Text, out toDate))
             {
                 if (fromDate <= toDate)
                 {
-                    LoadData(selectedRegionId, selectedBranch, selectedEmployeeName, fromDate, toDate);
+                    LoadData(selectedRegionId, selectedBranchId, selectedEmployeeName, fromDate, toDate);
                 }
                 else
                 {
@@ -154,13 +162,13 @@ namespace Vivify
             }
         }
 
-        private void LoadData(string regionId, string branchName, string employeeName, DateTime fromDate, DateTime toDate)
+        private void LoadData(string regionId, string branchId, string employeeName, DateTime fromDate, DateTime toDate)
         {
             string constr = ConfigurationManager.ConnectionStrings["vivify"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
                 string query = @"
-       SELECT 
+SELECT 
     emp.FirstName AS Eng_Name,
     expDetails.ExpenseType AS Tour_Local,
     expDetails.Date AS Date,
@@ -174,152 +182,214 @@ namespace Vivify
     expDetails.Food,
     expDetails.Others,
     expDetails.Miscellaneous,
+    expDetails.Refreshment,
     expDetails.SoNo AS SO_Number,
-    s.Department AS Department,
-    s.ServiceType AS Nature_of_Work,
+    expDetails.Department AS Department,
+    expDetails.NatureOfWork AS Nature_of_Work,
     expDetails.SmoNo AS SMO,
     expDetails.RefNo AS Document_Reference,
     expDetails.Remarks AS Remarks
 FROM 
 (
-    -- Conveyance
+    -- Regular Expenses (Conveyance, Food, Lodging, Others, Miscellaneous)
     SELECT 
-        ServiceId, 
-        ExpenseType, 
-        Date, 
-        FromTime, 
-        ToTime, 
-        Particulars, 
-        Distance, 
-        TransportType,
-        ClaimedAmount AS Conveyance, 
-        NULL AS Lodging, 
-        NULL AS Food, 
-        NULL AS Others, 
-        NULL AS Miscellaneous,
-        SoNo, 
-        SmoNo, 
-        RefNo, 
-        Remarks
-    FROM Conveyance
-    WHERE Date BETWEEN @FromDate AND @ToDate
-      AND isclaimable = 1  -- Add condition for isclaimable
+        s.ServiceId,
+        exp.ExpenseType,
+        exp.Date,
+        exp.FromTime,
+        exp.ToTime,
+        exp.Particulars,
+        exp.Distance,
+        exp.TransportType,
+        exp.Conveyance,
+        exp.Lodging,
+        exp.Food,
+        exp.Others,
+        exp.Miscellaneous,
+        NULL AS Refreshment,
+        exp.SoNo,
+        exp.SmoNo,
+        exp.RefNo,
+        exp.Remarks,
+        s.Department,
+        s.ServiceType AS NatureOfWork,
+        s.EmployeeId
+    FROM 
+    (
+        -- Conveyance
+        SELECT 
+            ServiceId, 
+            ExpenseType, 
+            Date, 
+            FromTime, 
+            ToTime, 
+            Particulars, 
+            Distance, 
+            TransportType,
+            ClaimedAmount AS Conveyance, 
+            NULL AS Lodging, 
+            NULL AS Food, 
+            NULL AS Others, 
+            NULL AS Miscellaneous,
+            SoNo, 
+            SmoNo, 
+            RefNo, 
+            Remarks
+        FROM Conveyance
+        WHERE Date BETWEEN @FromDate AND @ToDate
+          AND isclaimable = 1
+        
+        UNION ALL
+        
+        -- Food
+        SELECT 
+            ServiceId, 
+            ExpenseType, 
+            Date, 
+            FromTime, 
+            ToTime, 
+            Particulars, 
+            NULL AS Distance, 
+            NULL AS TransportType,
+            NULL AS Conveyance, 
+            NULL AS Lodging, 
+            ClaimedAmount AS Food, 
+            NULL AS Others, 
+            NULL AS Miscellaneous,
+            SoNo, 
+            SmoNo, 
+            RefNo, 
+            Remarks
+        FROM Food
+        WHERE Date BETWEEN @FromDate AND @ToDate
+          AND isclaimable = 1
+        
+        UNION ALL
+        
+        -- Lodging
+        SELECT 
+            ServiceId, 
+            ExpenseType, 
+            Date, 
+            FromTime, 
+            ToTime, 
+            Particulars, 
+            NULL AS Distance, 
+            NULL AS TransportType,
+            NULL AS Conveyance, 
+            ClaimedAmount AS Lodging, 
+            NULL AS Food, 
+            NULL AS Others, 
+            NULL AS Miscellaneous,
+            SoNo, 
+            SmoNo, 
+            RefNo, 
+            Remarks
+        FROM Lodging
+        WHERE Date BETWEEN @FromDate AND @ToDate
+          AND isclaimable = 1
+        
+        UNION ALL
+        
+        -- Others
+        SELECT 
+            ServiceId, 
+            ExpenseType, 
+            Date, 
+            FromTime, 
+            ToTime, 
+            Particulars, 
+            NULL AS Distance, 
+            NULL AS TransportType,
+            NULL AS Conveyance, 
+            NULL AS Lodging, 
+            NULL AS Food, 
+            ClaimedAmount AS Others, 
+            NULL AS Miscellaneous,
+            SoNo, 
+            SmoNo, 
+            RefNo, 
+            Remarks
+        FROM Others
+        WHERE Date BETWEEN @FromDate AND @ToDate
+          AND isclaimable = 1
+        
+        UNION ALL
+        
+        -- Miscellaneous
+        SELECT 
+            ServiceId, 
+            ExpenseType, 
+            Date, 
+            FromTime, 
+            ToTime, 
+            Particulars, 
+            NULL AS Distance, 
+            NULL AS TransportType,
+            NULL AS Conveyance, 
+            NULL AS Lodging, 
+            NULL AS Food, 
+            NULL AS Others, 
+            ClaimedAmount AS Miscellaneous,
+            SoNo, 
+            SmoNo, 
+            RefNo, 
+            Remarks
+        FROM Miscellaneous
+        WHERE Date BETWEEN @FromDate AND @ToDate
+          AND isclaimable = 1
+    ) AS exp
+    INNER JOIN Services s ON exp.ServiceId = s.ServiceId
+    
     UNION ALL
-    -- Food
+    
+    -- Refreshment Entries (simplified - just get refreshments for the date range)
     SELECT 
-        ServiceId, 
-        ExpenseType, 
-        Date, 
-        FromTime, 
-        ToTime, 
-        Particulars, 
-        NULL AS Distance, 
+        r.ServiceId,
+        'Refreshment' AS ExpenseType,
+        r.FromDate AS Date,
+        NULL AS FromTime,
+        NULL AS ToTime,
+        'Monthly Refreshment' AS Particulars,
+        NULL AS Distance,
         NULL AS TransportType,
-        NULL AS Conveyance, 
-        NULL AS Lodging, 
-        ClaimedAmount AS Food, 
-        NULL AS Others, 
+        NULL AS Conveyance,
+        NULL AS Lodging,
+        NULL AS Food,
+        NULL AS Others,
         NULL AS Miscellaneous,
-        SoNo, 
-        SmoNo, 
-        RefNo, 
-        Remarks
-    FROM Food
-    WHERE Date BETWEEN @FromDate AND @ToDate
-      AND isclaimable = 1  -- Add condition for isclaimable
-    UNION ALL
-    -- Lodging
-    SELECT 
-        ServiceId, 
-        ExpenseType, 
-        Date, 
-        FromTime, 
-        ToTime, 
-        Particulars, 
-        NULL AS Distance, 
-        NULL AS TransportType,
-        NULL AS Conveyance, 
-        ClaimedAmount AS Lodging, 
-        NULL AS Food, 
-        NULL AS Others, 
-        NULL AS Miscellaneous,
-        SoNo, 
-        SmoNo, 
-        RefNo, 
-        Remarks
-    FROM Lodging
-    WHERE Date BETWEEN @FromDate AND @ToDate
-      AND isclaimable = 1  -- Add condition for isclaimable
-    UNION ALL
-    -- Others
-    SELECT 
-        ServiceId, 
-        ExpenseType, 
-        Date, 
-        FromTime, 
-        ToTime, 
-        Particulars, 
-        NULL AS Distance, 
-        NULL AS TransportType,
-        NULL AS Conveyance, 
-        NULL AS Lodging, 
-        NULL AS Food, 
-        ClaimedAmount AS Others, 
-        NULL AS Miscellaneous,
-        SoNo, 
-        SmoNo, 
-        RefNo, 
-        Remarks
-    FROM Others
-    WHERE Date BETWEEN @FromDate AND @ToDate
-      AND isclaimable = 1  -- Add condition for isclaimable
-    UNION ALL
-    -- Miscellaneous
-    SELECT 
-        ServiceId, 
-        ExpenseType, 
-        Date, 
-        FromTime, 
-        ToTime, 
-        Particulars, 
-        NULL AS Distance, 
-        NULL AS TransportType,
-        NULL AS Conveyance, 
-        NULL AS Lodging, 
-        NULL AS Food, 
-        NULL AS Others, 
-        ClaimedAmount AS Miscellaneous,
-        SoNo, 
-        SmoNo, 
-        RefNo, 
-        Remarks
-    FROM Miscellaneous
-    WHERE Date BETWEEN @FromDate AND @ToDate
-      AND isclaimable = 1  -- Add condition for isclaimable
+        r.RefreshAmount AS Refreshment,
+        NULL AS SoNo,
+        NULL AS SmoNo,
+        NULL AS RefNo,
+        NULL AS Remarks,
+        r.Department,
+        'Refresh' AS NatureOfWork,
+        r.EmployeeId
+    FROM Refreshment r
+    WHERE r.FromDate BETWEEN @FromDate AND @ToDate
+      AND r.IsVerified = 1
 ) AS expDetails
-LEFT JOIN Services s ON expDetails.ServiceId = s.ServiceId
-LEFT JOIN Employees emp ON s.EmployeeId = emp.EmployeeId
-LEFT JOIN Expense e ON expDetails.ServiceId = e.ServiceId
-LEFT JOIN Branch b ON emp.BranchName = b.BranchName
-WHERE (@RegionId IS NULL OR b.RegionId = @RegionId)
-  AND (@BranchName IS NULL OR emp.BranchName = @BranchName)
-  AND (@EmployeeName IS NULL OR emp.FirstName LIKE '%' + @EmployeeName + '%')
-  AND e.StatusId = 3  -- Existing condition
-ORDER BY emp.FirstName, expDetails.Date, expDetails.FromTime";
+INNER JOIN Employees emp ON expDetails.EmployeeId = emp.EmployeeId
+LEFT JOIN Branch b ON emp.BranchId = b.BranchId
+WHERE (@RegionId IS NULL OR @RegionId = '' OR b.RegionId = @RegionId)
+  AND (@BranchId IS NULL OR @BranchId = '' OR b.BranchId = @BranchId)
+  AND (@EmployeeName IS NULL OR @EmployeeName = '' OR emp.FirstName LIKE '%' + @EmployeeName + '%')
+ORDER BY 
+    emp.FirstName, 
+    YEAR(expDetails.Date), 
+    MONTH(expDetails.Date),
+    CASE WHEN expDetails.ExpenseType = 'Refreshment' THEN 1 ELSE 0 END,
+    expDetails.Date,
+    expDetails.FromTime
+        ";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.CommandTimeout = 120;
-                    // Add query parameters
-                    if (string.IsNullOrEmpty(regionId))
-                    {
-                        cmd.Parameters.AddWithValue("@RegionId", DBNull.Value);
-                    }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@RegionId", regionId);
-                    }
-                    cmd.Parameters.AddWithValue("@BranchName", string.IsNullOrEmpty(branchName) ? (object)DBNull.Value : branchName);
+
+                    cmd.Parameters.AddWithValue("@RegionId", string.IsNullOrEmpty(regionId) ? (object)DBNull.Value : regionId);
+                    cmd.Parameters.AddWithValue("@BranchId", string.IsNullOrEmpty(branchId) ? (object)DBNull.Value : branchId);
                     cmd.Parameters.AddWithValue("@FromDate", fromDate);
                     cmd.Parameters.AddWithValue("@ToDate", toDate);
                     cmd.Parameters.AddWithValue("@EmployeeName", string.IsNullOrEmpty(employeeName) ? (object)DBNull.Value : employeeName);
@@ -329,9 +399,10 @@ ORDER BY emp.FirstName, expDetails.Date, expDetails.FromTime";
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
-                    // Add Total column to DataTable
                     dt.Columns.Add("Total", typeof(decimal));
-                    decimal totalConveyance = 0, totalFood = 0, totalOthers = 0, totalLodging = 0, totalMiscellaneous = 0, overallTotal = 0;
+
+                    decimal totalConveyance = 0, totalFood = 0, totalOthers = 0, totalLodging = 0,
+                            totalMiscellaneous = 0, totalRefreshment = 0, overallTotal = 0;
 
                     foreach (DataRow row in dt.Rows)
                     {
@@ -340,30 +411,34 @@ ORDER BY emp.FirstName, expDetails.Date, expDetails.FromTime";
                         decimal others = row["Others"] != DBNull.Value ? Convert.ToDecimal(row["Others"]) : 0;
                         decimal lodging = row["Lodging"] != DBNull.Value ? Convert.ToDecimal(row["Lodging"]) : 0;
                         decimal miscellaneous = row["Miscellaneous"] != DBNull.Value ? Convert.ToDecimal(row["Miscellaneous"]) : 0;
-                        decimal rowTotal = conveyance + food + others + lodging + miscellaneous;
-                        row["Conveyance"] = conveyance;
-                        row["Food"] = food;
-                        row["Others"] = others;
-                        row["Lodging"] = lodging;
-                        row["Miscellaneous"] = miscellaneous;
+                        decimal refreshment = row["Refreshment"] != DBNull.Value ? Convert.ToDecimal(row["Refreshment"]) : 0;
+
+                        decimal rowTotal = conveyance + food + others + lodging + miscellaneous + refreshment;
+
                         row["Total"] = rowTotal;
+
                         totalConveyance += conveyance;
                         totalFood += food;
                         totalOthers += others;
                         totalLodging += lodging;
                         totalMiscellaneous += miscellaneous;
+                        totalRefreshment += refreshment;
                         overallTotal += rowTotal;
                     }
 
                     if (dt.Rows.Count > 0)
                     {
                         DataRow totalsRow = dt.NewRow();
-                        totalsRow["Eng_Name"] = "Total";
+                        totalsRow["Eng_Name"] = "GRAND TOTAL";
+                        totalsRow["Tour_Local"] = "";
+                        totalsRow["Date"] = DBNull.Value;
+                        totalsRow["Particulars"] = "TOTALS:";
                         totalsRow["Conveyance"] = totalConveyance;
                         totalsRow["Food"] = totalFood;
                         totalsRow["Others"] = totalOthers;
                         totalsRow["Lodging"] = totalLodging;
                         totalsRow["Miscellaneous"] = totalMiscellaneous;
+                        totalsRow["Refreshment"] = totalRefreshment;
                         totalsRow["Total"] = overallTotal;
                         dt.Rows.Add(totalsRow);
                     }
@@ -378,7 +453,12 @@ ORDER BY emp.FirstName, expDetails.Date, expDetails.FromTime";
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string currentEmployeeName = DataBinder.Eval(e.Row.DataItem, "Eng_Name")?.ToString();
+                object dataItem = e.Row.DataItem;
+                string currentEmployeeName = null;
+                if (dataItem != null)
+                {
+                    currentEmployeeName = DataBinder.Eval(dataItem, "Eng_Name") as string;
+                }
 
                 if (!string.Equals(previousEmployeeName, currentEmployeeName, StringComparison.OrdinalIgnoreCase))
                 {
@@ -389,7 +469,7 @@ ORDER BY emp.FirstName, expDetails.Date, expDetails.FromTime";
                     {
                         ColumnSpan = gvReport.Columns.Count,
                         CssClass = "employee-header",
-                        Text = $"<strong>Employee: {currentEmployeeName}</strong> - Department: {DataBinder.Eval(e.Row.DataItem, "Department")}"
+                        Text = "<strong>Employee: " + currentEmployeeName + "</strong> - Department: " + DataBinder.Eval(e.Row.DataItem, "Department")
                     };
                     employeeRow.Cells.Add(headerCell);
                     employeeRow.CssClass = "employee-header-row";
