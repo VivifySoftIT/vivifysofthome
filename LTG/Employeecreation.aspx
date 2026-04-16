@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Employeecreation.aspx.cs" Inherits="Vivify.Employeecreation" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Employeecreation.aspx.cs" Inherits="Vivify.Employeecreation" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <head>
@@ -496,7 +496,7 @@
                                             <label for="ddlBranch" class="form-label">Branch</label>
                                             <div class="custom-dropdown" data-dropdown="branch">
                                                 <input type="text" class="dropdown-input form-control" readonly placeholder="Select Branch" />
-                                                <span class="dropdown-arrow">▼</span>
+                                                <span class="dropdown-arrow">?</span>
                                                 <div class="dropdown-options"></div>
                                             </div>
                                             <asp:DropDownList ID="ddlBranch" runat="server" CssClass="form-select hidden-dropdown"  EnableViewState="true">
@@ -530,7 +530,7 @@
     <label for="ddlRole" class="form-label">Role</label>
     <div class="custom-dropdown" data-dropdown="role">
         <input type="text" class="dropdown-input form-control" readonly placeholder="Select Role" />
-        <span class="dropdown-arrow">▼</span>
+        <span class="dropdown-arrow">?</span>
         <div class="dropdown-options"></div>
     </div>
     <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-select hidden-dropdown">

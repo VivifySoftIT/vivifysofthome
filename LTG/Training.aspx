@@ -1,4 +1,4 @@
-﻿<!-- ASP.NET Page -->
+<!-- ASP.NET Page -->
 <%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Training.aspx.cs" Inherits="Vivify.Training" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

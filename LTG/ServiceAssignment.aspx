@@ -1,4 +1,4 @@
-ï»¿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="ServiceAssignment.aspx.cs" Inherits="Vivify.ServiceAssignment" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="ServiceAssignment.aspx.cs" Inherits="Vivify.ServiceAssignment" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
  
       
@@ -83,7 +83,7 @@
     background: none !important;
     border: none !important;
     color: black !important;
-    padding: 4px 20px 4px 4px !important; /* right padding for Ã— */
+    padding: 4px 20px 4px 4px !important; /* right padding for × */
     margin: 0 !important; /* critical: no margin */
     font-size: 14px;
     display: inline-block !important;
@@ -92,7 +92,7 @@
     line-height: 1.4;
 }
 
-/* === Ã— ICON (top-right, hover-only) === */
+/* === × ICON (top-right, hover-only) === */
 .select2-selection__choice__remove {
     position: absolute !important;
     top: -4px !important;
@@ -120,12 +120,12 @@
     content: ",";
     color: black;
     font-weight: bold;
-    /* No margin, no padding â€” attach directly */
+    /* No margin, no padding — attach directly */
     margin: 0 !important;
     padding: 0 !important;
 }
 
-/* ðŸ”¥ CRITICAL: Remove default spacing from Select2 container */
+/* ?? CRITICAL: Remove default spacing from Select2 container */
 .select2-selection--multiple .select2-selection__rendered {
     display: inline !important;
 }

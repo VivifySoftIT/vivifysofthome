@@ -1,4 +1,4 @@
-﻿
+
 <%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="CombinedReport.aspx.cs" Inherits="Vivify.CombinedReport" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
@@ -984,6 +984,11 @@
 </script>
 
 <%--<footer class="footer">
-    <p>&copy; 2024 Your Company. All rights reserved.</p>
+    
+            <div class="footer-links-policy" style="margin-bottom: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <a href="Terms.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Terms & Conditions</a>
+                <a href="Privacy.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Privacy Statement</a>
+                <a href="Refund.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Refund Policy</a>
+            </div><p>&copy; 2024 Your Company. All rights reserved.</p>
 </footer>--%>
 </asp:Content>

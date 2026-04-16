@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="DocView.aspx.cs" Inherits="Vivify.DocView" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="DocView.aspx.cs" Inherits="Vivify.DocView" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 <%@ Import Namespace="System.Configuration" %>
 <%@ Import Namespace="System.Web.UI" %>
@@ -442,7 +442,7 @@
     <asp:Label ID="lblBranchName" runat="server" Text="Branch Name:" CssClass="label"></asp:Label>
     <div class="custom-dropdown" data-dropdown="branch">
         <input type="text" class="dropdown-input" readonly placeholder="Select Branch" />
-        <span class="dropdown-arrow">▼</span>
+        <span class="dropdown-arrow">?</span>
         <div class="dropdown-options"></div>
     </div>
     <asp:DropDownList ID="ddlBranch" runat="server" CssClass="input hidden-dropdown" AutoPostBack="true" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
@@ -451,7 +451,7 @@
     <asp:Label ID="lblEmployeeName" runat="server" Text="Employee Name:" CssClass="label"></asp:Label>
     <div class="custom-dropdown" data-dropdown="employee">
         <input type="text" class="dropdown-input" readonly placeholder="Select Employee" />
-        <span class="dropdown-arrow">▼</span>
+        <span class="dropdown-arrow">?</span>
         <div class="dropdown-options"></div>
     </div>
     <asp:DropDownList ID="ddlEmployee" runat="server" CssClass="input hidden-dropdown">
@@ -500,7 +500,12 @@
     </div>
 
     <%--<div class="footer">
-        <p>&copy; 2023 Vivify Technocrats | <a href="Privacy.aspx">Privacy Policy</a></p>
+        
+            <div class="footer-links-policy" style="margin-bottom: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <a href="Terms.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Terms & Conditions</a>
+                <a href="Privacy.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Privacy Statement</a>
+                <a href="Refund.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Refund Policy</a>
+            </div><p>&copy; 2023 Vivify Technocrats | <a href="Privacy.aspx">Privacy Policy</a></p>
     </div>--%>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Expenses.aspx.cs"
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Expenses.aspx.cs"
     Inherits="Vivify.Expenses" Async="true" %>
     <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -18,7 +18,7 @@
                 alert(message);
             }
 
-            // ── Excel Edit helpers ────────────────────────────────────────────────
+            // -- Excel Edit helpers ------------------------------------------------
             var excelFormDirty = false; // true when a row has been loaded via Edit
 
             // Called by Edit button: warn if form has unsaved data, then scroll
@@ -476,7 +476,7 @@
                                                 <button type="button" id="btnRemoveExcelFile"
                                                     style="display:none; border:none; background:none; font-size:18px; font-weight:bold; line-height:16px; text-align:center; cursor:pointer; color:white; padding: 0; margin: 0;"
                                                     title="Remove File"
-                                                    onclick="removeFile(document.querySelector('[id$=fileUploadExcel]').id, 'txtExcelFileName', 'btnRemoveExcelFile')">×</button>
+                                                    onclick="removeFile(document.querySelector('[id$=fileUploadExcel]').id, 'txtExcelFileName', 'btnRemoveExcelFile')">�</button>
                                                 <!-- View button -->
                                                 <button type="button" id="btnViewExcelFile"
                                                     style="display:none; border:none; background-color:#4CAF50; color:white; padding:6px 12px; border-radius:3px; cursor:pointer; font-size:12px; font-weight:bold;"
@@ -537,7 +537,7 @@
                                                     Visible="false" />
                                         </asp:Panel>
 
-                                        <%-- ═════════════════════════════════════════════ --%>
+                                        <%-- --------------------------------------------- --%>
 
                                             <section class="form-container" id="mainFormSection">
                                                 <asp:HiddenField ID="hdnEditRecordId" runat="server" />

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" Codebehind="AdminCustomer_Creation.aspx.cs" Inherits="Vivify.AdminCustomer_Creation" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" Codebehind="AdminCustomer_Creation.aspx.cs" Inherits="Vivify.AdminCustomer_Creation" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main" class="main">
               <style>

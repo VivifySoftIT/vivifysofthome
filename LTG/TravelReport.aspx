@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="TravelReport.aspx.cs" Inherits="Vivify.TravelReport" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="TravelReport.aspx.cs" Inherits="Vivify.TravelReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
@@ -330,7 +330,7 @@ box-shadow: 0 0 0 2px rgba(63, 65, 141, 0.2);
          var dropdown = document.getElementById(dropdownId);
          if (!dropdown) return;
 
-         /* 🔒 DO NOT recreate if already exists */
+         /* ?? DO NOT recreate if already exists */
          var parent = dropdown.parentNode;
          var existingContainer = parent.querySelector('.datalist-container');
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentReport.aspx.cs" Inherits="Vivify.RefreshmentReport" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentReport.aspx.cs" Inherits="Vivify.RefreshmentReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
@@ -481,7 +481,7 @@
                             <h5 class="card-title">Refreshment Report</h5>
                             <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 
-                            <!-- ✅ FILTER CONTAINER - CLEAN LAYOUT -->
+                            <!-- ? FILTER CONTAINER - CLEAN LAYOUT -->
                             <div class="filter-container">
                                 <div class="form-row">
                                     <div class="filter-group">

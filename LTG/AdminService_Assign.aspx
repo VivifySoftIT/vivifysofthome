@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminService_Assign.aspx.cs" Inherits="Vivify.AdminService_Assign" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminService_Assign.aspx.cs" Inherits="Vivify.AdminService_Assign" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
      
 
@@ -323,7 +323,7 @@
                                         <label for="ddlBranch" class="form-label">Branch</label>
                                         <div class="custom-dropdown" data-dropdown="branch">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Branch" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlBranch" runat="server" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" AutoPostBack="true" class="form-select hidden-dropdown">
@@ -333,7 +333,7 @@
                                         <label for="ddlCustId" class="form-label">Customer Name</label>
                                         <div class="custom-dropdown" data-dropdown="customer">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Customer" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlCustId" runat="server" class="form-select hidden-dropdown">
@@ -343,7 +343,7 @@
                                         <label for="ddlEmpId" class="form-label">Emp Name & ID</label>
                                         <div class="custom-dropdown" data-dropdown="employee">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Employee" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlEmpId" runat="server" class="form-select hidden-dropdown">
@@ -353,7 +353,7 @@
                                         <label for="ddlservice" class="form-label">Service Type</label>
                                         <div class="custom-dropdown" data-dropdown="service">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Service" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlservice" runat="server" class="form-select hidden-dropdown">
@@ -384,7 +384,7 @@
                                           <label for="ddldepartment" class="form-label">Department</label>
                                    <div class="custom-dropdown" data-dropdown="department">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Department" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                      <asp:DropDownList ID="ddldepartment" runat="server" CssClass="form-select hidden-dropdown">

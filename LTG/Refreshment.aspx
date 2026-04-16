@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Refreshment.aspx.cs" Inherits="Vivify.Refreshment" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Refreshment.aspx.cs" Inherits="Vivify.Refreshment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main" class="main">
@@ -246,7 +246,7 @@
 
     .custom-file-input-container input[type="text"] {
     flex-grow: 1;
-    padding-right: 30px; /* ✅ Make space for × icon inside input */
+    padding-right: 30px; /* ? Make space for � icon inside input */
     border: 2px solid darkblue;
     border-radius: 4px;
     font-size: 14px;
@@ -324,14 +324,14 @@
 <!-- Custom Styled File Input -->
 <label for="customFileInput" class="form-label">Upload Approval:
     <asp:Button ID="btnViewAttachment" runat="server" 
-    Text="👁 View" 
+    Text="?? View" 
     CssClass="btn-view-attachment" 
     OnClick="btnViewAttachment_Click" 
     Visible="false" />
 </label>
 <div class="custom-file-input-container">
     <input type="text" id="customFileInput" class="form-control" placeholder="Choose File" readonly />
-    <span id="fileClearIcon" class="file-clear-icon" style="display:none;">×</span>
+    <span id="fileClearIcon" class="file-clear-icon" style="display:none;">�</span>
 </div>
 
 

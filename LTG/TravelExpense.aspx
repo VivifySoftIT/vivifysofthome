@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpense.aspx.cs" Inherits="Vivify.TravelExpense" Async="true" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpense.aspx.cs" Inherits="Vivify.TravelExpense" Async="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -190,7 +190,7 @@
     /* Optional: Center the card */
   .centered-card {
     width: 98%;           /* Increased from 95% */
-    max-width: 1000px;    /* Increased from 800px → now wider */
+    max-width: 1000px;    /* Increased from 800px ? now wider */
     margin: 0 auto;
     border: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -277,7 +277,7 @@
                                 <asp:HiddenField ID="hdnExpenseId" runat="server" />
                                 <asp:HiddenField ID="hdnRefreshAmount" runat="server" />
                                 <asp:HiddenField ID="hdnRefreshSubmitDate" runat="server" />
-                                <asp:HiddenField ID="hdnCurrentRefreshAmount" runat="server" />  <!-- 👈 ADD THIS -->
+                                <asp:HiddenField ID="hdnCurrentRefreshAmount" runat="server" />  <!-- ?? ADD THIS -->
                                 <!-- Buttons -->
                                 <div class="form-group button-container">
                                     <asp:Button ID="btnSubmit" runat="server" CssClass="btn-primary" Text="Save" OnClick="btnSubmit_Click"

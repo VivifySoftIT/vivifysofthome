@@ -1,0 +1,81 @@
+        .navbar.nav-scrolled .nav-links li a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-links li.active a, .nav-links li a:hover {
+            color: var(--accent);
+            opacity: 1;
+        }
+        
+        .navbar.nav-scrolled .nav-links li.active a, 
+        .navbar.nav-scrolled .nav-links li a:hover {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Animated indicator */
+        .nav-links li::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: width 0.3s ease;
+        }
+        .navbar.nav-scrolled .nav-links li::after {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .nav-links li.active::after, .nav-links li:hover::after { width: 100%; }
+
+        .mobile-toggle { color: #1f1b3d !important; }
+        .navbar.nav-scrolled .mobile-toggle { color: #fff !important; }
+
+        /* ----- NAVBAR BUTTONS ----- */
+        .nav-btn { display: flex; align-items: center; gap: 14px; }
+
+        .nav-btn .btn-theme {
+            padding: 10px 24px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 2px solid #1a1a1a;
+            color: #1a1a1a;
+            background: transparent;
+            border-radius: 10px !important;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        .navbar.nav-scrolled .nav-btn .btn-theme {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Login Button Styling */
+        .nav-btn .btn-theme:last-child {
+            background: #1a1a1a; 
+            color: #fff;
+            border: none;
+            clip-path: polygon(0 0, 90% 0, 100% 100%, 10% 100%); /* Cyber shape */
+            padding: 10px 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar.nav-scrolled .nav-btn .btn-theme:last-child {
+            background: #ffffff !important;
+            color: #232b66 !important;
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* NO COLOR CHANGE ON HOVER */
+        .nav-btn .btn-theme:hover {
+            transform: translateY(-3px);
+            color: #fff !important;
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+
+        .nav-btn .btn-theme:last-child:hover {
+            transform: translateY(-3px);
+            color: #fff !important;
+        }

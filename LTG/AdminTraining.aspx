@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminTraining.aspx.cs" Inherits="Vivify.AdminTraining" %>
+<%@ Page Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminTraining.aspx.cs" Inherits="Vivify.AdminTraining" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
    
     <style>
@@ -340,7 +340,7 @@
             <label class="form-label" for="ddlBranch">Select a Branch:</label>
             <div class="custom-dropdown-wrapper">
                 <input type="text" id="branchSearchInput" class="dropdown-input" placeholder="Select a Branch" />
-                <span class="dropdown-arrow">▼</span>
+                <span class="dropdown-arrow">?</span>
                 <div id="branchDropdownList" class="dropdown-list"></div>
             </div>
             <asp:DropDownList ID="ddlBranch" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" CssClass="custom-dropdown" style="display:none !important; visibility:hidden !important; height:0 !important; padding:0 !important; border:none !important;">

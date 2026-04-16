@@ -1,4 +1,4 @@
-﻿ <%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Admin_Training_Assign.aspx.cs" Inherits="Vivify.Admin_Training_Assign" %>
+ <%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Admin_Training_Assign.aspx.cs" Inherits="Vivify.Admin_Training_Assign" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -105,7 +105,7 @@
     color: #6c757d;
     pointer-events: none;
     font-family: Arial, sans-serif;
-    content: "▼";
+    content: "?";
 }
 
 .dropdown-options {
@@ -263,7 +263,7 @@
                                         <label for="ddlBranch">Branch</label>
                                         <div class="custom-dropdown" data-dropdown="branch">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Branch" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList 
@@ -281,7 +281,7 @@
                                         <label for="ddlEmployee">Employee Name</label>
                                         <div class="custom-dropdown" data-dropdown="employee">
                                             <input type="text" class="dropdown-input" readonly placeholder="Select Employee" />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList 

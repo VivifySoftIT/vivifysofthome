@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Vivify.Dashboard" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Vivify.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <main id="main" class="main">
@@ -70,7 +70,7 @@
             .scrollable-container {
                 overflow-x: auto;
                 overflow-y: auto;
-                max-height: 400px; /* ✅ FIXED MAX HEIGHT */
+                max-height: 400px; /* ? FIXED MAX HEIGHT */
                 border: 1px solid #1f2b60;
                 box-shadow: 0 2px 10px darkblue;
                 margin: 15px 0;
@@ -140,7 +140,7 @@
                 .scrollable-container {
                     margin: 10px 0;
                     border-radius: 4px;
-                    max-height: 350px; /* ✅ Adjusted for mobile */
+                    max-height: 350px; /* ? Adjusted for mobile */
                 }
 
                 /* Make table responsive */
@@ -175,7 +175,7 @@
                 }
 
                 .scrollable-container {
-                    max-height: 300px; /* ✅ Smaller max height for mobile */
+                    max-height: 300px; /* ? Smaller max height for mobile */
                 }
 
                 .mydatagrid {
@@ -213,7 +213,7 @@
                 }
 
                 .scrollable-container {
-                    max-height: 250px; /* ✅ Even smaller for very small screens */
+                    max-height: 250px; /* ? Even smaller for very small screens */
                 }
 
                 .mydatagrid {
@@ -257,7 +257,7 @@
                 .scrollable-container {
                     overflow: visible;
                     box-shadow: none;
-                    max-height: none; /* ✅ Remove max height for printing */
+                    max-height: none; /* ? Remove max height for printing */
                 }
             }
 

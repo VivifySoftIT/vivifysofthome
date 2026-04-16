@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Training_Report.aspx.cs" Inherits="Vivify.Training_Report" EnableEventValidation="false"%>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Training_Report.aspx.cs" Inherits="Vivify.Training_Report" EnableEventValidation="false"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
     <style>
@@ -633,7 +633,7 @@
                             <h5 class="card-title">Training Report</h5>
                             <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 
-                            <!-- ✅ FILTER CONTAINER - CLEAN LAYOUT -->
+                            <!-- ? FILTER CONTAINER - CLEAN LAYOUT -->
                             <div class="filter-container">
                                 <div class="form-row">
                                     <div class="filter-group">
@@ -650,7 +650,7 @@
                                         <label class="filter-label">Branch Name</label>
                                         <div class="custom-dropdown" data-dropdown="branch">
                                             <input type="text" class="dropdown-input" placeholder="Search branch..." readonly />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlBranch" runat="server" AutoPostBack="false" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged" CssClass="hidden-dropdown">
@@ -661,7 +661,7 @@
                                         <label class="filter-label">Employee Name</label>
                                         <div class="custom-dropdown" data-dropdown="employee">
                                             <input type="text" class="dropdown-input" placeholder="Search employee..." readonly />
-                                            <span class="dropdown-arrow">▼</span>
+                                            <span class="dropdown-arrow">?</span>
                                             <div class="dropdown-options"></div>
                                         </div>
                                         <asp:DropDownList ID="ddlEmployeeName" runat="server" AutoPostBack="false" CssClass="hidden-dropdown">

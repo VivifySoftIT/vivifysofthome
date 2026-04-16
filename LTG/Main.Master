@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Vivify.Main" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Vivify.Main" %>
 
 <!DOCTYPE html>
 
@@ -379,7 +379,11 @@
             </asp:ContentPlaceHolder>
    	
 	          <footer id="footer" class="footer">
-  
+  <div class="footer-policy-links" style="margin-bottom: 5px; opacity: 0.8; font-size: 11px;">
+      <a href="Terms.aspx" style="color: #222b65; margin: 0 10px;">Terms & Conditions</a> |
+      <a href="Privacy.aspx" style="color: #222b65; margin: 0 10px;">Privacy Statement</a> |
+      <a href="Refund.aspx" style="color: #222b65; margin: 0 10px;">Refund Policy</a>
+  </div>
   <div class="credits" style="color:orangered;padding:0px;margin:0px;">
     <!-- All the links in the footer should remain intact. -->
     <!-- You can delete the links only if you purchased the pro version. -->

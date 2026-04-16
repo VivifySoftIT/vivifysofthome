@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="TravelDashboard.aspx.cs" Inherits="Vivify.TravelDashboard" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="TravelDashboard.aspx.cs" Inherits="Vivify.TravelDashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -297,7 +297,7 @@
 
                         <asp:TemplateField HeaderText="Travel Date">
                             <ItemTemplate>
-                                <%# Eval("Date") == DBNull.Value ? "—" : Convert.ToDateTime(Eval("Date")).ToString("dd/MM/yyyy") %>
+                                <%# Eval("Date") == DBNull.Value ? "�" : Convert.ToDateTime(Eval("Date")).ToString("dd/MM/yyyy") %>
                             </ItemTemplate>
                         </asp:TemplateField>
 

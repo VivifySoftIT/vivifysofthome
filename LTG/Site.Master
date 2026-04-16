@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Vivify.SiteMaster" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Vivify.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -62,7 +62,10 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <div class="footer-bottom-links" style="margin-bottom: 15px;">
+                    <a href="Terms.aspx">Terms</a> | <a href="Privacy.aspx">Privacy</a> | <a href="Refund.aspx">Refund</a>
+                </div>
+                <p>&copy; <%: DateTime.Now.Year %> - Vivify Soft Architecture</p>
             </footer>
         </div>
 

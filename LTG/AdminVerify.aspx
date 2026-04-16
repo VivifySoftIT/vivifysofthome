@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="AdminVerify.aspx.cs" Inherits="Vivify.AdminVerify" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="AdminVerify.aspx.cs" Inherits="Vivify.AdminVerify" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -426,7 +426,7 @@
     </div>
 </div>
 
-<!-- ✅ Grid section OUTSIDE the card -->
+<!-- ? Grid section OUTSIDE the card -->
 <section class="section error-404 d-flex flex-column align-items-center justify-content-center" 
          style="box-shadow: 0 2px 10px #1f2b60;">
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgetPassword.aspx.cs" Inherits="LTG.ForgetPassword" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgetPassword.aspx.cs" Inherits="LTG.ForgetPassword" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +137,12 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2024 Vivify Technocrats. All rights reserved.</p>
+        
+            <div class="footer-links-policy" style="margin-bottom: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <a href="Terms.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Terms & Conditions</a>
+                <a href="Privacy.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Privacy Statement</a>
+                <a href="Refund.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Refund Policy</a>
+            </div><p>&copy; 2024 Vivify Technocrats. All rights reserved.</p>
     </footer>
 
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
