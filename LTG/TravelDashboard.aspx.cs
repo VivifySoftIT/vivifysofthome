@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Vivify
+namespace LTG
 {
     public partial class TravelDashboard : System.Web.UI.Page
     {
@@ -52,7 +52,7 @@ namespace Vivify
             e.EmployeeId,
             e.FirstName,
             te.Date,
-            MAX(te.Status) AS StatusId  -- ✅ Use StatusId (int), not Status (string)
+            MAX(te.Status) AS StatusId  -- ? Use StatusId (int), not Status (string)
         FROM Employees e
         LEFT JOIN TravelExpenses te ON e.EmployeeId = te.EmployeeId
         WHERE e.EmployeeId = @EmployeeId 
@@ -125,7 +125,7 @@ namespace Vivify
                     }
                 }
 
-                // ✅ Store in Session — NO URL parameters
+                // ? Store in Session � NO URL parameters
                 Session["SelectedEmployeeId"] = employeeId;
                 if (expenseDate.HasValue)
                 {

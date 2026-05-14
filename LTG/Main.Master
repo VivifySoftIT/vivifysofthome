@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Vivify.Main" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="LTG.Main" %>
 
 <!DOCTYPE html>
 

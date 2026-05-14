@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -12,7 +12,7 @@ using NPOI.SS.Formula.Functions;
 using System.Data.SqlTypes;
 using System.Linq;
 
-namespace Vivify
+namespace LTG
 {
     public partial class AdminVerify : System.Web.UI.Page
     {
@@ -986,7 +986,7 @@ ISNULL(l.IsClaimable, 0) AS IsClaimable,
                             decimal totalClaimedAmount = decimal.TryParse(txtTotalClaimedAmount.Text, out decimal claimedAmount) ? claimedAmount : 0;
                             decimal totalNonClaimedAmount = decimal.TryParse(txtTotalNonClaimedAmount.Text, out decimal nonClaimedAmount) ? nonClaimedAmount : 0;
 
-                            // Update Expense table — always allow update
+                            // Update Expense table � always allow update
                             string updateExpenseQuery = @"
                     UPDATE Expense
                     SET ClaimedAmount = @ClaimedAmount,

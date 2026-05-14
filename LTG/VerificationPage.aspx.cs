@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Vivify
+namespace LTG
 {
     public partial class VerificationPage : System.Web.UI.Page
     {

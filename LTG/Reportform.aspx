@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Reportform.aspx.cs" Inherits="Vivify.Reportform" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Reportform.aspx.cs" Inherits="LTG.Reportform" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>

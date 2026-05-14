@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Configuration;
 using System.Web.UI.WebControls;
 
-namespace Vivify
+namespace LTG
 {
     public partial class TravelReport : System.Web.UI.Page
     {
@@ -396,16 +396,16 @@ ORDER BY te.Date, emp.FirstName";
                 }
                 else
                 {
-                    hw.Write("<td style='border:1px solid #000;padding:3px;text-align:right;'>₹" + amount.ToString("N0") + "</td>");
+                    hw.Write("<td style='border:1px solid #000;padding:3px;text-align:right;'>?" + amount.ToString("N0") + "</td>");
                 }
 
-                hw.Write("<td style='border:1px solid #000;padding:3px;text-align:right;'>₹" + refreshments.ToString("N0") + "</td>");
+                hw.Write("<td style='border:1px solid #000;padding:3px;text-align:right;'>?" + refreshments.ToString("N0") + "</td>");
                 hw.Write("<td style='border:1px solid #000;padding:3px;'>" + purpose + "</td>");
                 hw.Write("</tr>");
             }
 
             // **CORRECTED: Calculate mileage claim amount**
-            decimal mileageClaimAmount = totalMileage * 10; // ₹10 per km
+            decimal mileageClaimAmount = totalMileage * 10; // ?10 per km
             decimal finalClaimAmount = mileageClaimAmount + totalRefreshments + totalPublicTransport;
 
             // Summary Section - GREY BACKGROUND
@@ -423,7 +423,7 @@ ORDER BY te.Date, emp.FirstName";
             hw.Write("<td style='font-weight:bold;'>Mileage Claim Amount @ INR 10/Km.</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
-            hw.Write("<td style='font-weight:bold;text-align:right;'>₹" + mileageClaimAmount.ToString("N0") + "</td>");
+            hw.Write("<td style='font-weight:bold;text-align:right;'>?" + mileageClaimAmount.ToString("N0") + "</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
@@ -433,7 +433,7 @@ ORDER BY te.Date, emp.FirstName";
             hw.Write("<td style='font-weight:bold;'>Travel by Public Transport</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
-            hw.Write("<td style='font-weight:bold;text-align:right;'>₹" + totalPublicTransport.ToString("N0") + "</td>");
+            hw.Write("<td style='font-weight:bold;text-align:right;'>?" + totalPublicTransport.ToString("N0") + "</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
@@ -443,7 +443,7 @@ ORDER BY te.Date, emp.FirstName";
             hw.Write("<td style='font-weight:bold;'>Refreshments</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
-            hw.Write("<td style='font-weight:bold;text-align:right;'>₹" + totalRefreshments.ToString("N0") + "</td>");
+            hw.Write("<td style='font-weight:bold;text-align:right;'>?" + totalRefreshments.ToString("N0") + "</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
@@ -509,7 +509,7 @@ ORDER BY te.Date, emp.FirstName";
             hw.Write("<td style='font-weight:bold;'>Final Claim Amount</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
-            hw.Write("<td style='font-weight:bold;text-align:right;'>₹" + finalClaimAmount.ToString("N0") + "</td>");
+            hw.Write("<td style='font-weight:bold;text-align:right;'>?" + finalClaimAmount.ToString("N0") + "</td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");
             hw.Write("<td></td>");

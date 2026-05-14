@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 
-namespace Vivify
+namespace LTG
 {
     public partial class DisplayPdf : System.Web.UI.Page
     {

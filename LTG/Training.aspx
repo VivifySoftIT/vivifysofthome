@@ -1,5 +1,5 @@
 <!-- ASP.NET Page -->
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Training.aspx.cs" Inherits="Vivify.Training" Async="true" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Training.aspx.cs" Inherits="LTG.Training" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

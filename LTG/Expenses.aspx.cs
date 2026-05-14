@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -18,7 +18,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Expenses : Page
     {
@@ -38,7 +38,7 @@ namespace Vivify
                 return;
             }
 
-            // ── Restore Excel preview grid from session on EVERY page load ──
+            // -- Restore Excel preview grid from session on EVERY page load --
             DataTable dtDisplay = Session["UploadedExcelDisplayData"] as DataTable;
             if (dtDisplay != null && dtDisplay.Rows.Count > 0)
             {
@@ -98,14 +98,14 @@ namespace Vivify
 
                             if (status != null && (int)status == 3)
                             {
-                                // ✅ Only lock if VERIFIED (status = 3)
+                                // ? Only lock if VERIFIED (status = 3)
                                 LockEntireForm();
                             }
                             else
                             {
-                                // ✅ Allow resubmission if status is 1 (Draft) or 2 (Submitted)
+                                // ? Allow resubmission if status is 1 (Draft) or 2 (Submitted)
                                 // Re-enable ALL relevant controls
-                                EnableEntireForm(); // ← We'll define this
+                                EnableEntireForm(); // ? We'll define this
                             }
                         }
                     }
@@ -299,7 +299,7 @@ namespace Vivify
                 }
             }
 
-            // ✅ STEP 1: Find the LATEST DATE across ALL tables
+            // ? STEP 1: Find the LATEST DATE across ALL tables
             DateTime? globalLatestDate = null;
             DataTable[] allTables = { dtFood, dtConveyance, dtOthers, dtMiscellaneous, dtLodging };
             foreach (var table in allTables)
@@ -311,7 +311,7 @@ namespace Vivify
                 }
             }
 
-            // ✅ STEP 2: Set that date in EVERY date field (Local + Tour)
+            // ? STEP 2: Set that date in EVERY date field (Local + Tour)
             string latestDateString = globalLatestDate?.ToString("yyyy-MM-dd") ?? string.Empty;
 
             if (!string.IsNullOrEmpty(latestDateString))
@@ -334,11 +334,11 @@ namespace Vivify
                 txtTourOthersDate.Text = latestDateString;
                 txtTourMiscDate.Text = latestDateString;
 
-                // Award date (optional — include if needed)
+                // Award date (optional � include if needed)
                 // txtAwardDate.Text = latestDateString;
             }
 
-            // ✅ STEP 3: Bind GridViews and calculate totals (unchanged)
+            // ? STEP 3: Bind GridViews and calculate totals (unchanged)
             decimal totalConveyance = BindGridAndCalculateTotal(GridViewConveyance, dtConveyance, lblTotalLocalConveyance, "Total Conveyance:");
             decimal totalFood = BindGridAndCalculateTotal(GridViewFood, dtFood, lblTotalLocalFood, "Total Food:");
             decimal totalMisc = BindGridAndCalculateTotal(GridViewMiscellaneous, dtMiscellaneous, lblTotalMiscellaneous, "Total Miscellaneous:");
@@ -2280,7 +2280,7 @@ END";
                             // Clear fields after success
                             ClearExpenseFields();
 
-                            // Show success alert then redirect — done in JS so the alert actually shows
+                            // Show success alert then redirect � done in JS so the alert actually shows
                             string redirectUrl = Request.Url.ToString();
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "showAlertAndRedirect",
                                 $"alert('{scriptMessage}'); window.location.href = '{redirectUrl}';", true);
@@ -2414,7 +2414,7 @@ END";
             using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
-                // ✅ Check CURRENT status — allow resubmit if NOT 3
+                // ? Check CURRENT status � allow resubmit if NOT 3
                 string getStatusSql = "SELECT StatusId FROM Services WHERE ServiceId = @ServiceId";
                 using (SqlCommand cmd = new SqlCommand(getStatusSql, con))
                 {
@@ -2422,7 +2422,7 @@ END";
                     var currentStatus = cmd.ExecuteScalar();
                     int currentStatusId = currentStatus != null ? Convert.ToInt32(currentStatus) : 0;
 
-                    // ❌ Block only if already VERIFIED (status = 3)
+                    // ? Block only if already VERIFIED (status = 3)
                     if (currentStatusId == 3)
                     {
                         ClientScript.RegisterStartupScript(this.GetType(), "err", "alert('Expense is already verified. No further changes allowed.');", true);
@@ -2430,7 +2430,7 @@ END";
                     }
                 }
 
-                // ✅ Proceed: get employeeId
+                // ? Proceed: get employeeId
                 string getEmpSql = "SELECT EmployeeId FROM Services WHERE ServiceId = @ServiceId";
                 using (SqlCommand cmd = new SqlCommand(getEmpSql, con))
                 {
@@ -2442,12 +2442,12 @@ END";
                 {
                     try
                     {
-                        // ✅ SET STATUS = 2 ("Reimbursement Submitted")
+                        // ? SET STATUS = 2 ("Reimbursement Submitted")
                         UpdateStatus(transaction, serviceId, employeeId, 2, "Reimbursement Submitted");
 
                         transaction.Commit();
 
-                        // 🔒 Disable buttons AFTER successful submit
+                        // ?? Disable buttons AFTER successful submit
 
                         ClientScript.RegisterStartupScript(this.GetType(), "success", "alert('Reimbursement submitted successfully.');", true);
                     }
@@ -3891,7 +3891,7 @@ END";
             Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
             Response.TransmitFile(filePath);
 
-            Response.End();   // 🔥 IMPORTANT
+            Response.End();   // ?? IMPORTANT
         }
 
         protected void lnkDownloadUserGuide_Click(object sender, EventArgs e)
@@ -3915,7 +3915,7 @@ END";
             Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
             Response.TransmitFile(filePath);
 
-            Response.End();   // 🔥 VERY IMPORTANT
+            Response.End();   // ?? VERY IMPORTANT
         }
 
         // Save a single Excel row to DB without page redirect

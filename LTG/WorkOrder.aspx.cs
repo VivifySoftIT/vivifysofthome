@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
 using System.Web.UI;
 
-namespace Vivify
+namespace LTG
 {
     public partial class WorkOrder : Page
     {

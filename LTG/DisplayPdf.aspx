@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DisplayPdf.aspx.cs" Inherits="Vivify.DisplayPdf" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DisplayPdf.aspx.cs" Inherits="LTG.DisplayPdf" %>
 
 <!DOCTYPE html>
 <html lang="en">

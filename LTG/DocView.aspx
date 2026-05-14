@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="DocView.aspx.cs" Inherits="Vivify.DocView" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="DocView.aspx.cs" Inherits="LTG.DocView" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 <%@ Import Namespace="System.Configuration" %>
 <%@ Import Namespace="System.Web.UI" %>

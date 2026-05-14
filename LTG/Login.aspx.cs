@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using WebGrease.Activities;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Login : System.Web.UI.Page
     {

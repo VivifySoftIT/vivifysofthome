@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpensePage.aspx.cs" Inherits="Vivify.TravelExpensePage" EnableEventValidation="false"%>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="TravelExpensePage.aspx.cs" Inherits="LTG.TravelExpensePage" EnableEventValidation="false"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
     <style>

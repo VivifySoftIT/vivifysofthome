@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="InBoundProcess.aspx.cs" Inherits="Vivify.InBoundProcess" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="InBoundProcess.aspx.cs" Inherits="LTG.InBoundProcess" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
      <main id="main" class="main">
 

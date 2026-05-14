@@ -1,6 +1,6 @@
 using System;
 
-namespace Vivify
+namespace LTG
 {
     public partial class AboutUs : System.Web.UI.Page
     {

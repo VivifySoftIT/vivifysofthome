@@ -1,4 +1,4 @@
- <%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Admin_Training_Assign.aspx.cs" Inherits="Vivify.Admin_Training_Assign" %>
+ <%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Admin_Training_Assign.aspx.cs" Inherits="LTG.Admin_Training_Assign" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

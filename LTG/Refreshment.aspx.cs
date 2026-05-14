@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Refreshment : System.Web.UI.Page
     {
@@ -218,7 +218,7 @@ namespace Vivify
             ViewState.Remove("EditingId");
             ViewState.Remove("EditingAttachmentId");
 
-            // 👇 Reset custom file input UI completely
+            // ?? Reset custom file input UI completely
             ScriptManager.RegisterStartupScript(this, GetType(), "resetFileUI", @"
         var customInput = document.getElementById('customFileInput');
         var clearIcon = document.getElementById('fileClearIcon');

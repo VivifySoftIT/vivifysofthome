@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentReport.aspx.cs" Inherits="Vivify.RefreshmentReport" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentReport.aspx.cs" Inherits="LTG.RefreshmentReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>

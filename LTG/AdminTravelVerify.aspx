@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="AdminTravelVerify.aspx.cs" Inherits="Vivify.AdminTravelVerify" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="AdminTravelVerify.aspx.cs" Inherits="LTG.AdminTravelVerify" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -568,7 +568,7 @@
                                         <asp:BoundField DataField="SAP" HeaderText="SAP" />
                                         <asp:BoundField DataField="ReportingManager" HeaderText="Manager" />
                                         
-                                      <asp:TemplateField HeaderText="Refreshment Amount (₹)">
+                                      <asp:TemplateField HeaderText="Refreshment Amount (?)">
     <ItemTemplate>
         <div class="amount-control">
             <asp:TextBox ID="txtRefreshAmount" runat="server"
@@ -599,7 +599,7 @@
                                             <ItemStyle Width="60px" />
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Amount (₹)">
+                                        <asp:TemplateField HeaderText="Amount (?)">
                                             <ItemTemplate>
                                                 <div class="amount-control">
                                                     <asp:TextBox ID="txtConveyanceAmount" runat="server"
@@ -634,7 +634,7 @@
                                         <div class="claim-item">
                                             <span class="claim-type">Total Claimed:</span>
                                             <span class="claim-amount">
-                                                ₹ <asp:Label ID="lblDisplayClaimed" runat="server" Text="0.00"></asp:Label>
+                                                ? <asp:Label ID="lblDisplayClaimed" runat="server" Text="0.00"></asp:Label>
                                             </span>
                                         </div>
                                     </div>
@@ -642,7 +642,7 @@
                                         <div class="claim-item">
                                             <span class="claim-type">Total Non-Claimed:</span>
                                             <span class="claim-amount" style="color: #dc3545;">
-                                                ₹ <asp:Label ID="lblDisplayNonClaimed" runat="server" Text="0.00"></asp:Label>
+                                                ? <asp:Label ID="lblDisplayNonClaimed" runat="server" Text="0.00"></asp:Label>
                                             </span>
                                         </div>
                                     </div>

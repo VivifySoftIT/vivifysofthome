@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="Vivify.AdminPage" EnableEventValidation="false"%>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="LTG.AdminPage" EnableEventValidation="false"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
     <style>

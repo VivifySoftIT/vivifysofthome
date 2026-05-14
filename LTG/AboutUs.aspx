@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AboutUs.aspx.cs" Inherits="Vivify.AboutUs" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AboutUs.aspx.cs" Inherits="LTG.AboutUs" %>
 
 <!DOCTYPE html>
 <html lang="en">

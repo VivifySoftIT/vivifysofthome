@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.Services;
 using System.Collections.Generic;
 
-namespace Vivify
+namespace LTG
 {
     public partial class RefreshmentVerify : System.Web.UI.Page
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Web.UI;
 
-namespace Vivify
+namespace LTG
 {
     public partial class CaseStudy : Page
     {

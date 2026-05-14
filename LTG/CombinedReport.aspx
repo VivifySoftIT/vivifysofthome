@@ -1,5 +1,5 @@
 
-<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="CombinedReport.aspx.cs" Inherits="Vivify.CombinedReport" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="CombinedReport.aspx.cs" Inherits="LTG.CombinedReport" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Data.SqlClient" %>
 <%@ Import Namespace="System.Configuration" %>

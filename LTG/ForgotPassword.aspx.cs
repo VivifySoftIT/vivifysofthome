@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Vivify
+namespace LTG
 {
     public partial class ForgotPassword : System.Web.UI.Page
     {

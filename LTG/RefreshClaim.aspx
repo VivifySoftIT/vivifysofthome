@@ -1,5 +1,5 @@
 
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="RefreshClaim.aspx.cs" Inherits="Vivify.RefreshClaim" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="RefreshClaim.aspx.cs" Inherits="LTG.RefreshClaim" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.Services;
 using System.Collections.Generic;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Employeecreation : System.Web.UI.Page
     {
@@ -253,7 +253,7 @@ namespace Vivify
                     {
                         if (reader.Read())
                         {
-                            // 🔍 DIAGNOSTIC: Log all column names and values
+                            // ?? DIAGNOSTIC: Log all column names and values
                             for (int i = 0; i < reader.FieldCount; i++)
                             {
                                 string colName = reader.GetName(i);
@@ -267,7 +267,7 @@ namespace Vivify
                             txtLname.Text = "";
                             txtMobno.Text = "";
                             txtAltMobno.Text = "";
-                            txtOfcemail.Text = ""; // ✅ Ensure it's cleared
+                            txtOfcemail.Text = ""; // ? Ensure it's cleared
                             txtPassword.Text = "";
 
                             // Try multiple possible column names
@@ -285,7 +285,7 @@ namespace Vivify
                             txtLname.Text = reader["LastName"].ToString();
                             txtMobno.Text = reader["MobileNumber"].ToString();
                             txtAltMobno.Text = reader["AltMobileNumber"]?.ToString() ?? "";
-                            txtOfcemail.Text = officialEmail; // ✅ Use the found value
+                            txtOfcemail.Text = officialEmail; // ? Use the found value
                             txtPassword.Text = reader["Password"].ToString();
 
                             // Set dropdowns

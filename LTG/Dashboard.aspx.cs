@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Dashboard : System.Web.UI.Page
     {
@@ -146,7 +146,7 @@ namespace Vivify
                     int statusId = Convert.ToInt32(serviceRow["StatusId"]);
                     string displayStatus;
 
-                    // ✅ C# 7.3 compatible switch
+                    // ? C# 7.3 compatible switch
                     switch (statusId)
                     {
                         case 1:
@@ -265,7 +265,7 @@ namespace Vivify
                         Session["Advance"] = advanceValue;
                         Response.Redirect("Expenses.aspx");
                     }
-                    else if (currentStatus == "Verified") // ✅ Handle Verified click
+                    else if (currentStatus == "Verified") // ? Handle Verified click
                     {
                         Session["ServiceId"] = serviceId;
                         Session["Advance"] = advanceValue;

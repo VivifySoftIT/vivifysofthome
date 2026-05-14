@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -16,7 +16,7 @@ using System.Web.Services;
 using System.Collections.Generic;
 
 
-namespace Vivify
+namespace LTG
 {
     public partial class CombinedReport : Page
     {
@@ -61,10 +61,10 @@ namespace Vivify
                 ddlRegion.DataBind();
             }
 
-            // ✅ Now add "All Regions" at the top
+            // ? Now add "All Regions" at the top
             ddlRegion.Items.Insert(0, new ListItem("All Regions", "All"));
 
-            // ✅ Set "All" as the default selected value
+            // ? Set "All" as the default selected value
             ddlRegion.SelectedValue = "All";
         }        // Load branches based on the selected region
         protected void ddlRegion_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,13 +207,13 @@ namespace Vivify
                 return;
             }
 
-            // ✅ CORRECT WAY: Convert "All" to null for both Region and Branch
+            // ? CORRECT WAY: Convert "All" to null for both Region and Branch
             string selectedRegion = (ddlRegion.SelectedValue == "All") ? null : ddlRegion.SelectedValue;
             string selectedBranch = (ddlBranch.SelectedValue == "All") ? null : ddlBranch.SelectedValue;
 
             try
             {
-                // ✅ Pass null (not "")
+                // ? Pass null (not "")
                 DataTable expenseData = LoadExpenseData(selectedRegion, selectedBranch, fromDate, toDate);
                 DataTable expenseCategories = LoadExpenseCategories(selectedRegion, selectedBranch, fromDate, toDate);
                 DataTable smoData = LoadSmoData(selectedRegion, selectedBranch, fromDate, toDate);
@@ -306,7 +306,7 @@ namespace Vivify
         GROUP BY EmployeeId
     ) refreshData ON e.EmployeeId = refreshData.EmployeeId
 
-    -- ✅ CRITICAL: Filter out all-zero rows HERE
+    -- ? CRITICAL: Filter out all-zero rows HERE
     WHERE (@Region IS NULL OR r.Region = @Region)
       AND (@BranchName IS NULL OR e.BranchName = @BranchName)
       AND (
@@ -986,7 +986,7 @@ SELECT * FROM TotalSum;
                         cmd.Parameters.AddWithValue("@FromDate", fromDate);
                         cmd.Parameters.AddWithValue("@ToDate", toDate);
                         cmd.Parameters.AddWithValue("@Region", string.IsNullOrEmpty(region) ? (object)DBNull.Value : region);
-                        cmd.Parameters.AddWithValue("@BranchName", string.IsNullOrEmpty(branchName) ? (object)DBNull.Value : branchName); // ✅ Fixed: Convert "" to NULL
+                        cmd.Parameters.AddWithValue("@BranchName", string.IsNullOrEmpty(branchName) ? (object)DBNull.Value : branchName); // ? Fixed: Convert "" to NULL
 
                         con.Open();
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))

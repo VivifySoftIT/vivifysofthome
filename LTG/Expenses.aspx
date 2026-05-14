@@ -1,5 +1,5 @@
 <%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Expenses.aspx.cs"
-    Inherits="Vivify.Expenses" Async="true" %>
+    Inherits="LTG.Expenses" Async="true" %>
     <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
         <script type="text/javascript">

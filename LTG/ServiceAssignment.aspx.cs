@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Vivify
+namespace LTG
 {
     public partial class ServiceAssignment : System.Web.UI.Page
     {
@@ -246,7 +246,7 @@ namespace Vivify
                             using (SqlCommand cmd = new SqlCommand(insertServiceQry, con, transaction))
                             {
                                 cmd.Parameters.AddWithValue("@BranchId", ddlBranch.SelectedValue);
-                                cmd.Parameters.AddWithValue("@CustomerId", customerIdsString); // ✅ Multi IDs as string
+                                cmd.Parameters.AddWithValue("@CustomerId", customerIdsString); // ? Multi IDs as string
                                 cmd.Parameters.AddWithValue("@EmployeeId", ddlEmpId.SelectedValue);
                                 cmd.Parameters.AddWithValue("@ServiceType", ddlservice.SelectedItem.Text);
 

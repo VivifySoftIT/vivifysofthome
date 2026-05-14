@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
 
-namespace Vivify
+namespace LTG
 {
     public partial class RefreshClaim : System.Web.UI.Page
     {

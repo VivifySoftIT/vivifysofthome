@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using OfficeOpenXml;
 using System.IO;
 
-namespace Vivify
+namespace LTG
 {
     public partial class AdminTravelVerify : System.Web.UI.Page
     {
@@ -138,7 +138,7 @@ WHERE
     AND (CONVERT(date, te.Date) = CONVERT(date, @TravelDate)
          OR FORMAT(te.Date, 'dd/MMM/yyyy') = @TravelDate
          OR FORMAT(te.Date, 'dd-MMM-yyyy') = @TravelDate)
-    AND te.Status IN (2, 3)  -- ✅ Allow editing of verified (3) and pending (2)
+    AND te.Status IN (2, 3)  -- ? Allow editing of verified (3) and pending (2)
 ORDER BY 
     te.Id";
 
@@ -398,16 +398,16 @@ ORDER BY
                 }
             }
 
-            // ✅ Always show claimed amount
+            // ? Always show claimed amount
             if (lblDisplayClaimed != null)
                 lblDisplayClaimed.Text = totalClaimed.ToString("0.00");
 
-            // ✅ Show/hide non-claimed based on verification status
+            // ? Show/hide non-claimed based on verification status
             if (lblDisplayNonClaimed != null)
             {
                 if (Session["IsVerified"] != null && (bool)Session["IsVerified"])
                 {
-                    lblDisplayNonClaimed.Visible = false; // 👈 HIDE after submit
+                    lblDisplayNonClaimed.Visible = false; // ?? HIDE after submit
                 }
                 else
                 {

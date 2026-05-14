@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
 
-namespace Vivify
+namespace LTG
 {
     public partial class TravelExpensePage : System.Web.UI.Page
     {
@@ -130,7 +130,7 @@ namespace Vivify
         {
             LoadBranches(ddlRegion.SelectedValue);
             LoadEmployeeNames(); // Reset employees when region changes
-            // Do NOT auto-filter here â€” wait for user to click "Search"
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
         // AJAX WebMethod for getting branches based on region
@@ -219,7 +219,7 @@ namespace Vivify
         {
             string selectedBranch = ddlBranch.SelectedValue;
             LoadEmployeeNames(selectedBranch);
-            // Do NOT auto-filter here â€” wait for user to click "Search"
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
         // AJAX WebMethod for getting employees based on branch and region
@@ -321,7 +321,7 @@ namespace Vivify
 
         protected void ddlEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Do NOT auto-filter here â€” wait for user to click "Search"
+            // Do NOT auto-filter here — wait for user to click "Search"
         }
 
         private void ApplyFilters()

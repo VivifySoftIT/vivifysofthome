@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web;
 
-namespace Vivify
+namespace LTG
 {
     public partial class ChangePassword : System.Web.UI.Page
     {

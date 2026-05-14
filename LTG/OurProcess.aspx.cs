@@ -1,6 +1,6 @@
 using System;
 
-namespace Vivify
+namespace LTG
 {
     public partial class OurProcess : System.Web.UI.Page
     {

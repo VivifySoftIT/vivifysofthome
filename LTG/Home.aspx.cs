@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Configuration;
 using System.Web.UI;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Home : System.Web.UI.Page
     {
@@ -59,16 +59,18 @@ namespace Vivify
             {
                 MailMessage mail = new MailMessage
                 {
-                    From = new MailAddress(ConfigurationManager.AppSettings["SMTPFrom"], name),
-                    Subject = $"Message from VivifySoft:",
+                    From = new MailAddress(ConfigurationManager.AppSettings["SMTPFrom"], "Vivify Soft Home Page"),
+                    Subject = $"Message from VivifySoft: {subject}",
                     IsBodyHtml = true,
                     Body = $@"
-                <p><b>Name:</b> {name}</p>
-                <p><b>Email:</b> {userEmail}</p>
-                <p><b>Phone:</b> {phone}</p>
-                <p><b>Message:</b></p>
-                <p>{messageBody}</p>
-            "
+                        <div style='font-family:sans-serif; padding:20px; border:1px solid #eee;'>
+                            <h2>New Website Message</h2>
+                            <p><b>Name:</b> {name}</p>
+                            <p><b>Email:</b> {userEmail}</p>
+                            <p><b>Phone:</b> {phone}</p>
+                            <p><b>Message:</b></p>
+                            <p>{messageBody.Replace("\n", "<br>")}</p>
+                        </div>"
                 };
 
                 mail.To.Add(ConfigurationManager.AppSettings["SMTPFrom"]);
@@ -98,7 +100,6 @@ namespace Vivify
             }
         }
 
-        // Shows inline message in <div id="msgBox"> — NO browser alert popup
         private void ShowMessage(string message, string type)
         {
             string color = type == "success" ? "#2e7d32" : "#c62828";

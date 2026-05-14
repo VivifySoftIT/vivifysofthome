@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Services;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Training_Report : System.Web.UI.Page
     {

@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Vivify;
+using LTG;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Report : System.Web.UI.Page
     {

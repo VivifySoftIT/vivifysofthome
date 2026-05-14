@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Web.UI;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Vivify
+namespace LTG
 {
     public partial class Attachment : Page
     {

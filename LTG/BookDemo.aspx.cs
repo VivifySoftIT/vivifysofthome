@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Configuration;
 using System.Web.UI;
 
-namespace Vivify
+namespace LTG
 {
     public partial class BookDemo : System.Web.UI.Page
     {

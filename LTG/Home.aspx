@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="Vivify.Home" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="LTG.Home" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -954,7 +954,7 @@
         /* ----- FOOTER ----- */
         footer {
             background: #202b61;
-            padding: 100px 5% 40px;
+            padding: 60px 5% 30px;
             color: #fff;
             position: relative;
             overflow: hidden;
@@ -3263,6 +3263,91 @@
             <div class="shape shape-3" style="background: rgba(255,255,255,0.05); top: 20px; left: 20px;"></div>
         </section>
         
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section" style="padding: 100px 5%; background: #fff;">
+            <div class="section-title reveal-up script-reveal" style="text-align: center; margin-bottom: 60px;">
+                <p style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">Get In Touch</p>
+                <h2 style="font-size: 42px; color: var(--primary-dark);">Ready to Start Your Project?</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--text-body);">Fill out the form below and our team will get back to you within 24 hours.</p>
+            </div>
+
+            <div style="max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); display: flex; flex-wrap: wrap; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                <!-- Contact Info Side -->
+                <div style="flex: 1; min-width: 320px; background: var(--primary-dark); padding: 50px; color: #fff; display: flex; flex-direction: column; gap: 40px;">
+                    <div>
+                        <h3 style="color: #fff; font-size: 24px; margin-bottom: 15px;">Contact Information</h3>
+                        <p style="color: rgba(255,255,255,0.7); font-size: 15px;">We're open for any suggestion or just to have a chat.</p>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 25px;">
+                        <div style="display: flex; align-items: flex-start; gap: 20px;">
+                            <div style="width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent);">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 16px; margin-bottom: 5px;">Location:</h4>
+                                <p style="font-size: 14px; color: rgba(255,255,255,0.7);">No. 2B, 1st Floor, Mogappair road,<br>Padi, Chennai - 600050</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; gap: 20px;">
+                            <div style="width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent);">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 16px; margin-bottom: 5px;">Phone:</h4>
+                                <p style="font-size: 14px; color: rgba(255,255,255,0.7);">+91 8838966643</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; gap: 20px;">
+                            <div style="width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent);">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 16px; margin-bottom: 5px;">Email:</h4>
+                                <p style="font-size: 14px; color: rgba(255,255,255,0.7);">itsupport@vivifysoft.in</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div style="flex: 1.5; min-width: 350px; padding: 50px; background: #fff;">
+                    <div id="msgBox" style="display:none; margin-bottom: 20px;"></div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">Full Name *</label>
+                            <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="John Doe" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px;"></asp:TextBox>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">Email Address *</label>
+                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="john@example.com" TextMode="Email" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px;"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">Phone Number</label>
+                            <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" placeholder="+91 00000 00000" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px;"></asp:TextBox>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">Subject *</label>
+                            <asp:TextBox ID="txtSubject" runat="server" CssClass="form-control" placeholder="How can we help?" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px;"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">Your Message *</label>
+                        <asp:TextBox ID="txtMessage" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" placeholder="Tell us more about your project..." style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; resize: none;"></asp:TextBox>
+                    </div>
+
+                    <asp:Button ID="btnSend" runat="server" Text="Send Message" OnClick="btnSend_Click" style="background: var(--accent); color: #fff; border: none; padding: 15px 40px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(238,35,38,0.2);" />
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-grid">
@@ -3293,19 +3378,21 @@
                 </div>
                 <div class="footer-col">
                     <h4>Location</h4>
-                    <p style="color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
-                        <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 8px;"></i>
-                        No. 2B, 1st Floor, Mogappair road, Padi, Chennai - 600050
-                    </p>
-                    <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 8px;">
-                        <i class="fas fa-envelope" style="color: var(--primary); margin-right: 8px;"></i>
-                        itsupport@vivifysoft.in
-                    </p>
-                    <p style="color: rgba(255,255,255,0.5); font-size: 14px;">
-                        <i class="fas fa-phone-alt" style="color: var(--primary); margin-right: 8px;"></i>
-                        +91 8838966643
-                    </p>
-                    <div class="social-links" style="margin-top: 25px; display: flex; gap: 15px;">
+                    <div class="location-card" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <i class="fas fa-map-marker-alt" style="color: #ee2326; font-size: 18px; margin-top: 2px; min-width: 20px; text-align: center; filter: drop-shadow(0 0 6px rgba(238,35,38,0.5));"></i>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6;">No. 2B, 1st Floor, Mogappair road,<br>Padi, Chennai - 600050</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-envelope" style="color: #ee2326; font-size: 16px; min-width: 20px; text-align: center; filter: drop-shadow(0 0 6px rgba(238,35,38,0.5));"></i>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 14px;">itsupport@vivifysoft.in</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-phone-alt" style="color: #ee2326; font-size: 16px; min-width: 20px; text-align: center; filter: drop-shadow(0 0 6px rgba(238,35,38,0.5));"></i>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 14px;">+91 8838966643</div>
+                        </div>
+                    </div>
+                    <div class="social-links" style="display: flex; gap: 15px;">
                         <a href="https://x.com/vivifysoft" target="_blank" class="social-btn"><i class="fab fa-x-twitter"></i></a>
                         <a href="https://www.instagram.com/vivifysoft/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/in/vivify-soft-588a813b9/" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
@@ -3315,8 +3402,7 @@
             <div class="footer-bottom">
             <div class="footer-links-policy" style="margin-bottom: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
                 <a href="Terms.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Terms & Conditions</a>
-                <a href="Privacy.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Privacy Statement</a>
-                <a href="Refund.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Refund Policy</a>
+                <a href="Privacy.aspx" style="color: rgba(255,255,255,0.6); font-size: 13px; text-decoration: none; transition: 0.3s;">Privacy Policy</a>
             </div>
                 <p>&copy; <script>document.write(new Date().getFullYear())</script> Vivify Soft Architecture. Engineering Future.</p>
             </div>
@@ -3377,7 +3463,7 @@
             document.getElementById('loginModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modal = document.getElementById('loginModal');
             if (event.target == modal) closeLoginModal();
         }
@@ -3396,15 +3482,15 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             checkCookieConsent();
 
 
             // ===== NAVBAR SCROLL =====
             const navbar = document.getElementById("navbar");
             const hero = document.getElementById("home");
-            
-            window.addEventListener("scroll", function() {
+
+            window.addEventListener("scroll", function () {
                 const heroHeight = hero.offsetHeight;
                 const scrollPos = window.scrollY;
                 if (scrollPos > (heroHeight - 100)) {
@@ -3417,7 +3503,7 @@
             // Hamburger Menu Toggle
             const mobileToggle = document.getElementById('mobileToggle');
             const navLinks = document.getElementById('navLinks');
-            
+
             function toggleMenu() {
                 navLinks.classList.toggle('active');
                 navbar.classList.toggle('menu-open');
@@ -3472,7 +3558,7 @@
 
             // ===== MOBILE MENU TOGGLE =====
             // This is already handled above by toggleMenu() and event listeners
- 
+
             // ===== INIT CHATBOT =====
             initChat();
         });
@@ -3480,34 +3566,34 @@
         // ===== AI CHATBOT =====
         let chatOpen = false;
         const botResponses = {
-            greetings: ['hello','hi','hey','good morning','good evening','good afternoon','howdy','namaste'],
-            services:  ['service','services','offer','provide','do you do','what do you','solutions','develop'],
-            web:       ['web','website','webapp','web app','web development','site'],
-            mobile:    ['mobile','android','ios','app','flutter','react native'],
-            custom:    ['custom','erp','hrms','hr system','hr software','reimbursement','inventory','custom software'],
-            safety:    ['safety','safety management','incident','compliance','osha'],
-            price:     ['price','cost','pricing','budget','how much','rate','charge','fee'],
-            contact:   ['contact','email','phone','reach','call','address','location','whatsapp'],
-            about:     ['who are you','about','vivify','company','team','founded'],
-            demo:      ['demo','trial','book','booking','schedule','meeting'],
-            ai:        ['ai','artificial intelligence','machine learning','ml','automation','chatbot'],
-            thanks:    ['thank','thanks','thank you','great','awesome','nice','cool','perfect','good']
+            greetings: ['hello', 'hi', 'hey', 'good morning', 'good evening', 'good afternoon', 'howdy', 'namaste'],
+            services: ['service', 'services', 'offer', 'provide', 'do you do', 'what do you', 'solutions', 'develop'],
+            web: ['web', 'website', 'webapp', 'web app', 'web development', 'site'],
+            mobile: ['mobile', 'android', 'ios', 'app', 'flutter', 'react native'],
+            custom: ['custom', 'erp', 'hrms', 'hr system', 'hr software', 'reimbursement', 'inventory', 'custom software'],
+            safety: ['safety', 'safety management', 'incident', 'compliance', 'osha'],
+            price: ['price', 'cost', 'pricing', 'budget', 'how much', 'rate', 'charge', 'fee'],
+            contact: ['contact', 'email', 'phone', 'reach', 'call', 'address', 'location', 'whatsapp'],
+            about: ['who are you', 'about', 'vivify', 'company', 'team', 'founded'],
+            demo: ['demo', 'trial', 'book', 'booking', 'schedule', 'meeting'],
+            ai: ['ai', 'artificial intelligence', 'machine learning', 'ml', 'automation', 'chatbot'],
+            thanks: ['thank', 'thanks', 'thank you', 'great', 'awesome', 'nice', 'cool', 'perfect', 'good']
         };
 
         const replies = {
             greetings: "Hello! I'm the **Vivify AI Assistant**. I can help you learn about our services, pricing, how to get started, and more. What would you like to know?",
-            services:  "We offer **3 core services**:\n\n- **Web Development** - Custom, high-performance websites & web apps\n- **Mobile Development** - iOS & Android apps\n- **Custom Software** - HR systems, ERP, Safety tools & more\n\nWhich one interests you?",
-            web:       "Our **Web Development** service covers everything from landing pages to full enterprise web applications. We use modern tech like React, .NET, and SQL to build fast, scalable, and beautiful web solutions. Want to [get a quote](Contact.aspx)?",
-            mobile:    "We build **native & cross-platform mobile apps** for iOS and Android. Our apps are optimized for performance, great UX, and seamless backend integration. Would you like to [get a quote](Contact.aspx)?",
-            custom:    "Our **Custom Software** team builds bespoke solutions including:\n\n- HR & Reimbursement Management\n- Safety Management Systems\n- Inventory & ERP Software\n\nAll built from scratch, fully tailored to your workflow. Shall I connect you with our team?",
-            safety:    "Our **Safety Management System** provides real-time incident tracking, compliance management, and automated safety reporting. It's used by multiple companies. Check it out at [vivifysoft.in/safety](https://vivifysoft.in/safety/#/AdminLogin)!",
-            price:     "Pricing depends on your project scope. We offer **competitive, transparent pricing** with no hidden costs. The best way is to describe your requirements and we'll give you a custom quote. Would you like to [contact us](Contact.aspx)?",
-            contact:   "You can reach us via:\n\n- Email: **itsupport@vivifysoft.in**\n- Location: **Padi, Chennai - 600050**\n- Phone: **+91 88389 66643**\n\nOr just fill the [contact form](Contact.aspx) below!",
-            about:     "**Vivify Soft** is a Chennai-based IT solutions company founded in 2024. We specialize in HR management, Safety systems, Web & Mobile development. Our skilled team delivers quality products on time. Want to [know more](AboutUs.aspx)?",
-            demo:      "We'd love to show you a walkthrough of our products! Please [contact us](Contact.aspx) to schedule a custom session with our engineers.",
-            ai:        "Great question! We integrate AI into our software for:\n\n- Predictive analytics & reporting\n- Automated workflow processing\n- Intelligent data anomaly detection\n- Smart form assistance (like what I'm doing right now!)\n\nAll without needing cloud AI APIs - pure smart logic!",
-            thanks:    "You're welcome! Is there anything else I can help you with? Feel free to ask about our services, pricing, or team!",
-            default:   "That's a great question! I might not have a perfect answer, but our team definitely does. Would you like to [contact us](Contact.aspx) directly?"
+            services: "We offer **3 core services**:\n\n- **Web Development** - Custom, high-performance websites & web apps\n- **Mobile Development** - iOS & Android apps\n- **Custom Software** - HR systems, ERP, Safety tools & more\n\nWhich one interests you?",
+            web: "Our **Web Development** service covers everything from landing pages to full enterprise web applications. We use modern tech like React, .NET, and SQL to build fast, scalable, and beautiful web solutions. Want to [get a quote](Contact.aspx)?",
+            mobile: "We build **native & cross-platform mobile apps** for iOS and Android. Our apps are optimized for performance, great UX, and seamless backend integration. Would you like to [get a quote](Contact.aspx)?",
+            custom: "Our **Custom Software** team builds bespoke solutions including:\n\n- HR & Reimbursement Management\n- Safety Management Systems\n- Inventory & ERP Software\n\nAll built from scratch, fully tailored to your workflow. Shall I connect you with our team?",
+            safety: "Our **Safety Management System** provides real-time incident tracking, compliance management, and automated safety reporting. It's used by multiple companies. Check it out at [vivifysoft.in/safety](https://vivifysoft.in/safety/#/AdminLogin)!",
+            price: "Pricing depends on your project scope. We offer **competitive, transparent pricing** with no hidden costs. The best way is to describe your requirements and we'll give you a custom quote. Would you like to [contact us](Contact.aspx)?",
+            contact: "You can reach us via:\n\n- Email: **itsupport@vivifysoft.in**\n- Location: **Padi, Chennai - 600050**\n- Phone: **+91 88389 66643**\n\nOr just fill the [contact form](Contact.aspx) below!",
+            about: "**Vivify Soft** is a Chennai-based IT solutions company founded in 2024. We specialize in HR management, Safety systems, Web & Mobile development. Our skilled team delivers quality products on time. Want to [know more](AboutUs.aspx)?",
+            demo: "We'd love to show you a walkthrough of our products! Please [contact us](Contact.aspx) to schedule a custom session with our engineers.",
+            ai: "Great question! We integrate AI into our software for:\n\n- Predictive analytics & reporting\n- Automated workflow processing\n- Intelligent data anomaly detection\n- Smart form assistance (like what I'm doing right now!)\n\nAll without needing cloud AI APIs - pure smart logic!",
+            thanks: "You're welcome! Is there anything else I can help you with? Feel free to ask about our services, pricing, or team!",
+            default: "That's a great question! I might not have a perfect answer, but our team definitely does. Would you like to [contact us](Contact.aspx) directly?"
         };
 
         const quickButtons = [
@@ -3592,7 +3678,7 @@
                     return { text: replies[key], showQuicks: key === 'greetings' || key === 'services' };
                 }
             }
-            
+
             // If it's a new question, ask the real AI!
             try {
                 const sysContext = "You are Vivify AI, a polite, helpful assistant for Vivify Soft (an IT company in Chennai offering Web Dev, Mobile Apps, Custom ERP, and Safety Tools). Keep answers short, professional, and within 1-2 sentences. Avoid markdown headers.";
@@ -3626,11 +3712,11 @@
             addUserMessage(text);
             input.value = '';
             showTyping();
-            
+
             const start = Date.now();
             const resp = await getResponse(text);
             const elapsed = Date.now() - start;
-            
+
             // Ensure at least an 800ms typing delay to feel natural
             if (elapsed < 800) {
                 setTimeout(() => {
@@ -3676,21 +3762,21 @@
             if (subBox) subBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-            // Mobile Dropdown Toggle Logic
-            document.addEventListener('DOMContentLoaded', function() {
-                const trigger = document.querySelector('.dropdown-trigger');
-                const dropdown = document.querySelector('.dropdown');
-                if (trigger && dropdown) {
-                    trigger.addEventListener('click', function(e) {
-                        if (window.innerWidth <= 991) {
-                            e.preventDefault();
-                            dropdown.classList.toggle('active');
-                            trigger.querySelector('i').classList.toggle('fa-chevron-up');
-                            trigger.querySelector('i').classList.toggle('fa-chevron-down');
-                        }
-                    });
-                }
-            });
+        // Mobile Dropdown Toggle Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const trigger = document.querySelector('.dropdown-trigger');
+            const dropdown = document.querySelector('.dropdown');
+            if (trigger && dropdown) {
+                trigger.addEventListener('click', function (e) {
+                    if (window.innerWidth <= 991) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                        trigger.querySelector('i').classList.toggle('fa-chevron-up');
+                        trigger.querySelector('i').classList.toggle('fa-chevron-down');
+                    }
+                });
+            }
+        });
 
         // Advanced Scroll Intersection Observer
         const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
@@ -3712,7 +3798,7 @@
             const valEl = card.querySelector('.stat-val');
             if (valEl.classList.contains('counted')) return;
             valEl.classList.add('counted');
-            
+
             const target = parseInt(valEl.getAttribute('data-val'));
             let count = 0;
             const speed = target / 50;
@@ -3751,7 +3837,7 @@
 
         function initThree() {
             const container = document.getElementById('three-canvas-container');
-            if(!container) return;
+            if (!container) return;
 
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(70, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -3776,14 +3862,14 @@
             const pCount = 2000;
             const pGeo = new THREE.BufferGeometry();
             const pPos = new Float32Array(pCount * 3);
-            for(let i=0; i<pCount*3; i++) pPos[i] = (Math.random()-0.5) * 40;
+            for (let i = 0; i < pCount * 3; i++) pPos[i] = (Math.random() - 0.5) * 40;
             pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
             dataField = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.03, transparent: true, opacity: 0.4 }));
             scene.add(dataField);
 
             createSuperPart(8.2, 5.2, 0.04, 0, 0, 0, 0x0f172a, 0.25);
             createSuperPart(8, 0.6, 0.05, 0, 2.3, 0.1, 0x232b66, 0.9);
-            for(let i=0; i<3; i++) createSuperPart(0.12, 0.12, 0.06, -3.6+(i*0.35), 2.3, 0.18, 0xee2326, 1);
+            for (let i = 0; i < 3; i++) createSuperPart(0.12, 0.12, 0.06, -3.6 + (i * 0.35), 2.3, 0.18, 0xee2326, 1);
             createSuperPart(1.6, 4.6, 0.05, -3.2, -0.3, 0.1, 0x232b66, 0.85);
             createSuperPart(1.6, 1.4, 0.05, -0.7, 1.2, 0.1, 0xee2326, 0.9);
             createSuperPart(1.6, 1.4, 0.05, 1.2, 1.2, 0.1, 0x818cf8, 0.9);
@@ -3795,14 +3881,14 @@
         }
 
         function createSuperPart(w, h, d, tx, ty, tz, color, opac) {
-            const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ 
+            const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({
                 color: color, transparent: true, opacity: opac, metalness: 0.9, roughness: 0.1,
                 emissive: color, emissiveIntensity: 0.1
             }));
             const edgeLine = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
             mesh.add(edgeLine);
-            mesh.position.set((Math.random()-0.5)*30, (Math.random()-0.5)*30, (Math.random()-0.5)*30);
-            mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+            mesh.position.set((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30);
+            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
             mesh.userData = { target: { x: tx, y: ty, z: tz } };
             dashComponents.push(mesh);
             dashGroup.add(mesh);
@@ -3812,7 +3898,7 @@
             requestAnimationFrame(animateThree);
             const t = Date.now() * 0.001;
             dashComponents.forEach((part, i) => {
-                if(isBuilding) {
+                if (isBuilding) {
                     part.position.lerp(new THREE.Vector3(part.userData.target.x, part.userData.target.y, part.userData.target.z), 0.1);
                     part.rotation.x *= 0.88; part.rotation.y *= 0.88; part.rotation.z *= 0.88;
                 } else {
@@ -3820,18 +3906,18 @@
                     part.position.y += Math.sin(t + i) * 0.015;
                 }
             });
-            if(dataField) dataField.rotation.y += 0.002;
+            if (dataField) dataField.rotation.y += 0.002;
             dashGroup.rotation.y += (mouseX * 0.5 - dashGroup.rotation.y) * 0.05;
             dashGroup.rotation.x += (mouseY * 0.3 - dashGroup.rotation.x) * 0.05;
             renderer.render(scene, camera);
         }
 
-        document.getElementById('startBuildAnim')?.addEventListener('click', function() {
+        document.getElementById('startBuildAnim')?.addEventListener('click', function () {
             isBuilding = !isBuilding;
             this.innerText = isBuilding ? "Operation Live" : "Initiate Structural Assembly";
-            if(isBuilding) {
+            if (isBuilding) {
                 dashComponents.forEach(p => {
-                    p.material.emissiveIntensity = 2.0; 
+                    p.material.emissiveIntensity = 2.0;
                     setTimeout(() => p.material.emissiveIntensity = 0.1, 500);
                 });
             }
@@ -3840,12 +3926,12 @@
 
 
         window.addEventListener('resize', () => {
-             if(renderer) {
-                 const cont = renderer.domElement.parentElement;
-                 camera.aspect = cont.clientWidth / cont.clientHeight;
-                 camera.updateProjectionMatrix();
-                 renderer.setSize(cont.clientWidth, cont.clientHeight);
-             }
+            if (renderer) {
+                const cont = renderer.domElement.parentElement;
+                camera.aspect = cont.clientWidth / cont.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(cont.clientWidth, cont.clientHeight);
+            }
         });
 
         // ===== 3D HOVER PARALLAX (TILT) EXTENSION =====
@@ -3856,13 +3942,13 @@
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 const maxTilt = 12; // Premium degree of tilt
-                
+
                 const rotateX = -(y / (rect.height / 2)) * maxTilt;
                 const rotateY = (x / (rect.width / 2)) * maxTilt;
-                
+
                 el.style.transition = 'transform 0.1s ease-out';
                 el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
-                
+
                 // Pause CSS float animations gracefully
                 if (!el.dataset.tiltActive) {
                     el.dataset.origAnimation = el.style.animation;
@@ -3873,7 +3959,7 @@
             el.addEventListener('mouseleave', () => {
                 el.style.transition = 'transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
                 el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-                
+
                 // Restore float animations perfectly
                 setTimeout(() => {
                     el.style.animation = el.dataset.origAnimation || '';
@@ -3883,7 +3969,7 @@
         });
 
         setTimeout(initThree, 300);
-        </script>
+    </script>
 
     <!-- Professional Cookie Consent Bar -->
     <div id="cookieBanner" class="cookie-banner">

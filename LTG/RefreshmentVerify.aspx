@@ -1,6 +1,6 @@
 
 
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentVerify.aspx.cs" Inherits="Vivify.RefreshmentVerify" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="RefreshmentVerify.aspx.cs" Inherits="LTG.RefreshmentVerify" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

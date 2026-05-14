@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DisplayImage.aspx.cs" Inherits="Vivify.DisplayImage" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DisplayImage.aspx.cs" Inherits="LTG.DisplayImage" %>
 
 <!DOCTYPE html>
 <html lang="en">

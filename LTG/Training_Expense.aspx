@@ -1,16 +1,17 @@
-<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Training_Expense.aspx.cs" Inherits="Vivify.Training_Expense" Async="true" %>
+<%@ Page Title="" Language="C#" MasterPageFile="/Main.Master" AutoEventWireup="true" CodeBehind="Training_Expense.aspx.cs" Inherits="LTG.Training_Expense" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+  <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server"></asp:ScriptManagerProxy>
 
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // Hide sections by default
-            $(".expense-section").hide();
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Hide sections by default
+        $(".expense-section").hide();
 
-            // Show relevant section when expense type changes
-            $('#<%= ddlReimbursementType.ClientID %>').change(function () {
+        // Show relevant section when expense type changes
+        $('#<%= ddlReimbursementType.ClientID %>').change(function () {
             var selectedValue = $(this).val();
             $('.expense-section').hide(); // Hide all sections by default
             if (selectedValue === 'Conveyance') {
@@ -22,92 +23,85 @@
 
         // Show transport details based on selected transport type
         $('#<%= ddlTransportType.ClientID %>').change(function () {
-                var selectedTransport = $(this).val();
-                if (selectedTransport === 'Cab/Taxi' || selectedTransport === 'Auto') {
-                    $('#transportDetails').show();
-                } else {
-                    $('#transportDetails').hide();
-                }
+            var selectedTransport = $(this).val();
+            if (selectedTransport === 'Cab/Taxi' || selectedTransport === 'Auto') {
+                $('#transportDetails').show();
+            } else {
+                $('#transportDetails').hide();
+            }
 
-                // Show Auto-specific fields if 'Auto' is selected
-                if (selectedTransport === 'Auto') {
-                    $('#autoDetails').show(); // Show additional fields for Auto
-                } else {
-                    $('#autoDetails').hide(); // Hide Auto-specific fields when other transport types are selected
-                }
-            });
+            // Show Auto-specific fields if 'Auto' is selected
+            if (selectedTransport === 'Auto') {
+                $('#autoDetails').show(); // Show additional fields for Auto
+            } else {
+                $('#autoDetails').hide(); // Hide Auto-specific fields when other transport types are selected
+            }
+        });
+    });
+
+    function showAlert(message, type) {
+        // Create the modal container
+        var modalContainer = document.createElement('div');
+        modalContainer.style.position = 'fixed';
+        modalContainer.style.top = '0';
+        modalContainer.style.left = '0';
+        modalContainer.style.width = '100%';
+        modalContainer.style.height = '100%';
+        modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        modalContainer.style.display = 'flex';
+        modalContainer.style.alignItems = 'center';
+        modalContainer.style.justifyContent = 'center';
+        modalContainer.style.zIndex = '1000';
+
+        // Create the modal content
+        var modalContent = document.createElement('div');
+        modalContent.style.backgroundColor = '#fff';
+        modalContent.style.padding = '20px';
+        modalContent.style.borderRadius = '8px';
+        modalContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+        modalContent.style.textAlign = 'center';
+        modalContent.style.width = '300px';
+
+        // Add the message
+        var messageElement = document.createElement('p');
+        messageElement.innerText = message;
+        messageElement.style.fontSize = '16px';
+        messageElement.style.marginBottom = '20px';
+        modalContent.appendChild(messageElement);
+
+        // Add the "OK" button
+        var okButton = document.createElement('button');
+        okButton.innerText = 'OK';
+        okButton.style.padding = '10px 20px';
+        okButton.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
+        okButton.style.color = '#fff';
+        okButton.style.border = 'none';
+        okButton.style.borderRadius = '4px';
+        okButton.style.cursor = 'pointer';
+        okButton.style.fontSize = '16px';
+
+        // Close the modal on button click
+        okButton.addEventListener('click', function () {
+            document.body.removeChild(modalContainer);
         });
 
-        function showAlert(message, type) {
-            // Create the modal container
-            var modalContainer = document.createElement('div');
-            modalContainer.style.position = 'fixed';
-            modalContainer.style.top = '0';
-            modalContainer.style.left = '0';
-            modalContainer.style.width = '100%';
-            modalContainer.style.height = '100%';
-            modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-            modalContainer.style.display = 'flex';
-            modalContainer.style.alignItems = 'center';
-            modalContainer.style.justifyContent = 'center';
-            modalContainer.style.zIndex = '1000';
+        modalContent.appendChild(okButton);
+        modalContainer.appendChild(modalContent);
+        document.body.appendChild(modalContainer);
+    }
 
-            // Create the modal content
-            var modalContent = document.createElement('div');
-            modalContent.style.backgroundColor = '#fff';
-            modalContent.style.padding = '20px';
-            modalContent.style.borderRadius = '8px';
-            modalContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-            modalContent.style.textAlign = 'center';
-            modalContent.style.width = '300px';
+    function confirmSave() {
+        return confirm('Are you sure you want to submit this reimbursement?');
+    }
 
-            // Add the message
-            var messageElement = document.createElement('p');
-            messageElement.innerText = message;
-            messageElement.style.fontSize = '16px';
-            messageElement.style.marginBottom = '20px';
-            modalContent.appendChild(messageElement);
+    function confirmSubmission() {
+        return confirm('Are you sure you want to save this data?');
+    }
 
-            // Add the "OK" button
-            var okButton = document.createElement('button');
-            okButton.innerText = 'OK';
-            okButton.style.padding = '10px 20px';
-            okButton.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
-            okButton.style.color = '#fff';
-            okButton.style.border = 'none';
-            okButton.style.borderRadius = '4px';
-            okButton.style.cursor = 'pointer';
-            okButton.style.fontSize = '16px';
-
-            // Close the modal on button click
-            okButton.addEventListener('click', function () {
-                document.body.removeChild(modalContainer);
-            });
-
-            modalContent.appendChild(okButton);
-            modalContainer.appendChild(modalContent);
-            document.body.appendChild(modalContainer);
-        }
-
-        function confirmSave() {
-            // Show confirmation dialog
-            if (confirm('Are you sure you want to submit?')) {
-                // If confirmed, trigger the postback
-                return true;  // Proceed with the form submission
-            }
-            // If cancelled, return false to prevent form submission
-            return false;
-        }
-        function showAlert(message, type) {
-            // This can be a simple alert or you could use a custom modal/toast.
-            if (type === "success") {
-                alert("Success: " + message);  // You can replace this with a custom success modal or toast
-            } else if (type === "error") {
-                alert("Error: " + message);  // You can replace this with a custom error modal or toast
-            }
-        }
-
-    </script>
+    function confirmClear() {
+        return confirm('Are you sure you want to clear all entered data?');
+    }
+</script>
 
 
     <style>

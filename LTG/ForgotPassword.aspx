@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="Vivify.ForgotPassword" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="LTG.ForgotPassword" %>
 
 <!DOCTYPE html>
 <html lang="en">

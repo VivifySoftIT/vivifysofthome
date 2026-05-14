@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Vivify
+namespace LTG
 {
     public partial class TravelExpense : System.Web.UI.Page
     {
@@ -26,7 +26,7 @@ namespace Vivify
 
                 if (isNewForm)
                 {
-                    // 🚫 DO NOT clear hdnRefreshSubmitDate — leave it empty
+                    // ?? DO NOT clear hdnRefreshSubmitDate � leave it empty
                     txtFromDate.Text = string.Empty;
                     txtWBSNo.Text = string.Empty;
                     txtSAPNo.Text = string.Empty;
@@ -40,7 +40,7 @@ namespace Vivify
                     GridViewTravelExpenses.DataBind();
 
                     // Optional: show message
-                    return; // ⚠️ Exit early — skip all loading logic
+                    return; // ?? Exit early � skip all loading logic
                 }
 
                 // === Normal mode: load existing data (your original logic below) ===
@@ -522,7 +522,7 @@ namespace Vivify
                     int latestId = Convert.ToInt32(result);
                     string updateQuery = @"
                         UPDATE TravelExpenses 
-    SET RefreshAmnt = @RefreshAmount,  -- ✅ REPLACE instead of ADD
+    SET RefreshAmnt = @RefreshAmount,  -- ? REPLACE instead of ADD
                             WBS = @WBS,
                             SAP = @SAP,
                             ReportingManager = @ReportingManager,
@@ -730,7 +730,7 @@ namespace Vivify
             txtReportingManager.Text = string.Empty;
             ViewState["EditingId"] = null;
             hdnExpenseId.Value = string.Empty;
-            // 👉 DO NOT clear hdnRefreshSubmitDate
+            // ?? DO NOT clear hdnRefreshSubmitDate
         }
 
         private void RebindGridView()

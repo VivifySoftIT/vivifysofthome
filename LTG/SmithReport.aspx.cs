@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using OfficeOpenXml;
 using System.Linq;
 
-namespace Vivify
+namespace LTG
 {
     public partial class SmithReport : Page
     {
@@ -90,7 +90,7 @@ namespace Vivify
             {
                 LoadBranches("All");
             }
-            // Do NOT auto-filter here — wait for user to click "Search"
+            // Do NOT auto-filter here � wait for user to click "Search"
         }
 
         private void LoadBranches(string regionFilter)
@@ -290,13 +290,13 @@ namespace Vivify
             INNER JOIN Region rMain ON b.RegionID = rMain.RegionID
             AND rMain.Region = @Region";
 
-                // For Refresh: Employees → Branch → Region
+                // For Refresh: Employees ? Branch ? Region
                 refreshJoinAndFilter = @"
             INNER JOIN Branch brEmp ON e.BranchID = brEmp.BranchID
             INNER JOIN Region rEmp ON brEmp.RegionID = rEmp.RegionID
             AND rEmp.Region = @Region";
 
-                // For Award: Branch → Region
+                // For Award: Branch ? Region
                 awardJoinAndFilter = @"
             INNER JOIN Region rAward ON b.RegionID = rAward.RegionID
             AND rAward.Region = @Region";

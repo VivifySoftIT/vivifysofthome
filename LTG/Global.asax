@@ -1,1 +1,1 @@
-﻿<%@ Application CodeBehind="Global.asax.cs" Inherits="Vivify.Global" Language="C#" %>
+<%@ Application CodeBehind="Global.asax.cs" Inherits="LTG.Global" Language="C#" %>

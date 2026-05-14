@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
 
-namespace Vivify
+namespace LTG
 {
     public partial class AdminPage : System.Web.UI.Page
     {

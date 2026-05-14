@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -12,10 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Font = iTextSharp.text.Font;
 using Rectangle = iTextSharp.text.Rectangle;
-using static Vivify.Admin_Training_Assign;
+using static LTG.Admin_Training_Assign;
 using DocumentFormat.OpenXml.Office.Word;
 
-namespace Vivify
+namespace LTG
 {
     public partial class DocView : Page
     {
@@ -185,7 +185,7 @@ namespace Vivify
                 DataTable workOrderData = GetWorkOrderImages(fromDate, toDate, branchName, employeeName);
                 DataTable approvalMailData = GetApprovalMailImages(fromDate, toDate, branchName, employeeName);
 
-                // Check if there’s absolutely no data to generate PDF from
+                // Check if there�s absolutely no data to generate PDF from
                 if ((expenseData == null || expenseData.Rows.Count == 0) &&
                     (workOrderData == null || workOrderData.Rows.Count == 0) &&
                     (approvalMailData == null || approvalMailData.Rows.Count == 0) &&
