@@ -769,9 +769,9 @@
                     <span class="custom-close-btn" id="closePopupBtn">&times;</span>
                     <h2 class="popup-title">Choose Your Service</h2>
                     <div class="popup-content">
-                        <a href="https://vivifysoft.in/safety/#/AdminLogin" class="custom-popup-item">🦺 Safety Tool</a>
-                        <a href="https://vivifysoft.in/Login.aspx" class="custom-popup-item">💵 Reimbursement</a>
-                        <a href="https://vivifysoft.in/employeehub/" class="custom-popup-item">👥 Employee Hub</a>
+                        <a href="https://vivifysoft.in/safety/#/AdminLogin" class="custom-popup-item">Safety Tool</a>
+                        <a href="https://vivifysoft.in/Login.aspx" class="custom-popup-item">Reimbursement</a>
+                        <a href="https://vivifysoft.in/employeehub/" class="custom-popup-item">Employee Hub</a>
                     </div>
                 </div>
             </div>
